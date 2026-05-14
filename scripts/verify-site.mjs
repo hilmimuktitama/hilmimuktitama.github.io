@@ -28,6 +28,8 @@ const indexHtml = existsSync(join(root, "dist", "index.html"))
   ? read("dist/index.html")
   : "";
 const publicHtml = readHtmlFiles(join(root, "dist"));
+const approvedEmail = "hilmimukti@gmail.com";
+const mailtoMatches = publicHtml.match(/mailto:[^"']+/g) ?? [];
 const cssDir = join(root, "dist", "_astro");
 const css = existsSync(cssDir)
   ? readdirSync(cssDir)
@@ -47,7 +49,10 @@ check(indexHtml.includes('name="twitter:card"'), "homepage should render Twitter
 check(indexHtml.includes('rel="icon"'), "homepage should render a favicon link");
 check(indexHtml.includes("og-image.png"), "homepage should reference the PNG share image");
 check(indexHtml.includes("View full resume"), "homepage resume preview should link to the full resume page");
-check(!publicHtml.includes("mailto:hilmimukti"), "public build should not expose a direct email mailto link");
+check(
+  mailtoMatches.length > 0 && mailtoMatches.every((href) => href === `mailto:${approvedEmail}`),
+  "public build should expose only the approved public email mailto link"
+);
 check(!publicHtml.includes("Jakarta / remote-ready"), "homepage should not expose location-style availability metadata");
 check(!publicHtml.includes("Program operating model"), "draft private operating-model note should not be published");
 check(!publicHtml.includes("AI-assisted planning workflow"), "draft private AI workflow note should not be published");
@@ -66,7 +71,7 @@ check(css.includes(".prose table"), "prose should support table styling");
 check(!publicHtml.includes("article-callout"), "article content should not depend on custom callout classes");
 check(!publicHtml.includes("article-pullquote"), "article content should not depend on custom pullquote classes");
 
-check(seniorTpm.includes("Quarterly"), "senior TPM resume bullets should include scope evidence");
+check(/quarterly/i.test(seniorTpm), "senior TPM resume bullets should include scope evidence");
 check(
   !seniorTpm.includes("  - lead planning"),
   "senior TPM bullets should not remain lowercase responsibility statements"

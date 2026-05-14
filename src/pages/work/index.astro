@@ -10,7 +10,8 @@ const projects = (await getCollection("projects"))
 const formatDate = (date?: Date) =>
   date?.toLocaleDateString("en", { month: "short", year: "numeric" }) ?? "Ready for update";
 
-const formatProjectStatus = () => "public repo";
+const formatProjectStatus = (source: "github" | "manual") =>
+  source === "github" ? "public repo" : "case note";
 ---
 
 <BaseLayout title="Case Studies" description="Public projects and concise notes for Technical Program Manager work by Hilmi Muktitama.">
@@ -28,7 +29,7 @@ const formatProjectStatus = () => "public repo";
           <div>
             <a class="project-title" href={withBase(`/work/${project.slug}/`)}>{project.data.title}</a>
             <div class="tag-row">
-              <span class="tag">{formatProjectStatus()}</span>
+              <span class="tag">{formatProjectStatus(project.data.source)}</span>
               {project.data.language && <span class="tag">{project.data.language}</span>}
             </div>
           </div>

@@ -4,13 +4,14 @@ title: "Senior Technical Program Manager"
 organization: "PT Mid Solusi Nusantara (Mekari)"
 location: "Indonesia"
 period: "Jul 2024 - Present"
-summary: "Leading cross-squad programs across multiple engineering teams building CRM omnichannel and AI-powered products for Indonesia's largest B2B SaaS company."
+summary: "Leading cross-squad B2B SaaS programs across Qontak platform, customer data, and chatbot/AI automation domains, turning platform, billing, permissions, migration, and rollout dependencies into shippable plans."
 items:
-  - Quarterly planning lead for a strategic platform unification program across multiple engineering squads, consolidating 3 separate B2B SaaS products into a unified omnichannel experience.
-  - Drove an Agentic AI program, transforming a retrieval-based chatbot into an autonomous AI framework with tool-use capabilities, external API integration, and conversation flow orchestration.
-  - Built 3+ internal Jira Forge apps adopted by team members across the organization to improve visibility and reduce manual tracking overhead.
-  - Contributed to an AI-augmented TPM workflow using LLM tooling and Atlassian APIs, including a custom AI skill that pulls real-time Jira and Confluence data into structured TPM artifacts.
-  - Operate as a technically embedded TPM by drilling into task-level Jira status, reviewing RFCs and database migration plans, building internal tooling, and maintaining a version-controlled program context repository.
+  - Coordinated platform, customer data, and chatbot delivery tracks against committed quarterly plans across multiple product and engineering teams.
+  - Helped drive unified platform readiness across billing, permissions, navigation, customer data, chatbot support, migration preparation, and cross-team release gates.
+  - Led delivery coordination for platform commercialization foundations, including billing enablement, package configuration, user and permission management, access-control flows, and self-service purchase readiness.
+  - Coordinated customer data platform work across customer profile, activity, segmentation, notes, data migration, billing-based feature access, and customer intelligence foundations.
+  - Drove chatbot and AI automation delivery across service migration, bot configuration, reporting, operational-hour and channel-based response logic, knowledge-source management, and AI agent readiness.
+  - Improved delivery governance through source-backed tracking, release checklists, migration runbooks, risk registers, feature-flag rollout practices, internal Jira Forge apps, and cross-squad dependency follow-up.
 order: 10
 ---
 

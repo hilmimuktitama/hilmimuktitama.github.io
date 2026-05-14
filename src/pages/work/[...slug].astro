@@ -15,14 +15,15 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-const formatProjectStatus = () => "public repo";
+const formatProjectStatus = (source: "github" | "manual") =>
+  source === "github" ? "public repo" : "case note";
 ---
 
 <BaseLayout title={project.data.title} description={project.data.description}>
   <article class="article-page">
     <header>
       <a href={withBase("/work/")}>Case Studies</a>
-      <p class="meta">{formatProjectStatus()}</p>
+      <p class="meta">{formatProjectStatus(project.data.source)}</p>
       <h1>{project.data.title}</h1>
       <p class="lede">{project.data.description}</p>
       <div class="link-row">

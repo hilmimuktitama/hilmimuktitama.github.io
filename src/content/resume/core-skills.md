@@ -1,11 +1,16 @@
 ---
 section: "skill"
 title: "Core skills"
-summary: "Program, product, and technical delivery skills from the latest resume source."
+summary: "Program, product, and technical delivery skills aligned to B2B SaaS platform, customer data, rollout, and AI automation work."
 items:
-  - Cross-functional Program Management
+  - Multi-squad Technical Program Management
   - Stakeholder Communication
   - "Risk Management & Escalation"
+  - Platform and Integration Delivery
+  - Customer Data Platform / Customer 360
+  - Billing, Permissions, and Access Rollout
+  - Release Readiness and Migration Planning
+  - Jira/Confluence Execution Tracking
   - Agile/Scrum
   - SDLC
   - Product Management

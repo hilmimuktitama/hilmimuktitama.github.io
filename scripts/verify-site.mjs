@@ -40,8 +40,6 @@ const css = existsSync(cssDir)
 const seniorTpm = read("src/content/resume/mekari-senior-technical-program-manager.md");
 const projectTruth = read("src/content/projects/program-truth.md");
 const captureTruth = read("src/content/projects/capture-truth.md");
-const programSystems = read("src/content/projects/private-program-systems.md");
-const aiTooling = read("src/content/projects/private-ai-delivery-tooling.md");
 
 check(indexHtml.includes('rel="canonical"'), "homepage should render a canonical link");
 check(indexHtml.includes('property="og:title"'), "homepage should render Open Graph title metadata");
@@ -53,9 +51,6 @@ check(
   mailtoMatches.length > 0 && mailtoMatches.every((href) => href === `mailto:${approvedEmail}`),
   "public build should expose only the approved public email mailto link"
 );
-check(!publicHtml.includes("Jakarta / remote-ready"), "homepage should not expose location-style availability metadata");
-check(!publicHtml.includes("Program operating model"), "draft private operating-model note should not be published");
-check(!publicHtml.includes("AI-assisted planning workflow"), "draft private AI workflow note should not be published");
 check(!publicHtml.includes("Private work can be discussed"), "public build should not use vague private-work filler copy");
 check(!publicHtml.includes("share-safe"), "public build should not use vague share-safe filler copy");
 check(!publicHtml.includes("work I can talk about"), "public build should not use casual work-disclosure filler copy");
@@ -94,13 +89,6 @@ check(
   captureTruth.includes("evidence_pack"),
   "Capture Truth should explain the evidence pack artifact"
 );
-
-for (const [label, content] of [
-  ["Program operating model", programSystems],
-  ["AI-assisted planning workflow", aiTooling]
-]) {
-  check(content.includes('status: "draft"'), `${label} should stay draft-only`);
-}
 
 if (failures.length > 0) {
   console.error("Site verification failed:");

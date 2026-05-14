@@ -7,8 +7,8 @@
   <text x="170" y="300" font-family="Inter, Arial, sans-serif" font-size="88" font-weight="850" fill="#0d1110">Hilmi</text>
   <text x="170" y="392" font-family="Inter, Arial, sans-serif" font-size="88" font-weight="850" fill="#0d1110">Muktitama</text>
   <text x="170" y="472" font-family="Inter, Arial, sans-serif" font-size="28" fill="#303936">Delivery truth, blocker visibility, and leadership-ready updates.</text>
-  <rect x="170" y="526" width="148" height="42" rx="21" fill="none" stroke="#dfe5e2"/>
-  <text x="244" y="553" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#6b7470">Jakarta</text>
-  <rect x="338" y="526" width="172" height="42" rx="21" fill="none" stroke="#dfe5e2"/>
-  <text x="424" y="553" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#6b7470">Remote-ready</text>
+  <rect x="170" y="526" width="184" height="42" rx="21" fill="none" stroke="#dfe5e2"/>
+  <text x="262" y="553" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#6b7470">Source-backed</text>
+  <rect x="374" y="526" width="184" height="42" rx="21" fill="none" stroke="#dfe5e2"/>
+  <text x="466" y="553" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#6b7470">Release-ready</text>
 </svg>

@@ -8,7 +8,7 @@ items:
   - "Risk Management & Escalation"
   - Platform and Integration Delivery
   - Customer Data Platform / Customer 360
-  - Billing, Permissions, and Access Rollout
+  - Commercialization and Access Rollout
   - Release Readiness and Migration Planning
   - Jira/Confluence Execution Tracking
   - Agile/Scrum

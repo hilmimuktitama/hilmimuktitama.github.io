@@ -30,6 +30,11 @@ const formattedDate = article.data.pubDate.toLocaleDateString("en", {
       <p class="meta">{formattedDate}</p>
       <h1>{article.data.title}</h1>
       <p class="lede">{article.data.description}</p>
+      {article.data.tags.length > 0 && (
+        <div class="tag-row" aria-label="Article tags">
+          {article.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+        </div>
+      )}
     </header>
     <div class="prose">
       <Content />

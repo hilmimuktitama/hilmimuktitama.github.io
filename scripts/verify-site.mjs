@@ -59,7 +59,12 @@ check(!publicHtml.includes("Additional work samples are available on request"), 
 check(publicHtml.includes("Capture Truth"), "public build should render Capture Truth project content");
 
 check(css.includes(".prose p+p"), "prose paragraphs should have spacing between adjacent paragraphs");
-check(css.includes(".prose ul,.prose ol"), "prose lists should have readable spacing");
+check(css.includes(".prose ul") && css.includes(".prose ol"), "prose lists should have readable spacing");
+check(css.includes(".prose blockquote"), "prose should support styled blockquotes");
+check(css.includes(".prose code"), "prose should support inline code styling");
+check(css.includes(".prose table"), "prose should support table styling");
+check(!publicHtml.includes("article-callout"), "article content should not depend on custom callout classes");
+check(!publicHtml.includes("article-pullquote"), "article content should not depend on custom pullquote classes");
 
 check(seniorTpm.includes("Quarterly"), "senior TPM resume bullets should include scope evidence");
 check(

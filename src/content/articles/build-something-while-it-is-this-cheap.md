@@ -17,11 +17,11 @@ Not because AI makes everything easy. It does not. It still gets things wrong. I
 
 A blank page is no longer as blank as it used to be. A rough idea can become an outline. An outline can become a prototype. A broken prototype can be explained, inspected, fixed, and improved. You can ask dumb questions without spending social credit. You can move from "I do not know how to start" to "this is not good enough yet" in the same evening.
 
-That shift matters.
+> That shift matters.
 
 For a long time, the expensive part of making software or writing on the internet was getting from nothing to something. Now the expensive part is more honest: deciding what matters, checking whether it works, and having enough taste to throw away the weak parts.
 
-AI did not remove the work. It moved the work.
+**AI did not remove the work.** It moved the work toward judgment, taste, review, and deciding what is worth making.
 
 ## Access Is A Privilege
 

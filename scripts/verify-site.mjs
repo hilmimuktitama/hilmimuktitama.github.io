@@ -27,9 +27,13 @@ function readHtmlFiles(dir) {
 const indexHtml = existsSync(join(root, "dist", "index.html"))
   ? read("dist/index.html")
   : "";
+const contactHtml = existsSync(join(root, "dist", "contact", "index.html"))
+  ? read("dist/contact/index.html")
+  : "";
 const publicHtml = readHtmlFiles(join(root, "dist"));
 const approvedEmail = "hilmimukti@gmail.com";
 const mailtoMatches = publicHtml.match(/mailto:[^"']+/g) ?? [];
+const homepageContactLinks = indexHtml.match(/href="[^"]*\/contact\/"/g) ?? [];
 const cssDir = join(root, "dist", "_astro");
 const css = existsSync(cssDir)
   ? readdirSync(cssDir)
@@ -47,6 +51,13 @@ check(indexHtml.includes('name="twitter:card"'), "homepage should render Twitter
 check(indexHtml.includes('rel="icon"'), "homepage should render a favicon link");
 check(indexHtml.includes("og-image.png"), "homepage should reference the PNG share image");
 check(indexHtml.includes("View full resume"), "homepage resume preview should link to the full resume page");
+check(homepageContactLinks.length >= 2, "homepage header and hero Contact links should target /contact/");
+check(!indexHtml.includes("/#contact"), "homepage Contact links should not point to the footer anchor");
+check(contactHtml.includes("hilmimukti@gmail.com"), "contact page should show the public email address");
+check(contactHtml.includes("mailto:hilmimukti@gmail.com"), "contact page should link the public email address");
+check(contactHtml.includes("https://www.linkedin.com/in/hilmimuktitama/"), "contact page should link LinkedIn");
+check(contactHtml.includes("https://github.com/hilmimuktitama"), "contact page should link GitHub");
+check(!contactHtml.includes('aria-label="Contact links"'), "contact page should not repeat the global contact footer");
 check(
   mailtoMatches.length > 0 && mailtoMatches.every((href) => href === `mailto:${approvedEmail}`),
   "public build should expose only the approved public email mailto link"

@@ -470,6 +470,56 @@ h3 {
   font-size: 0.93rem;
 }
 
+.contact-method-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 12px;
+}
+
+.contact-method {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 132px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--bg-soft);
+  overflow-wrap: anywhere;
+}
+
+.contact-method.primary {
+  border-color: color-mix(in srgb, var(--accent) 36%, var(--line));
+  background: var(--accent-soft);
+}
+
+.contact-method:hover {
+  border-color: var(--line-strong);
+  color: inherit;
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.contact-method.primary:hover {
+  border-color: var(--accent);
+}
+
+.contact-method span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 820;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.contact-method strong {
+  font-size: 1.1rem;
+  font-weight: 820;
+  line-height: 1.25;
+}
+
 .article-page {
   width: min(calc(100% - 48px), var(--narrow));
   margin: 0 auto;

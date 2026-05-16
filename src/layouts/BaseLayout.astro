@@ -5,11 +5,13 @@ import { withBase } from "../lib/urls";
 interface Props {
   title?: string;
   description?: string;
+  showContactFooter?: boolean;
 }
 
 const {
   title = "Hilmi Muktitama",
-  description = "Senior Technical Program Manager focused on B2B SaaS platform delivery, customer data, AI automation, rollout readiness, and source-backed program execution."
+  description = "Senior Technical Program Manager focused on B2B SaaS platform delivery, customer data, AI automation, rollout readiness, and source-backed program execution.",
+  showContactFooter = true
 } = Astro.props;
 
 const pageTitle = title === "Hilmi Muktitama" ? title : `${title} | Hilmi Muktitama`;
@@ -52,23 +54,25 @@ const shareImageUrl = new URL(withBase("/og-image.png"), site).toString();
           <a href={withBase("/resume/")}>Resume</a>
           <a href={withBase("/#case-studies")}>Case Studies</a>
           <a href={withBase("/articles/")}>Writing</a>
-          <a href={withBase("/#contact")}>Contact</a>
+          <a href={withBase("/contact/")}>Contact</a>
         </nav>
       </header>
       <main>
         <slot />
       </main>
-      <footer class="site-footer" id="contact">
-        <div>
-          <p class="footer-title">Contact</p>
-          <p class="muted">Open to roles where program/product delivery matters to you and you need someone who can help move the work forward.</p>
-        </div>
-        <div class="footer-links" aria-label="Contact links">
-          <a href="mailto:hilmimukti@gmail.com">Email</a>
-          <a href="https://www.linkedin.com/in/hilmimuktitama/">LinkedIn</a>
-          <a href="https://github.com/hilmimuktitama">GitHub</a>
-        </div>
-      </footer>
+      {showContactFooter && (
+        <footer class="site-footer" id="contact">
+          <div>
+            <p class="footer-title">Contact</p>
+            <p class="muted">Open to roles where program/product delivery matters to you and you need someone who can help move the work forward.</p>
+          </div>
+          <div class="footer-links" aria-label="Contact links">
+            <a href="mailto:hilmimukti@gmail.com">hilmimukti@gmail.com</a>
+            <a href="https://www.linkedin.com/in/hilmimuktitama/">LinkedIn</a>
+            <a href="https://github.com/hilmimuktitama">GitHub</a>
+          </div>
+        </footer>
+      )}
     </div>
   </body>
 </html>

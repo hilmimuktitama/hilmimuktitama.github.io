@@ -1,6 +1,6 @@
-# Hilmi Muktitama Web Profile
+# Hilmi Muktitama
 
-Static Astro profile site for resume, portfolio, GitHub work, and daily articles.
+Public source for a static Astro profile site.
 
 ## Commands
 
@@ -10,10 +10,10 @@ npm run dev
 npm run build
 ```
 
-## Content
+## Structure
 
 - Add articles in `src/content/articles/`.
-- Add projects or future GitHub repositories in `src/content/projects/`.
+- Add projects in `src/content/projects/`.
 - Update resume content in `src/content/resume/`.
 
 The site has no database, CMS, or server runtime.

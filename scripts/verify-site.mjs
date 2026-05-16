@@ -67,6 +67,7 @@ check(!publicHtml.includes("share-safe"), "public build should not use vague sha
 check(!publicHtml.includes("work I can talk about"), "public build should not use casual work-disclosure filler copy");
 check(!publicHtml.includes("AI-assisted workflows"), "public build should not use broad AI-positioning filler copy");
 check(!publicHtml.includes("Additional work samples are available on request"), "public build should not use generic work-sample availability filler copy");
+check(!publicHtml.includes("Platform Readiness Program"), "public build should not expose private Platform Readiness case note");
 check(publicHtml.includes("Capture Truth"), "public build should render Capture Truth project content");
 
 check(css.includes(".prose p+p"), "prose paragraphs should have spacing between adjacent paragraphs");

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { GITHUB_URL, LINKEDIN_URL } from "../lib/urls";
 
 const entries = (await getCollection("resume")).sort((a, b) => a.data.order - b.data.order);
 const experience = entries.filter((entry) => entry.data.section === "experience");
@@ -23,8 +24,8 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
           Senior TPM at Mekari with 5+ years across program management, product management, and QA engineering, currently leading cross-squad B2B SaaS platform and automation programs.
         </p>
         <div class="resume-contact" aria-label="Public resume contact links">
-          <a href="https://www.linkedin.com/in/hilmimuktitama/">LinkedIn</a>
-          <a href="https://github.com/hilmimuktitama">GitHub</a>
+          <a href={LINKEDIN_URL}>LinkedIn</a>
+          <a href={GITHUB_URL}>GitHub</a>
         </div>
       </div>
     </header>

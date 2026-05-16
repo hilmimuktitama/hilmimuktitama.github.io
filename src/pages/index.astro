@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { withBase } from "../lib/urls";
+import { GITHUB_URL, LINKEDIN_URL, withBase } from "../lib/urls";
 
 const projects = (await getCollection("projects"))
   .filter((project) => project.data.status === "public")
@@ -41,8 +41,8 @@ const formatDate = (date?: Date) =>
       <div class="link-row" aria-label="Primary profile links">
         <a class="button-link primary" href={withBase("/contact/")}>Contact</a>
         <a class="button-link" href={withBase("/resume/")}>Resume</a>
-        <a class="button-link" href="https://www.linkedin.com/in/hilmimuktitama/">LinkedIn</a>
-        <a class="button-link" href="https://github.com/hilmimuktitama">GitHub</a>
+        <a class="button-link" href={LINKEDIN_URL}>LinkedIn</a>
+        <a class="button-link" href={GITHUB_URL}>GitHub</a>
       </div>
     </div>
   </section>

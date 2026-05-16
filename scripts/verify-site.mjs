@@ -32,6 +32,7 @@ const contactHtml = existsSync(join(root, "dist", "contact", "index.html"))
   : "";
 const publicHtml = readHtmlFiles(join(root, "dist"));
 const approvedEmail = "hilmimukti@gmail.com";
+const linkedInUrl = "https://www.linkedin.com/in/hilmimuktitama";
 const mailtoMatches = publicHtml.match(/mailto:[^"']+/g) ?? [];
 const homepageContactLinks = indexHtml.match(/href="[^"]*\/contact\/"/g) ?? [];
 const cssDir = join(root, "dist", "_astro");
@@ -55,7 +56,10 @@ check(homepageContactLinks.length >= 2, "homepage header and hero Contact links 
 check(!indexHtml.includes("/#contact"), "homepage Contact links should not point to the footer anchor");
 check(contactHtml.includes("hilmimukti@gmail.com"), "contact page should show the public email address");
 check(contactHtml.includes("mailto:hilmimukti@gmail.com"), "contact page should link the public email address");
-check(contactHtml.includes("https://www.linkedin.com/in/hilmimuktitama/"), "contact page should link LinkedIn");
+check(contactHtml.includes(`href="${linkedInUrl}"`), "contact page should link LinkedIn with the canonical profile URL");
+check(!publicHtml.includes("https://www.linkedin.com/in/hilmimuktitama/"), "public build LinkedIn links should not use the mobile-404 trailing slash form");
+check(!publicHtml.includes("https://www.linkedin.com/in/hilmimuktitama?_l=en_US"), "public build LinkedIn links should not include a locale query");
+check(!publicHtml.includes("https://www.linkedin.com/in/hilmimuktitama/?_l=en_US"), "public build LinkedIn links should not use the mobile-404 slash-before-locale form");
 check(contactHtml.includes("https://github.com/hilmimuktitama"), "contact page should link GitHub");
 check(!contactHtml.includes('aria-label="Contact links"'), "contact page should not repeat the global contact footer");
 check(

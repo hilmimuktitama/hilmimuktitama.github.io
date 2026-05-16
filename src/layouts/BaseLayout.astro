@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { withBase } from "../lib/urls";
+import { GITHUB_URL, LINKEDIN_URL, withBase } from "../lib/urls";
 
 interface Props {
   title?: string;
@@ -68,8 +68,8 @@ const shareImageUrl = new URL(withBase("/og-image.png"), site).toString();
           </div>
           <div class="footer-links" aria-label="Contact links">
             <a href="mailto:hilmimukti@gmail.com">hilmimukti@gmail.com</a>
-            <a href="https://www.linkedin.com/in/hilmimuktitama/">LinkedIn</a>
-            <a href="https://github.com/hilmimuktitama">GitHub</a>
+            <a href={LINKEDIN_URL}>LinkedIn</a>
+            <a href={GITHUB_URL}>GitHub</a>
           </div>
         </footer>
       )}

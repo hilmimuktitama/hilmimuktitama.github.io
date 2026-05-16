@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { GITHUB_URL, LINKEDIN_URL } from "../lib/urls";
 ---
 
 <BaseLayout
@@ -21,11 +22,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <span>Email</span>
         <strong>hilmimukti@gmail.com</strong>
       </a>
-      <a class="contact-method" href="https://www.linkedin.com/in/hilmimuktitama/">
+      <a class="contact-method" href={LINKEDIN_URL}>
         <span>LinkedIn</span>
         <strong>linkedin.com/in/hilmimuktitama</strong>
       </a>
-      <a class="contact-method" href="https://github.com/hilmimuktitama">
+      <a class="contact-method" href={GITHUB_URL}>
         <span>GitHub</span>
         <strong>github.com/hilmimuktitama</strong>
       </a>

@@ -5,6 +5,8 @@ dist/
 .env.*
 !.env.example
 .superpowers/
+docs/superpowers/
+AGENTS.md
 npm-debug.log*
 
 # Local verification artifacts

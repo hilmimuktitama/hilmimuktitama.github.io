@@ -1,16 +1,16 @@
 import type { APIRoute } from "astro";
-
-const SITE_URL = "https://hilmimuktitama.github.io";
+import { getSiteOrigin } from "../lib/sitemap";
 
 export const GET: APIRoute = ({ site }) => {
-  const origin = site ?? new URL(SITE_URL);
+  const origin = getSiteOrigin(site);
 
   return new Response(
     [
       "User-agent: *",
       "Allow: /",
       "",
-      `Sitemap: ${new URL("/sitemap.xml", origin).toString()}`
+      `Sitemap: ${new URL("/sitemap.xml", origin).toString()}`,
+      `Sitemap: ${new URL("/sitemap-google.xml", origin).toString()}`
     ].join("\n"),
     {
       headers: {

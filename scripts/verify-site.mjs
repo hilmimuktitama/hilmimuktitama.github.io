@@ -36,8 +36,14 @@ const robotsTxt = existsSync(join(root, "dist", "robots.txt"))
 const sitemapXml = existsSync(join(root, "dist", "sitemap.xml"))
   ? read("dist/sitemap.xml")
   : "";
+const alternateSitemapXml = existsSync(join(root, "dist", "sitemap-google.xml"))
+  ? read("dist/sitemap-google.xml")
+  : "";
 const publicHtml = readHtmlFiles(join(root, "dist"));
 const sitemapUrls = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+const alternateSitemapUrls = [...alternateSitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+  (match) => match[1]
+);
 const approvedEmail = "hilmimukti@gmail.com";
 const linkedInUrl = "https://www.linkedin.com/in/hilmimuktitama";
 const mailtoMatches = publicHtml.match(/mailto:[^"']+/g) ?? [];
@@ -59,8 +65,12 @@ check(
   robotsTxt.includes("Sitemap: https://hilmimuktitama.github.io/sitemap.xml"),
   "robots.txt should point crawlers to the canonical sitemap URL"
 );
+check(
+  robotsTxt.includes("Sitemap: https://hilmimuktitama.github.io/sitemap-google.xml"),
+  "robots.txt should point crawlers to the alternate Google sitemap URL"
+);
 
-for (const url of [
+const expectedSitemapUrls = [
   "https://hilmimuktitama.github.io/",
   "https://hilmimuktitama.github.io/resume/",
   "https://hilmimuktitama.github.io/contact/",
@@ -69,8 +79,11 @@ for (const url of [
   "https://hilmimuktitama.github.io/work/program-truth/",
   "https://hilmimuktitama.github.io/work/capture-truth/",
   "https://hilmimuktitama.github.io/articles/ai-is-non-deterministic/"
-]) {
+];
+
+for (const url of expectedSitemapUrls) {
   check(sitemapUrls.includes(url), `sitemap should include ${url}`);
+  check(alternateSitemapUrls.includes(url), `alternate sitemap should include ${url}`);
 }
 
 check(
@@ -78,12 +91,28 @@ check(
   "sitemap should not include private case-study pages"
 );
 check(
+  !alternateSitemapUrls.includes("https://hilmimuktitama.github.io/work/platform-readiness/"),
+  "alternate sitemap should not include private case-study pages"
+);
+check(
   sitemapUrls.every((url) => url.startsWith("https://hilmimuktitama.github.io/")),
   "sitemap URLs should use the canonical GitHub Pages origin"
 );
 check(
+  alternateSitemapUrls.every((url) => url.startsWith("https://hilmimuktitama.github.io/")),
+  "alternate sitemap URLs should use the canonical GitHub Pages origin"
+);
+check(
   sitemapUrls.length === new Set(sitemapUrls).size,
   "sitemap should not contain duplicate URLs"
+);
+check(
+  alternateSitemapUrls.length === new Set(alternateSitemapUrls).size,
+  "alternate sitemap should not contain duplicate URLs"
+);
+check(
+  alternateSitemapXml === sitemapXml,
+  "alternate sitemap should match the canonical sitemap content"
 );
 
 check(indexHtml.includes('rel="canonical"'), "homepage should render a canonical link");

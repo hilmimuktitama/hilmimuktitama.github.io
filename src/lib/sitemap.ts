@@ -24,8 +24,7 @@ export function getSiteOrigin(site?: URL) {
   return site ?? new URL(SITE_URL);
 }
 
-export async function buildSitemapXml(site?: URL) {
-  const origin = getSiteOrigin(site);
+async function getSitemapPages() {
   const now = Date.now();
 
   const articles = (await getCollection("articles"))
@@ -51,6 +50,24 @@ export async function buildSitemapXml(site?: URL) {
     ...articles,
     ...projects
   ];
+
+  return pages;
+}
+
+function getSitemapUrls(pages: SitemapPage[], site?: URL) {
+  const origin = getSiteOrigin(site);
+
+  return pages.map(({ path }) => new URL(path, origin).toString());
+}
+
+export async function buildSitemapText(site?: URL) {
+  const pages = await getSitemapPages();
+  return `${getSitemapUrls(pages, site).join("\n")}\n`;
+}
+
+export async function buildSitemapXml(site?: URL) {
+  const origin = getSiteOrigin(site);
+  const pages = await getSitemapPages();
 
   const urlEntries = pages
     .map(({ path, lastmod }) => {

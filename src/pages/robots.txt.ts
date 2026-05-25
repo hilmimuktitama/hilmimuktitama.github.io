@@ -10,7 +10,8 @@ export const GET: APIRoute = ({ site }) => {
       "Allow: /",
       "",
       `Sitemap: ${new URL("/sitemap.xml", origin).toString()}`,
-      `Sitemap: ${new URL("/sitemap-google.xml", origin).toString()}`
+      `Sitemap: ${new URL("/sitemap-google.xml", origin).toString()}`,
+      `Sitemap: ${new URL("/sitemap.txt", origin).toString()}`
     ].join("\n"),
     {
       headers: {

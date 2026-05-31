@@ -19,7 +19,8 @@ const { Content } = await render(article);
 const formattedDate = article.data.pubDate.toLocaleDateString("en", {
   day: "2-digit",
   month: "short",
-  year: "numeric"
+  year: "numeric",
+  timeZone: "Asia/Jakarta"
 });
 ---
 

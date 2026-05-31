@@ -20,7 +20,8 @@ const experience = resumeEntries.filter((entry) => entry.data.section === "exper
 const highlightedExperience = experience.slice(0, 2);
 
 const formatDate = (date?: Date) =>
-  date?.toLocaleDateString("en", { month: "short", year: "numeric" }) ?? "Ready for update";
+  date?.toLocaleDateString("en", { month: "short", year: "numeric", timeZone: "Asia/Jakarta" }) ??
+  "Ready for update";
 ---
 
 <BaseLayout>

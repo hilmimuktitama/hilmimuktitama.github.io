@@ -10,7 +10,12 @@ const articles = (await getCollection("articles"))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const formatDate = (date: Date) =>
-  date.toLocaleDateString("en", { day: "2-digit", month: "short", year: "numeric" });
+  date.toLocaleDateString("en", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "Asia/Jakarta"
+  });
 ---
 
 <BaseLayout title="Writing" description="Notes on delivery work, planning, and program execution by Hilmi Muktitama.">

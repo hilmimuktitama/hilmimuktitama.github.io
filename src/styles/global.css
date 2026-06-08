@@ -36,6 +36,17 @@
   box-sizing: border-box;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -733,6 +744,44 @@ h3 {
   margin-top: -20px;
   color: var(--muted);
   font-size: 0.84rem;
+}
+
+.prose .footnotes {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.62;
+}
+
+.prose .footnotes ol {
+  gap: 0.72em;
+  padding-left: 1.18rem;
+}
+
+.prose .footnotes li {
+  padding-left: 0.18rem;
+}
+
+.prose .footnotes li::marker {
+  color: var(--accent);
+  font-weight: 820;
+}
+
+.prose .footnotes p {
+  color: inherit;
+}
+
+.prose .footnotes a {
+  font-weight: 680;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.prose .footnotes .data-footnote-backref {
+  margin-left: 0.18em;
+  color: var(--accent);
+  font-size: 0.86em;
+  text-decoration: none;
 }
 
 .resume-page {

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getEntrySlug } from "../../lib/content";
 import { withBase } from "../../lib/urls";
 
 const now = Date.now();
@@ -32,7 +33,7 @@ const formatDate = (date: Date) =>
         <article class="content-row">
           <p class="meta">{formatDate(article.data.pubDate)}</p>
           <div>
-            <h2><a href={withBase(`/articles/${article.slug}/`)}>{article.data.title}</a></h2>
+            <h2><a href={withBase(`/articles/${getEntrySlug(article)}/`)}>{article.data.title}</a></h2>
             <p>{article.data.description}</p>
             <div class="tag-row">
               {article.data.tags.map((tag) => <span class="tag">{tag}</span>)}

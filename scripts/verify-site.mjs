@@ -89,6 +89,7 @@ const expectedSitemapUrls = [
   "https://hilmimuktitama.github.io/work/",
   "https://hilmimuktitama.github.io/work/program-truth/",
   "https://hilmimuktitama.github.io/work/capture-truth/",
+  "https://hilmimuktitama.github.io/articles/the-rupiah-is-now-part-of-my-ai-bill/",
   "https://hilmimuktitama.github.io/articles/ai-is-non-deterministic/"
 ];
 

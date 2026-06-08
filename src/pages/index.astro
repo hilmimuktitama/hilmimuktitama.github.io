@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getEntrySlug } from "../lib/content";
 import { GITHUB_URL, LINKEDIN_URL, withBase } from "../lib/urls";
 
 const projects = (await getCollection("projects"))
@@ -88,14 +89,14 @@ const formatDate = (date?: Date) =>
       {visibleProjects.map((project) => (
         <article class={`project-row ${project.data.featured ? "featured" : ""}`}>
           <div>
-            <a class="project-title" href={project.data.repoUrl ?? withBase(`/work/${project.slug}/`)}>
+            <a class="project-title" href={project.data.repoUrl ?? withBase(`/work/${getEntrySlug(project)}/`)}>
               {project.data.title}
             </a>
           </div>
           <p class="project-desc">{project.data.description}</p>
           <div class="project-actions">
             <span class="meta">{formatDate(project.data.updatedDate)}</span>
-            <a href={withBase(`/work/${project.slug}/`)}>Read notes</a>
+            <a href={withBase(`/work/${getEntrySlug(project)}/`)}>Read notes</a>
           </div>
         </article>
       ))}
@@ -113,7 +114,7 @@ const formatDate = (date?: Date) =>
     {articles.length > 0 ? (
       <div class="article-grid">
         {articles.map((article) => (
-          <a class="article-card" href={withBase(`/articles/${article.slug}/`)}>
+          <a class="article-card" href={withBase(`/articles/${getEntrySlug(article)}/`)}>
             <p class="meta">{formatDate(article.data.pubDate)}</p>
             <h3>{article.data.title}</h3>
             <p>{article.data.description}</p>

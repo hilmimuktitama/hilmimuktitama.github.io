@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getEntrySlug } from "../../lib/content";
 import { withBase } from "../../lib/urls";
 
 export async function getStaticPaths() {
@@ -9,7 +10,7 @@ export async function getStaticPaths() {
     (article) => article.data.pubDate.valueOf() <= now
   );
   return articles.map((article) => ({
-    params: { slug: article.slug },
+    params: { slug: getEntrySlug(article) },
     props: { article }
   }));
 }

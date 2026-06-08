@@ -8,8 +8,6 @@ tags:
   - building
 ---
 
-# The Great Equalizer Has an Exchange Rate
-
 AI was supposed to be the great equalizer. That was the pitch. Anyone, anywhere, suddenly able to write, build, reason, and ship at a level that used to require a team and a budget. The cost of doing more collapsed.
 
 It collapsed for everyone priced in dollars.

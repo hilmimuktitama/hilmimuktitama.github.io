@@ -1,4 +1,5 @@
 import { getCollection } from "astro:content";
+import { getEntrySlug } from "./content";
 
 const SITE_URL = "https://hilmimuktitama.github.io";
 
@@ -40,14 +41,14 @@ async function getSitemapPages() {
   const articles = (await getCollection("articles"))
     .filter((article) => article.data.pubDate.valueOf() <= now)
     .map((article) => ({
-      path: `/articles/${article.slug}/`,
+      path: `/articles/${getEntrySlug(article)}/`,
       lastmod: toIsoDate(article.data.updatedDate ?? article.data.pubDate)
     }));
 
   const projects = (await getCollection("projects"))
     .filter((project) => project.data.status === "public")
     .map((project) => ({
-      path: `/work/${project.slug}/`,
+      path: `/work/${getEntrySlug(project)}/`,
       lastmod: toIsoDate(project.data.updatedDate)
     }));
 

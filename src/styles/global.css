@@ -40,6 +40,7 @@
   position: absolute;
   width: 1px;
   height: 1px;
+  margin: 0;
   padding: 0;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
@@ -747,7 +748,7 @@ h3 {
 }
 
 .prose .footnotes {
-  margin-top: 14px;
+  margin-top: 6px;
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.62;
@@ -755,6 +756,7 @@ h3 {
 
 .prose .footnotes ol {
   gap: 0.72em;
+  margin-top: 0;
   padding-left: 1.18rem;
 }
 

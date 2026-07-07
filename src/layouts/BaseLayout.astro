@@ -41,6 +41,22 @@ const shareImageUrl = new URL(withBase("/og-image.png"), site).toString();
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={shareImageUrl} />
+    <script is:inline>
+      (() => {
+        const themeKey = "theme";
+        const root = document.documentElement;
+        const systemTheme = () =>
+          window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+
+        try {
+          const storedTheme = localStorage.getItem(themeKey);
+          root.dataset.theme =
+            storedTheme === "dark" || storedTheme === "light" ? storedTheme : systemTheme();
+        } catch {
+          root.dataset.theme = systemTheme();
+        }
+      })();
+    </script>
     <title>{pageTitle}</title>
   </head>
   <body>
@@ -56,6 +72,10 @@ const shareImageUrl = new URL(withBase("/og-image.png"), site).toString();
           <a href={withBase("/articles/")}>Writing</a>
           <a href={withBase("/contact/")}>Contact</a>
         </nav>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false">
+          <span>Theme</span>
+          <strong data-theme-toggle-value>Light</strong>
+        </button>
       </header>
       <main>
         <slot />
@@ -74,5 +94,54 @@ const shareImageUrl = new URL(withBase("/og-image.png"), site).toString();
         </footer>
       )}
     </div>
+    <script is:inline>
+      (() => {
+        const themeKey = "theme";
+        const root = document.documentElement;
+        const toggle = document.querySelector("[data-theme-toggle]");
+        const toggleValue = document.querySelector("[data-theme-toggle-value]");
+        const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+        if (!(toggle instanceof HTMLButtonElement) || !toggleValue) return;
+
+        const getStoredTheme = () => {
+          try {
+            const storedTheme = localStorage.getItem(themeKey);
+            return storedTheme === "dark" || storedTheme === "light" ? storedTheme : null;
+          } catch {
+            return null;
+          }
+        };
+
+        const getSystemTheme = () => (media.matches ? "dark" : "light");
+        const getActiveTheme = () => getStoredTheme() ?? getSystemTheme();
+
+        const applyTheme = (theme) => {
+          root.dataset.theme = theme;
+          toggle.setAttribute("aria-pressed", String(theme === "dark"));
+          toggle.setAttribute(
+            "aria-label",
+            `Switch to ${theme === "dark" ? "light" : "dark"} mode`
+          );
+          toggleValue.textContent = theme === "dark" ? "Dark" : "Light";
+        };
+
+        applyTheme(getActiveTheme());
+
+        toggle.addEventListener("click", () => {
+          const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+          try {
+            localStorage.setItem(themeKey, nextTheme);
+          } catch {
+            root.dataset.theme = nextTheme;
+          }
+          applyTheme(nextTheme);
+        });
+
+        media.addEventListener("change", () => {
+          if (!getStoredTheme()) applyTheme(getSystemTheme());
+        });
+      })();
+    </script>
   </body>
 </html>

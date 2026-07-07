@@ -62,6 +62,8 @@ const css = existsSync(cssDir)
       .map((file) => readFileSync(join(cssDir, file), "utf8"))
       .join("\n")
   : "";
+const baseLayoutSource = read("src/layouts/BaseLayout.astro");
+const globalCssSource = read("src/styles/global.css");
 const seniorTpm = read("src/content/resume/mekari-senior-technical-program-manager.md");
 const projectTruth = read("src/content/projects/program-truth.md");
 const captureTruth = read("src/content/projects/capture-truth.md");
@@ -177,6 +179,17 @@ check(css.includes(".prose ul") && css.includes(".prose ol"), "prose lists shoul
 check(css.includes(".prose blockquote"), "prose should support styled blockquotes");
 check(css.includes(".prose code"), "prose should support inline code styling");
 check(css.includes(".prose table"), "prose should support table styling");
+check(baseLayoutSource.includes("data-theme"), "base layout should initialize a data-theme attribute");
+check(/localStorage\.getItem\((themeKey|"theme")\)/.test(baseLayoutSource), "theme runtime should read the stored visitor preference");
+check(baseLayoutSource.includes("prefers-color-scheme: dark"), "theme runtime should fall back to system dark preference");
+check(baseLayoutSource.includes('class="theme-toggle"'), "header should include a visible theme toggle button");
+check(baseLayoutSource.includes("aria-pressed"), "theme toggle should expose pressed state to assistive technology");
+check(globalCssSource.includes('[data-theme="dark"]'), "global CSS should define dark theme token overrides");
+check(globalCssSource.includes("--header-bg"), "global CSS should use a semantic header background token");
+check(globalCssSource.includes("--tag-bg"), "global CSS should use a semantic tag background token");
+check(globalCssSource.includes("--interactive-hover"), "global CSS should use a semantic hover surface token");
+check(globalCssSource.includes("--primary-button-ink"), "global CSS should use a semantic primary button text token");
+check(globalCssSource.includes("--code-block-bg"), "global CSS should use a semantic code block background token");
 check(!publicHtml.includes("article-callout"), "article content should not depend on custom callout classes");
 check(!publicHtml.includes("article-pullquote"), "article content should not depend on custom pullquote classes");
 

@@ -23,6 +23,12 @@
   --inverse: #07100d;
   --inverse-soft: #101a17;
   --inverse-line: rgb(255 255 255 / 14%);
+  --header-bg: rgb(255 255 255 / 92%);
+  --tag-bg: #ffffff;
+  --interactive-hover: #ffffff;
+  --primary-button-ink: #ffffff;
+  --code-block-ink: #e8f3ee;
+  --code-block-bg: var(--inverse);
   --max: 1140px;
   --narrow: 820px;
   --radius: 8px;
@@ -30,6 +36,31 @@
   font-family:
     "Hanken Grotesk", Inter, ui-sans-serif, system-ui, -apple-system,
     BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b100e;
+  --bg-soft: #111a17;
+  --surface: #101714;
+  --surface-raised: #16211d;
+  --ink: #f4faf7;
+  --ink-soft: #c4d2cc;
+  --muted: #91a29b;
+  --line: #26352f;
+  --line-strong: #3a4d45;
+  --accent: #6ee7b7;
+  --accent-hover: #a7f3d0;
+  --accent-soft: #122e25;
+  --inverse: #eaf5ef;
+  --inverse-soft: #d7e6df;
+  --inverse-line: rgb(7 16 13 / 14%);
+  --header-bg: rgb(9 14 12 / 90%);
+  --tag-bg: #111a17;
+  --interactive-hover: #151f1b;
+  --primary-button-ink: #07100d;
+  --code-block-ink: #e7f6ef;
+  --code-block-bg: #07100d;
 }
 
 * {
@@ -106,7 +137,7 @@ h3 {
   width: min(calc(100% - 48px), var(--max));
   min-height: 76px;
   margin: 0 auto;
-  background: rgb(255 255 255 / 92%);
+  background: var(--header-bg);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(18px);
 }
@@ -156,6 +187,39 @@ h3 {
 .site-nav a:hover {
   color: var(--ink);
   background: var(--bg-soft);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 720;
+  line-height: 1;
+  background: var(--surface);
+  cursor: pointer;
+  transition:
+    color var(--speed) ease,
+    border-color var(--speed) ease,
+    background-color var(--speed) ease,
+    transform var(--speed) ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+  background: var(--bg-soft);
+}
+
+.theme-toggle strong {
+  color: var(--accent);
+  font-weight: 820;
 }
 
 .section {
@@ -218,7 +282,7 @@ h3 {
   line-height: 1.25;
   white-space: normal;
   overflow-wrap: anywhere;
-  background: #fff;
+  background: var(--tag-bg);
 }
 
 .hero-copy {
@@ -264,7 +328,7 @@ h3 {
 
 .button-link.primary {
   border-color: var(--accent);
-  color: #fff;
+  color: var(--primary-button-ink);
   background: var(--accent);
 }
 
@@ -275,7 +339,7 @@ h3 {
 }
 
 .button-link.primary:hover {
-  color: #fff;
+  color: var(--primary-button-ink);
   background: var(--accent-hover);
 }
 
@@ -464,7 +528,7 @@ h3 {
 .article-card:hover {
   border-color: var(--line-strong);
   color: inherit;
-  background: #fff;
+  background: var(--interactive-hover);
   transform: translateY(-2px);
 }
 
@@ -510,7 +574,7 @@ h3 {
 .contact-method:hover {
   border-color: var(--line-strong);
   color: inherit;
-  background: #fff;
+  background: var(--interactive-hover);
   transform: translateY(-2px);
 }
 
@@ -697,8 +761,8 @@ h3 {
   overflow-x: auto;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  color: #e8f3ee;
-  background: var(--inverse);
+  color: var(--code-block-ink);
+  background: var(--code-block-bg);
 }
 
 .prose pre code {
@@ -972,6 +1036,12 @@ h3 {
   .site-nav a {
     min-height: 34px;
     padding: 0 7px;
+  }
+
+  .theme-toggle {
+    min-height: 34px;
+    padding: 0 8px;
+    font-size: 0.72rem;
   }
 
   .hero,

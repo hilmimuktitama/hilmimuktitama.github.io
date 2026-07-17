@@ -16,10 +16,6 @@ const articles = (await getCollection("articles"))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 4);
 
-const resumeEntries = (await getCollection("resume")).sort((a, b) => a.data.order - b.data.order);
-const experience = resumeEntries.filter((entry) => entry.data.section === "experience");
-const highlightedExperience = experience.slice(0, 2);
-
 const formatDate = (date?: Date) =>
   date?.toLocaleDateString("en", { month: "short", year: "numeric", timeZone: "Asia/Jakarta" }) ??
   "Ready for update";
@@ -38,15 +34,40 @@ const formatDate = (date?: Date) =>
     <div class="hero-copy">
       <p class="role-title">Senior Technical Program Manager</p>
       <p class="lede">
-        I lead cross-squad B2B SaaS platform and automation programs, turning delivery complexity into source-backed plans, release readiness, and stakeholder-ready decisions.
+        I write about software delivery, AI tooling, and the execution habits behind technical programs. I also lead cross-squad B2B SaaS platform and automation programs, turning delivery complexity into source-backed plans and release-ready decisions.
       </p>
       <div class="link-row" aria-label="Primary profile links">
-        <a class="button-link primary" href={withBase("/contact/")}>Contact</a>
+        <a class="button-link primary" href={withBase("/articles/")}>Read writing</a>
         <a class="button-link" href={withBase("/resume/")}>Resume</a>
+        <a class="button-link" href={withBase("/contact/")}>Contact</a>
         <a class="button-link" href={LINKEDIN_URL}>LinkedIn</a>
         <a class="button-link" href={GITHUB_URL}>GitHub</a>
       </div>
     </div>
+  </section>
+
+  <section class="section" id="articles" aria-labelledby="articles-title">
+    <div class="section-heading">
+      <p class="eyebrow">Writing</p>
+      <div>
+        <h2 id="articles-title">Writing on software work, AI, and execution.</h2>
+        <p>Personal notes on building with AI, technical work, and the operating habits behind software delivery.</p>
+      </div>
+    </div>
+    {articles.length > 0 ? (
+      <div class="article-grid">
+        {articles.map((article) => (
+          <a class="article-card" href={withBase(`/articles/${getEntrySlug(article)}/`)}>
+            <p class="meta">{formatDate(article.data.pubDate)}</p>
+            <h3>{article.data.title}</h3>
+            <p>{article.data.description}</p>
+          </a>
+        ))}
+      </div>
+      <p class="inline-action"><a href={withBase("/articles/")}>View all writing</a></p>
+    ) : (
+      <p class="empty-note">Writing will appear here once there is something useful to share.</p>
+    )}
   </section>
 
   <section class="section" id="resume" aria-labelledby="resume-title">
@@ -56,23 +77,6 @@ const formatDate = (date?: Date) =>
         <h2 id="resume-title">Senior TPM experience across platform, customer data, AI, product, and QA.</h2>
         <p>Five-plus years spanning program management, product management, and QA engineering, with recent work across platform readiness, customer-data foundations, automation rollout, and source-backed execution tracking.</p>
       </div>
-    </div>
-    <div class="row-list">
-      {highlightedExperience.map((entry) => (
-        <article class="content-row">
-          <p class="meta">{entry.data.period ?? "Selected work"}</p>
-          <div>
-            <h3>{entry.data.title}</h3>
-            {entry.data.organization && <p class="meta">{entry.data.organization}</p>}
-            <p>{entry.data.summary}</p>
-            {entry.data.items.length > 0 && (
-              <ul class="evidence-list">
-                {entry.data.items.slice(0, 3).map((item) => <li>{item}</li>)}
-              </ul>
-            )}
-          </div>
-        </article>
-      ))}
     </div>
     <p class="inline-action"><a href={withBase("/resume/")}>View full resume</a></p>
   </section>
@@ -101,29 +105,5 @@ const formatDate = (date?: Date) =>
         </article>
       ))}
     </div>
-  </section>
-
-  <section class="section" id="articles" aria-labelledby="articles-title">
-    <div class="section-heading">
-      <p class="eyebrow">Writing</p>
-      <div>
-        <h2 id="articles-title">Writing on software work, AI, and execution.</h2>
-        <p>Personal notes on building with AI, technical work, and the operating habits behind software delivery.</p>
-      </div>
-    </div>
-    {articles.length > 0 ? (
-      <div class="article-grid">
-        {articles.map((article) => (
-          <a class="article-card" href={withBase(`/articles/${getEntrySlug(article)}/`)}>
-            <p class="meta">{formatDate(article.data.pubDate)}</p>
-            <h3>{article.data.title}</h3>
-            <p>{article.data.description}</p>
-          </a>
-        ))}
-      </div>
-      <p class="inline-action"><a href={withBase("/articles/")}>View all writing</a></p>
-    ) : (
-      <p class="empty-note">Writing will appear here once there is something useful to share.</p>
-    )}
   </section>
 </BaseLayout>

@@ -345,7 +345,7 @@ h3 {
 
 .eyebrow {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 820;
   line-height: 1.1;
   letter-spacing: 0;
@@ -354,8 +354,8 @@ h3 {
 
 .section-heading {
   display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
-  gap: 40px;
+  grid-template-columns: 136px minmax(0, 1fr);
+  gap: 32px;
   margin-bottom: 36px;
 }
 
@@ -420,6 +420,10 @@ h3 {
   margin-top: 14px;
   font-size: 0.84rem;
   font-weight: 760;
+}
+
+.inline-action.content-aligned {
+  margin-left: 168px;
 }
 
 .meta {
@@ -1079,6 +1083,10 @@ h3 {
   .resume-section-heading,
   .resume-role {
     gap: 14px;
+  }
+
+  .inline-action.content-aligned {
+    margin-left: 0;
   }
 
   .content-row,

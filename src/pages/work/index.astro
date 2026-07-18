@@ -24,11 +24,11 @@ const formatProjectStatus = (source: "github" | "manual") =>
         <p>Selected public projects across delivery planning, source-backed reporting, and reviewable workflow design.</p>
       </div>
     </div>
-    <div class="row-list">
+    <div class="row-list project-list">
       {projects.map((project) => (
         <article class={`project-row ${project.data.featured ? "featured" : ""}`}>
           <div>
-            <a class="project-title" href={withBase(`/work/${getEntrySlug(project)}/`)}>{project.data.title}</a>
+            <h2><a class="project-title" href={withBase(`/work/${getEntrySlug(project)}/`)}>{project.data.title}</a></h2>
             <div class="tag-row">
               <span class="tag">{formatProjectStatus(project.data.source)}</span>
               {project.data.language && <span class="tag">{project.data.language}</span>}
@@ -37,7 +37,8 @@ const formatProjectStatus = (source: "github" | "manual") =>
           <p class="project-desc">{project.data.description}</p>
           <div class="project-actions">
             <span class="meta">{formatDate(project.data.updatedDate)}</span>
-            {project.data.repoUrl && <a href={project.data.repoUrl}>Repository</a>}
+            <a class="row-action" href={withBase(`/work/${getEntrySlug(project)}/`)} aria-label={`Read ${project.data.title} case study`}>Read case study →</a>
+            {project.data.repoUrl && <a class="external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Repository</a>}
           </div>
         </article>
       ))}

@@ -17,6 +17,11 @@ export async function getStaticPaths() {
 
 const { article } = Astro.props;
 const { Content } = await render(article);
+const publishedArticles = (await getCollection("articles"))
+  .filter((entry) => entry.data.pubDate.valueOf() <= Date.now())
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const currentIndex = publishedArticles.findIndex((entry) => getEntrySlug(entry) === getEntrySlug(article));
+const nextArticle = publishedArticles[currentIndex + 1] ?? publishedArticles[0];
 const formattedDate = article.data.pubDate.toLocaleDateString("en", {
   day: "2-digit",
   month: "short",
@@ -41,5 +46,13 @@ const formattedDate = article.data.pubDate.toLocaleDateString("en", {
     <div class="prose">
       <Content />
     </div>
+    <footer class="article-next">
+      <p class="eyebrow">Continue reading</p>
+      <a href={withBase(`/articles/${getEntrySlug(nextArticle)}/`)}>
+        <span>{nextArticle.data.title}</span>
+        <span aria-hidden="true">→</span>
+      </a>
+      <a class="all-writing" href={withBase("/articles/")}>View all writing</a>
+    </footer>
   </article>
 </BaseLayout>

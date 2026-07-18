@@ -28,8 +28,8 @@ const formatProjectStatus = (source: "github" | "manual") =>
       <h1>{project.data.title}</h1>
       <p class="lede">{project.data.description}</p>
       <div class="link-row">
-        {project.data.repoUrl && <a class="button-link" href={project.data.repoUrl}>Repository</a>}
-        {project.data.liveUrl && <a class="button-link" href={project.data.liveUrl}>Live site</a>}
+        {project.data.repoUrl && <a class="button-link external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Repository</a>}
+        {project.data.liveUrl && <a class="button-link external-link" href={project.data.liveUrl} target="_blank" rel="noreferrer">Live site</a>}
       </div>
     </header>
     <div class="prose">

@@ -24,34 +24,57 @@ const formatDate = (date?: Date) =>
 <BaseLayout>
   <section class="section hero" aria-labelledby="hero-title">
     <div class="hero-identity">
-      <h1 id="hero-title"><span>Hilmi</span><span>Muktitama</span></h1>
-      <div class="hero-meta" aria-label="Profile metadata">
-        <span>B2B SaaS TPM</span>
-        <span>Platform and CDP delivery</span>
-        <span>AI automation readiness</span>
-      </div>
+      <p class="eyebrow">Hilmi Muktitama · Senior Technical Program Manager</p>
+      <h1 id="hero-title">Complex programs, made ready to ship.</h1>
     </div>
     <div class="hero-copy">
-      <p class="role-title">Senior Technical Program Manager</p>
       <p class="lede">
-        I write about software delivery, AI tooling, and the execution habits behind technical programs. I also lead cross-squad B2B SaaS platform and automation programs, turning delivery complexity into source-backed plans and release-ready decisions.
+        I turn cross-squad platform and automation programs into source-backed plans, clear decisions, and release-ready work.
       </p>
+      <div class="proof-grid" aria-label="Experience highlights">
+        <div><strong>5+ years</strong><span>across program, product, and QA</span></div>
+        <div><strong>Senior TPM</strong><span>leading B2B SaaS delivery at Mekari</span></div>
+        <div><strong>20+ clients</strong><span>supported through API integration</span></div>
+      </div>
       <div class="link-row" aria-label="Primary profile links">
-        <a class="button-link primary" href={withBase("/articles/")}>Read writing</a>
-        <a class="button-link" href={withBase("/resume/")}>Resume</a>
-        <a class="button-link" href={withBase("/contact/")}>Contact</a>
-        <a class="button-link" href={LINKEDIN_URL}>LinkedIn</a>
-        <a class="button-link" href={GITHUB_URL}>GitHub</a>
+        <a class="button-link primary" href={withBase("/work/")}>Read my work</a>
+        <a class="button-link" href={withBase("/resume/")}>View resume</a>
+      </div>
+      <div class="quiet-links" aria-label="External profile links">
+        <a href={withBase("/contact/")}>Contact</a>
+        <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn</a>
+        <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub</a>
       </div>
     </div>
+  </section>
+
+  <section class="section" id="case-studies" aria-labelledby="case-studies-title">
+    <div class="section-heading">
+      <p class="eyebrow">Selected Work</p>
+      <div>
+        <h2 id="case-studies-title">Systems that make delivery evidence visible.</h2>
+        <p>Public work showing how I turn ambiguous inputs into reviewable execution artifacts.</p>
+      </div>
+    </div>
+    <div class="featured-work">
+      {visibleProjects.map((project, index) => (
+        <a class={`work-card ${index === 0 ? "lead" : ""}`} href={withBase(`/work/${getEntrySlug(project)}/`)}>
+          <div class="work-card-meta"><span>{index === 0 ? "Featured case study" : "Case study"}</span><span>{formatDate(project.data.updatedDate)}</span></div>
+          <h3>{project.data.title}</h3>
+          <p>{project.data.description}</p>
+          <span class="card-action">Read case study <span aria-hidden="true">→</span></span>
+        </a>
+      ))}
+    </div>
+    <p class="inline-action"><a href={withBase("/work/")}>View all work</a></p>
   </section>
 
   <section class="section" id="articles" aria-labelledby="articles-title">
     <div class="section-heading">
       <p class="eyebrow">Writing</p>
       <div>
-        <h2 id="articles-title">Writing on software work, AI, and execution.</h2>
-        <p>Personal notes on building with AI, technical work, and the operating habits behind software delivery.</p>
+        <h2 id="articles-title">Notes from inside software delivery.</h2>
+        <p>Practical writing on AI tooling, technical judgment, and the habits behind reliable execution.</p>
       </div>
     </div>
     {articles.length > 0 ? (
@@ -74,36 +97,15 @@ const formatDate = (date?: Date) =>
     <div class="section-heading">
       <p class="eyebrow">Resume</p>
       <div>
-        <h2 id="resume-title">Senior TPM experience across platform, customer data, AI, product, and QA.</h2>
-        <p>Five-plus years spanning program management, product management, and QA engineering, with recent work across platform readiness, customer-data foundations, automation rollout, and source-backed execution tracking.</p>
+        <h2 id="resume-title">A path from testing systems to leading them.</h2>
+        <p>QA engineering built the technical instinct. Product management added customer and platform ownership. Technical program management brought both into cross-squad execution.</p>
       </div>
     </div>
-    <p class="inline-action content-aligned"><a href={withBase("/resume/")}>View full resume</a></p>
-  </section>
-
-  <section class="section" id="case-studies" aria-labelledby="case-studies-title">
-    <div class="section-heading">
-      <p class="eyebrow">Selected Work</p>
-      <div>
-        <h2 id="case-studies-title">Selected public repositories on delivery visibility, planning quality, and source-backed reporting.</h2>
-        <p>Public project work that shows how I think about execution systems through code, examples, and reviewable workflows.</p>
-      </div>
+    <div class="career-path" aria-label="Career progression">
+      <div><span>2019</span><strong>Quality Assurance</strong></div>
+      <div><span>2020</span><strong>Product Management</strong></div>
+      <div><span>2022—now</span><strong>Technical Program Management</strong></div>
     </div>
-    <div class="row-list">
-      {visibleProjects.map((project) => (
-        <article class={`project-row ${project.data.featured ? "featured" : ""}`}>
-          <div>
-            <a class="project-title" href={project.data.repoUrl ?? withBase(`/work/${getEntrySlug(project)}/`)}>
-              {project.data.title}
-            </a>
-          </div>
-          <p class="project-desc">{project.data.description}</p>
-          <div class="project-actions">
-            <span class="meta">{formatDate(project.data.updatedDate)}</span>
-            <a href={withBase(`/work/${getEntrySlug(project)}/`)}>Read notes</a>
-          </div>
-        </article>
-      ))}
-    </div>
+    <p class="inline-action"><a href={withBase("/resume/")}>View full resume</a></p>
   </section>
 </BaseLayout>

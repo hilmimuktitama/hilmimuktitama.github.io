@@ -220,7 +220,9 @@ a {
   position: relative;
   display: inline-flex;
   align-items: center;
-  min-height: 38px;
+  min-width: 44px;
+  min-height: 44px;
+  padding-inline: 6px;
   text-decoration: none;
 }
 
@@ -252,7 +254,8 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  min-height: 34px;
+  min-width: 44px;
+  min-height: 44px;
   padding: 0 10px;
   border: 1px solid var(--line-strong);
   border-radius: 999px;
@@ -1540,11 +1543,13 @@ a {
   }
 
   .site-nav a {
-    min-height: 34px;
+    min-height: 44px;
     font-size: 0.7rem;
   }
 
   .theme-toggle {
+    min-width: 44px;
+    min-height: 44px;
     padding: 0 8px;
   }
 

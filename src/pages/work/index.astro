@@ -16,19 +16,23 @@ const formatProjectStatus = (source: "github" | "manual") =>
 ---
 
 <BaseLayout title="Case Studies" description="Public repository-backed projects for Technical Program Manager work by Hilmi Muktitama.">
-  <section class="section">
-    <div class="section-heading">
-      <p class="eyebrow">Case Studies</p>
-      <div>
-        <h1>Execution systems with public repositories.</h1>
-        <p>Selected public projects across delivery planning, source-backed reporting, and reviewable workflow design.</p>
-      </div>
+  <section class="section page-intro" aria-labelledby="work-title">
+    <div class="section-aside">
+      <p class="eyebrow">Selected work</p>
+      <p class="section-number" aria-hidden="true">02</p>
     </div>
-    <div class="row-list project-list">
-      {projects.map((project) => (
-        <article class={`project-row ${project.data.featured ? "featured" : ""}`}>
-          <div>
-            <h2><a class="project-title" href={withBase(`/work/${getEntrySlug(project)}/`)}>{project.data.title}</a></h2>
+    <div class="page-intro-body">
+      <h1 id="work-title">Execution systems with public repositories.</h1>
+      <p class="lede">Projects across delivery planning, source-backed reporting, and reviewable workflow design.</p>
+      <p class="page-note">Each entry starts with an operating problem, then shows what changed and what evidence is safe to inspect.</p>
+    </div>
+    <div class="work-index-list">
+      {projects.map((project, index) => (
+        <article class={`project-index-item ${project.data.featured ? "is-featured" : ""}`}>
+          <span class="item-index">{String(index + 1).padStart(2, "0")}</span>
+          <div class="project-index-title">
+            <p class="item-meta"><span>{project.data.featured ? "Featured" : "Project"}</span><span>{formatDate(project.data.updatedDate)}</span></p>
+            <h2><a href={withBase(`/work/${getEntrySlug(project)}/`)}>{project.data.title}</a></h2>
             <div class="tag-row">
               <span class="tag">{formatProjectStatus(project.data.source)}</span>
               {project.data.language && <span class="tag">{project.data.language}</span>}
@@ -36,8 +40,7 @@ const formatProjectStatus = (source: "github" | "manual") =>
           </div>
           <p class="project-desc">{project.data.description}</p>
           <div class="project-actions">
-            <span class="meta">{formatDate(project.data.updatedDate)}</span>
-            <a class="row-action" href={withBase(`/work/${getEntrySlug(project)}/`)} aria-label={`Read ${project.data.title} case study`}>Read case study →</a>
+            <a class="row-action" href={withBase(`/work/${getEntrySlug(project)}/`)} aria-label={`Read ${project.data.title} case study`}>Read case study <span aria-hidden="true">↗</span></a>
             {project.data.repoUrl && <a class="external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Repository</a>}
           </div>
         </article>

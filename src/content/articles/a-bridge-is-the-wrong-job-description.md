@@ -72,14 +72,14 @@ My claim is narrower. The identity crisis is real because the job description wa
 
 Parts of this will age badly. I have been wrong about this role before. I started from the fear that AI would dissolve the role as a thin coordination layer. After mapping the work, I found more coordination, judgment, and review gates than the title suggested.
 
-[^1]: DORA, "Balancing AI tensions: Moving from AI adoption to effective SDLC use," March 10, 2026, accessed August 2026. The post summarizes the 2025 DORA report, which finds 90% of technology professionals use AI at work and over 80% believe it improved their productivity, while higher adoption is associated with both increased delivery throughput and increased instability; 30% of developers report little or no trust in AI-generated code, and saved generation time often shifts into verification overhead. https://dora.dev/insights/balancing-ai-tensions/
+[^1]: DORA, "[Balancing AI tensions: Moving from AI adoption to effective SDLC use](https://dora.dev/insights/balancing-ai-tensions/)", March 10, 2026.
 
-[^2]: Stack Overflow, "Developer Survey 2025, AI section," July 2025, accessed August 2026. Of professional developers, 50.6% use AI tools daily; 46% distrust the accuracy of AI output versus 33% who trust it, and only 3% trust it highly. https://survey.stackoverflow.co/2025/ai
+[^2]: Stack Overflow, "[Developer Survey 2025, AI section](https://survey.stackoverflow.co/2025/ai)", July 2025.
 
-[^3]: Sida Peng et al., "The Impact of AI on Developer Productivity: Evidence from GitHub Copilot," arXiv, February 2023, accessed August 2026. In a controlled experiment on one HTTP-server task, the Copilot group finished 55.8% faster. A narrow early result, not general current proof. https://arxiv.org/abs/2302.06590
+[^3]: Sida Peng et al., "[The Impact of AI on Developer Productivity: Evidence from GitHub Copilot](https://arxiv.org/abs/2302.06590)", arXiv, February 2023.
 
-[^4]: Eirini Kalliamvakou, GitHub Research, "The new identity of a developer: What changes and what doesn't in the AI era," December 8, 2025, accessed August 2026. Interviews with 22 advanced AI users who described becoming the "creative director of code," with delegation and verification as primary work across three skill layers: understanding, directing, verifying. Small qualitative sample. https://github.blog/news-insights/octoverse/the-new-identity-of-a-developer-what-changes-and-what-doesnt-in-the-ai-era/
+[^4]: Eirini Kalliamvakou, GitHub Research, "[The new identity of a developer: What changes and what doesn't in the AI era](https://github.blog/news-insights/octoverse/the-new-identity-of-a-developer-what-changes-and-what-doesnt-in-the-ai-era/)", December 8, 2025.
 
-[^5]: DORA, "Understanding builder intent in the AI era," October 17, 2025, accessed August 2026. The report describes AI as decoupling a person's role from the tasks they can perform. https://dora.dev/insights/builder-mindset/
+[^5]: DORA, "[Understanding builder intent in the AI era](https://dora.dev/insights/builder-mindset/)", October 17, 2025.
 
-[^6]: DORA, "DORA 2025: Year in review," January 7, 2026, accessed August 2026, and DORA 2025 landing page, September 2025. The year-in-review finds AI improves throughput, often at the cost of stability when foundations are weak; the landing page describes AI as an amplifier and notes that value stream management helps local gains become product performance rather than downstream chaos. https://dora.dev/insights/dora-2025-year-in-review/ and https://cloud.google.com/dora
+[^6]: DORA, "[DORA 2025: Year in review](https://dora.dev/insights/dora-2025-year-in-review/)" (January 7, 2026) and the [DORA 2025 landing page](https://cloud.google.com/dora) (September 2025).

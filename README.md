@@ -2,12 +2,15 @@
 
 Public source for a static Astro profile site.
 
+Requires Node.js 22.12 or newer.
+
 ## Commands
 
 ```bash
-npm install
+npm ci
 npm run dev
 npm run build
+npm run verify:site
 ```
 
 ## Structure

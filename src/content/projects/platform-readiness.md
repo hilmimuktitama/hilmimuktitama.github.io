@@ -4,8 +4,8 @@ description: "A sanitized case note on coordinating B2B SaaS platform readiness 
 source: "manual"
 status: "private-case-study"
 updatedDate: 2026-05-14
-featured: true
-order: 8
+featured: false
+order: 40
 tags:
   - TPM
   - platform

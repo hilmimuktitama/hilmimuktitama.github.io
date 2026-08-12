@@ -31,10 +31,13 @@ const formattedDate = article.data.pubDate.toLocaleDateString("en", {
 ---
 
 <BaseLayout title={article.data.title} description={article.data.description}>
-  <article class="article-page">
-    <header>
-      <a href={withBase("/articles/")}>Writing</a>
-      <p class="meta">{formattedDate}</p>
+  <article class="reading-page article-detail-page">
+    <header class="reading-header">
+      <div class="reading-header-top">
+        <a class="back-link" href={withBase("/articles/")}>← All writing</a>
+        <span class="section-number" aria-hidden="true">✳</span>
+      </div>
+      <p class="eyebrow">Field note <span class="eyebrow-divider">/</span> {formattedDate}</p>
       <h1>{article.data.title}</h1>
       <p class="lede">{article.data.description}</p>
       {article.data.tags.length > 0 && (
@@ -43,14 +46,20 @@ const formattedDate = article.data.pubDate.toLocaleDateString("en", {
         </div>
       )}
     </header>
-    <div class="prose">
-      <Content />
+    <div class="reading-layout">
+      <aside class="reading-aside">
+        <p class="eyebrow">A note from the notebook</p>
+        <p>Read slowly. The useful part is usually one paragraph past the summary.</p>
+      </aside>
+      <div class="prose">
+        <Content />
+      </div>
     </div>
     <footer class="article-next">
       <p class="eyebrow">Continue reading</p>
       <a href={withBase(`/articles/${getEntrySlug(nextArticle)}/`)}>
         <span>{nextArticle.data.title}</span>
-        <span aria-hidden="true">→</span>
+        <span aria-hidden="true">↗</span>
       </a>
       <a class="all-writing" href={withBase("/articles/")}>View all writing</a>
     </footer>

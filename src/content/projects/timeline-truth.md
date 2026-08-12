@@ -1,12 +1,12 @@
 ---
 title: "Timeline Truth"
-description: "A planning-quality workflow that turns rough timeline inputs into reviewable artifacts with missing dates, dependencies, assumptions, and source references visible."
+description: "The planning component for Truth Tools: turns rough timeline inputs into reviewable artifacts with drift, gaps, assumptions, and source references visible."
 source: "github"
 status: "public"
 repoUrl: "https://github.com/hilmimuktitama/timeline-truth"
 language: "JavaScript"
-updatedDate: 2026-05-12
-featured: true
+updatedDate: 2026-08-11
+featured: false
 order: 20
 tags:
   - TPM
@@ -15,13 +15,17 @@ tags:
   - timeline
 ---
 
-## Context
+## Component role
 
-Timeline Truth starts from an operating problem: delivery timelines often look cleaner than the source inputs behind them. PRD snippets, Jira notes, CSV exports, launch checklists, and status updates can disagree on dates, owners, dependencies, and assumptions.
+Timeline Truth is the planning component in the Truth Suite. It turns rough
+timeline inputs into structured artifacts that Truth Tools can review without
+losing their source references or visible uncertainty.
 
-The public implementation is a local MCP server, but the point is review discipline. The workflow keeps source references, gaps, assumptions, and validation output visible so a human can review timeline readiness before using it in a plan or status update.
+The public implementation is a local MCP server, but the point is review
+discipline. PRD snippets, Jira notes, CSV exports, launch checklists, and
+status updates can disagree on dates, owners, dependencies, and assumptions.
 
-## What changed
+## What it contributes
 
 - Turned messy planning inputs into structured timeline artifacts for review.
 - Preserved source references instead of flattening context into a confident summary.
@@ -34,6 +38,9 @@ The public implementation is a local MCP server, but the point is review discipl
 - Example inputs for PRD snippets, Jira CSV exports, launch checklists, and status updates.
 - A narrow project boundary that keeps the tool focused on timeline compilation and validation.
 
-## Why It Matters
+## Why it matters
 
-AI can draft a timeline quickly, but program operators still need to know what is known, what is missing, and where each planning item came from. Timeline Truth turns that review discipline into a local tool instead of relying on a polished rewrite.
+AI can draft a timeline quickly, but program operators still need to know what
+is known, what is missing, and where each planning item came from. Timeline
+Truth supplies that planning evidence to a reviewable Truth Suite workflow
+instead of relying on a polished rewrite.

@@ -21,19 +21,32 @@ const formatProjectStatus = (source: "github" | "manual") =>
 ---
 
 <BaseLayout title={project.data.title} description={project.data.description}>
-  <article class="article-page">
-    <header>
-      <a href={withBase("/work/")}>Case Studies</a>
-      <p class="meta">{formatProjectStatus(project.data.source)}</p>
+  <article class="reading-page project-detail-page">
+    <header class="reading-header">
+      <div class="reading-header-top">
+        <a class="back-link" href={withBase("/work/")}>← All work</a>
+        <span class="section-number" aria-hidden="true">{project.data.featured ? "01" : "—"}</span>
+      </div>
+      <p class="eyebrow">{formatProjectStatus(project.data.source)} <span class="eyebrow-divider">/</span> case study</p>
       <h1>{project.data.title}</h1>
       <p class="lede">{project.data.description}</p>
+      <div class="reading-meta">
+        {project.data.language && <span>{project.data.language}</span>}
+        {project.data.updatedDate && <span>Updated {project.data.updatedDate.toLocaleDateString("en", { month: "long", year: "numeric" })}</span>}
+      </div>
       <div class="link-row">
-        {project.data.repoUrl && <a class="button-link external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Repository</a>}
+        {project.data.repoUrl && <a class="button-link primary external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Open repository</a>}
         {project.data.liveUrl && <a class="button-link external-link" href={project.data.liveUrl} target="_blank" rel="noreferrer">Live site</a>}
       </div>
     </header>
-    <div class="prose">
-      <Content />
+    <div class="reading-layout">
+      <aside class="reading-aside">
+        <p class="eyebrow">Read for</p>
+        <p>Context, change, evidence, and why the work matters.</p>
+      </aside>
+      <div class="prose">
+        <Content />
+      </div>
     </div>
   </article>
 </BaseLayout>

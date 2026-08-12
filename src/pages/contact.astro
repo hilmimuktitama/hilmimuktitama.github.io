@@ -9,22 +9,21 @@ import { GITHUB_URL, LINKEDIN_URL } from "../lib/urls";
   showContactFooter={false}
 >
   <section class="section contact-page" aria-labelledby="contact-title">
-    <div class="section-heading">
-      <p class="eyebrow">Contact</p>
-      <div>
-        <h1 id="contact-title">Let's talk about program and product delivery work.</h1>
-        <p>Open to roles where program/product delivery matters and you need someone who can help move the work forward.</p>
-      </div>
+    <div class="section-aside">
+      <p class="eyebrow">Open line</p>
+      <p class="section-number" aria-hidden="true">05</p>
     </div>
-
-    <div class="contact-method-grid" aria-label="Contact methods">
-      <a class="contact-method primary" href="mailto:hilmimukti@gmail.com">
-        <span>Email</span>
-        <strong>hilmimukti@gmail.com</strong>
-        <small>Start a conversation →</small>
-      </a>
-      <div class="contact-secondary">
-        <p>Elsewhere</p>
+    <div class="contact-body">
+      <p class="eyebrow">Hilmi Muktitama <span class="eyebrow-divider">/</span> Jakarta, Indonesia</p>
+      <h1 id="contact-title">Let's talk about the work that needs making clearer.</h1>
+      <p class="lede">Open to roles where program and product delivery matter, especially when the path from ambiguity to release needs a steady hand.</p>
+      <div class="contact-letter">
+        <p class="eyebrow">Best way to reach me</p>
+        <a class="contact-email" href="mailto:hilmimukti@gmail.com">hilmimukti@gmail.com <span aria-hidden="true">↗</span></a>
+        <p class="contact-note">A short note about the problem, the team, or the role is a good place to start.</p>
+      </div>
+      <div class="contact-elsewhere">
+        <p class="eyebrow">Elsewhere</p>
         <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn</a>
         <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub</a>
       </div>

@@ -20,18 +20,20 @@ const formatDate = (date: Date) =>
 ---
 
 <BaseLayout title="Writing" description="Notes on delivery work, planning, and program execution by Hilmi Muktitama.">
-  <section class="section">
-    <div class="section-heading">
-      <p class="eyebrow">Writing</p>
-      <div>
-        <h1 id="articles-title">Writing on software work, AI, and execution.</h1>
-        <p>Personal notes on building with AI, technical work, and the operating habits behind software delivery.</p>
-      </div>
+  <section class="section page-intro" aria-labelledby="articles-title">
+    <div class="section-aside">
+      <p class="eyebrow">Field notes</p>
+      <p class="section-number" aria-hidden="true">03</p>
     </div>
-    <div class="row-list">
+    <div class="page-intro-body">
+      <h1 id="articles-title">Writing on software work, AI, and execution.</h1>
+      <p class="lede">Personal notes on building with AI, technical work, and the operating habits behind software delivery.</p>
+      <p class="page-note">Some are working theories. Some are lessons I only understood after the work got uncomfortable.</p>
+    </div>
+    <div class="article-index-list">
       {articles.map((article) => (
-        <article class="content-row">
-          <p class="meta">{formatDate(article.data.pubDate)}</p>
+        <article class="article-index-item">
+          <p class="item-meta">{formatDate(article.data.pubDate)}</p>
           <div>
             <h2><a href={withBase(`/articles/${getEntrySlug(article)}/`)}>{article.data.title}</a></h2>
             <p>{article.data.description}</p>
@@ -39,6 +41,7 @@ const formatDate = (date: Date) =>
               {article.data.tags.map((tag) => <span class="tag">{tag}</span>)}
             </div>
           </div>
+          <a class="row-action" href={withBase(`/articles/${getEntrySlug(article)}/`)} aria-label={`Read ${article.data.title}`}>Read <span aria-hidden="true">↗</span></a>
         </article>
       ))}
     </div>

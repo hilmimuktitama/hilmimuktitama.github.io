@@ -16,8 +16,11 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
 >
   <article class="resume-page">
     <header class="resume-hero">
-      <p class="eyebrow">Resume</p>
-      <div>
+      <div class="section-aside">
+        <p class="eyebrow">Resume</p>
+        <p class="section-number" aria-hidden="true">04</p>
+      </div>
+      <div class="resume-hero-body">
         <h1>Hilmi Muktitama</h1>
         <p class="role-title">Senior Technical Program Manager</p>
         <p class="lede">
@@ -32,7 +35,7 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
 
     <section class="resume-section" aria-labelledby="experience-title">
       <div class="resume-section-heading">
-        <p class="eyebrow">Experience</p>
+        <p class="eyebrow">01 / Experience</p>
         <h2 id="experience-title">Work history</h2>
       </div>
       <div class="resume-timeline">
@@ -59,11 +62,11 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
 
     <section class="resume-section resume-grid-section" aria-labelledby="credentials-title">
       <div class="resume-section-heading">
-        <p class="eyebrow">Credentials</p>
+        <p class="eyebrow">02 / Credentials</p>
         <h2 id="credentials-title">Skills, education, and certifications</h2>
       </div>
       <div class="resume-grid">
-        <section class="resume-card" aria-labelledby="skills-title">
+        <section class="resume-card resume-skill-block" aria-labelledby="skills-title">
           <h3 id="skills-title">Top skills</h3>
           {skills.map((entry) => (
             <div>

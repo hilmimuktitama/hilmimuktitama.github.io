@@ -20,8 +20,8 @@ tags:
 ## Context
 
 Truth Tools is the flagship review gate in a small, componentized Truth Suite.
-It is prepared as a public repository and static demo; this case study does
-not imply a published package release or real-world adoption.
+Version 0.3.1 is published with a public repository and static demo; this case
+study does not imply real-world adoption or effectiveness.
 
 ## Problem
 

@@ -67,6 +67,11 @@ const globalCssSource = read("src/styles/global.css");
 const seniorTpm = read("src/content/resume/mekari-senior-technical-program-manager.md");
 const projectTruth = read("src/content/projects/program-truth.md");
 const captureTruth = read("src/content/projects/capture-truth.md");
+const truthTools = read("src/content/projects/truth-tools.md");
+const projectSources = readdirSync(join(root, "src", "content", "projects"))
+  .filter((file) => file.endsWith(".md"))
+  .map((file) => read(join("src", "content", "projects", file)));
+const featuredProjects = projectSources.filter((content) => /^featured:\s*true\s*$/m.test(content));
 
 check(robotsTxt.includes("User-agent: *"), "robots.txt should declare a catch-all user agent");
 check(robotsTxt.includes("Allow: /"), "robots.txt should allow crawlers to access the public site");
@@ -89,6 +94,7 @@ const expectedSitemapUrls = [
   "https://hilmimuktitama.github.io/contact/",
   "https://hilmimuktitama.github.io/articles/",
   "https://hilmimuktitama.github.io/work/",
+  "https://hilmimuktitama.github.io/work/truth-tools/",
   "https://hilmimuktitama.github.io/work/program-truth/",
   "https://hilmimuktitama.github.io/work/capture-truth/",
   "https://hilmimuktitama.github.io/articles/the-rupiah-is-now-part-of-my-ai-bill/",
@@ -173,6 +179,45 @@ check(!publicHtml.includes("AI-assisted workflows"), "public build should not us
 check(!publicHtml.includes("Additional work samples are available on request"), "public build should not use generic work-sample availability filler copy");
 check(!publicHtml.includes("Platform Readiness Program"), "public build should not expose private Platform Readiness case note");
 check(publicHtml.includes("Capture Truth"), "public build should render Capture Truth project content");
+check(publicHtml.includes("Truth Tools"), "public build should render the Truth Tools flagship");
+check(featuredProjects.length === 1, "exactly one project should be featured");
+check(featuredProjects[0]?.includes('title: "Truth Tools"'), "Truth Tools should be the sole featured project");
+for (const section of [
+  "## Problem",
+  "## Product reset",
+  "## Architecture",
+  "## Engineering decisions",
+  "## Honest evaluation boundary",
+  "## TPM competencies",
+  "## Links"
+]) {
+  check(truthTools.includes(section), `Truth Tools should include ${section}`);
+}
+for (const link of [
+  "https://github.com/hilmimuktitama/truth-tools",
+  "https://hilmimuktitama.github.io/truth-tools/",
+  "https://github.com/hilmimuktitama/capture-truth",
+  "https://github.com/hilmimuktitama/timeline-truth",
+  "https://github.com/hilmimuktitama/program-truth",
+  "/work/truth-tools/"
+]) {
+  check(truthTools.includes(link), `Truth Tools should include the correct link ${link}`);
+}
+for (const concept of [
+  "snapshot gap",
+  "privacy",
+  "quality and health",
+  "OIDC",
+  "exact component lock",
+  "synthetic"
+]) {
+  check(truthTools.toLowerCase().includes(concept.toLowerCase()), `Truth Tools should explain ${concept}`);
+}
+check(projectTruth.includes('language: "JavaScript"'), "Program Truth should declare JavaScript");
+check(
+  !/\b(legacy|retired|umbrella|replaced|deprecated)\b/i.test(truthTools),
+  "Truth Tools should not use retired-product framing"
+);
 
 check(css.includes(".prose p+p"), "prose paragraphs should have spacing between adjacent paragraphs");
 check(css.includes(".prose ul") && css.includes(".prose ol"), "prose lists should have readable spacing");

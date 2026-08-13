@@ -1,6 +1,6 @@
 ---
 title: "Program Truth"
-description: "The program-status component for Truth Tools: maps execution evidence into a canonical artifact without hiding blockers or unknowns."
+description: "The program-status component for Truth Tools: turns execution evidence into structured, reviewed claims without hiding blockers or unknowns."
 source: "github"
 status: "public"
 repoUrl: "https://github.com/hilmimuktitama/program-truth"
@@ -17,9 +17,11 @@ tags:
 
 ## Context — component role
 
-Program Truth is the status-mapping component in the Truth Suite. It gives
-program operators a canonical artifact shape for Truth Tools to review while
-keeping execution reality separate from the final narrative.
+Program Truth is the status-mapping component in the Truth Suite. It emits an
+explicit health assessment and structured, reviewed claims that may be
+assembled into a canonical `StatusArtifact` for Truth Tools, while keeping
+execution evidence separate from the final narrative. It does not prove truth
+or semantic source support.
 
 The familiar problem: the parent ticket says one thing, while task-level evidence shows something messier. A status update can look green because the summary is clean, not because the work is actually unblocked.
 
@@ -27,8 +29,10 @@ The familiar problem: the parent ticket says one thing, while task-level evidenc
 
 - Splits status work into facts, assumptions, blockers, owners, dates, and open questions.
 - Made the update traceable to source evidence instead of relying on memory or meeting narration.
-- Treated the parent-ticket story as a claim to verify, not the final truth.
+- Treated the parent-ticket story as a structured claim to review, not the final truth.
 - Kept the output reviewable enough for leadership updates without exposing private project details.
+- Guides operators toward available Jira and Confluence connectors, but bundles no connectors.
+- Emits the health assessment and claims for downstream review; it does not perform deterministic validation itself.
 
 ## Evidence I can show
 
@@ -40,5 +44,8 @@ The familiar problem: the parent ticket says one thing, while task-level evidenc
 ## Why it matters
 
 Good status work is not about making the slide look green. Program Truth makes
-the claims and blockers explicit so Truth Tools can distinguish evidence quality
-from program health.
+the explicit health assessment, structured reviewed claims, and blockers
+available so Truth Tools can assess artifact quality and derive a program-health
+signal from supplied active claims. Program Truth itself performs no
+deterministic validation, and neither component presents its output as proof
+of truth or outcomes.

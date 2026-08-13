@@ -25,25 +25,27 @@ const formatDate = (date: Date) =>
       <p class="eyebrow">Field notes</p>
       <p class="section-number" aria-hidden="true">03</p>
     </div>
-    <div class="page-intro-body">
-      <h1 id="articles-title">Writing on software work, AI, and execution.</h1>
-      <p class="lede">Personal notes on building with AI, technical work, and the operating habits behind software delivery.</p>
-      <p class="page-note">Some are working theories. Some are lessons I only understood after the work got uncomfortable.</p>
-    </div>
-    <div class="article-index-list">
-      {articles.map((article) => (
-        <article class="article-index-item">
-          <p class="item-meta">{formatDate(article.data.pubDate)}</p>
-          <div>
-            <h2><a href={withBase(`/articles/${getEntrySlug(article)}/`)}>{article.data.title}</a></h2>
-            <p>{article.data.description}</p>
-            <div class="tag-row">
-              {article.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+    <div class="page-intro-main">
+      <div class="page-intro-body">
+        <h1 id="articles-title">Writing on software work, AI, and execution.</h1>
+        <p class="lede">Personal notes on building with AI, technical work, and the operating habits behind software delivery.</p>
+        <p class="page-note">Some are working theories. Some are lessons I only understood after the work got uncomfortable.</p>
+      </div>
+      <div class="article-index-list">
+        {articles.map((article) => (
+          <article class="article-index-item">
+            <p class="item-meta">{formatDate(article.data.pubDate)}</p>
+            <div>
+              <h2><a href={withBase(`/articles/${getEntrySlug(article)}/`)}>{article.data.title}</a></h2>
+              <p>{article.data.description}</p>
+              <div class="tag-row">
+                {article.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+              </div>
             </div>
-          </div>
-          <a class="row-action" href={withBase(`/articles/${getEntrySlug(article)}/`)} aria-label={`Read ${article.data.title}`}>Read <span aria-hidden="true">↗</span></a>
-        </article>
-      ))}
+            <a class="row-action" href={withBase(`/articles/${getEntrySlug(article)}/`)} aria-label={`Read ${article.data.title}`}>Read <span aria-hidden="true">↗</span></a>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 </BaseLayout>

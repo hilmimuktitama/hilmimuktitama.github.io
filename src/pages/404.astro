@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../lib/urls";
+---
+
+<BaseLayout title="Page not found" description="The page you requested could not be found.">
+  <div class="not-found-page">
+    <p class="eyebrow">404 <span class="eyebrow-divider">/</span> Not found</p>
+    <h1>That page is not in the notebook.</h1>
+    <p>The address may have changed, or the page may never have been published.</p>
+    <nav class="not-found-nav" aria-label="Helpful links">
+      <a href={withBase("/")}>Home</a>
+      <a href={withBase("/work/")}>Work</a>
+      <a href={withBase("/articles/")}>Writing</a>
+      <a href={withBase("/resume/")}>Resume</a>
+    </nav>
+  </div>
+</BaseLayout>

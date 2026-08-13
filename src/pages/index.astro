@@ -19,9 +19,18 @@ const articles = (await getCollection("articles"))
 const formatDate = (date?: Date) =>
   date?.toLocaleDateString("en", { month: "short", year: "numeric", timeZone: "Asia/Jakarta" }) ??
   "Ready for update";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Hilmi Muktitama",
+  jobTitle: "Senior Technical Program Manager",
+  url: new URL(import.meta.env.BASE_URL, Astro.site ?? "https://hilmimuktitama.github.io").toString(),
+  sameAs: ["https://github.com/hilmimuktitama", "https://www.linkedin.com/in/hilmimuktitama"]
+};
 ---
 
-<BaseLayout>
+<BaseLayout structuredData={structuredData}>
   <section class="section home-intro" aria-labelledby="hero-title">
     <div class="section-aside">
       <p class="eyebrow">Portfolio / 2026</p>

@@ -1,6 +1,6 @@
 ---
 title: "Truth Tools"
-description: "A deterministic evidence gate for project-status artifacts that separates artifact quality from program health before publication."
+description: "Status artifacts can flatten conflicting or missing evidence into a confident update before publication."
 source: "github"
 status: "public"
 repoUrl: "https://github.com/hilmimuktitama/truth-tools"
@@ -15,6 +15,13 @@ tags:
   - MCP
   - evidence
   - quality
+kind: "flagship"
+glance:
+  problem: "Status updates can flatten conflicting evidence into one confident story."
+  myRole: "Reset the product boundary around deterministic evidence review and publication."
+  whatChanged: "Capture, timeline, and program-status components now prepare inputs for a separate final review gate."
+  evidenceAvailable: "Public schemas, CLI and MCP interfaces, a static demo, fixtures, reports, and an evaluation harness."
+  evaluationBoundary: "Synthetic policy tests measure documented rules, not real-world quality, time saved, or adoption."
 ---
 
 ## Context

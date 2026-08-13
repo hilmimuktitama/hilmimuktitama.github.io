@@ -20,13 +20,21 @@ const projects = defineCollection({
     description: z.string(),
     source: z.enum(["github", "manual"]),
     status: z.enum(["public", "private-case-study", "draft"]),
-    repoUrl: z.string().url().optional(),
-    liveUrl: z.string().url().optional(),
+    repoUrl: z.url().optional(),
+    liveUrl: z.url().optional(),
     language: z.string().optional(),
     updatedDate: z.date().optional(),
     featured: z.boolean().default(false),
     order: z.number().default(100),
-    tags: z.array(z.string()).default([])
+    tags: z.array(z.string()).default([]),
+    kind: z.enum(["flagship", "component", "project", "case-study"]).default("project"),
+    glance: z.object({
+      problem: z.string().optional(),
+      myRole: z.string().optional(),
+      whatChanged: z.string().optional(),
+      evidenceAvailable: z.string().optional(),
+      evaluationBoundary: z.string().optional()
+    }).optional()
   })
 });
 

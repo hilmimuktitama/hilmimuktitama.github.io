@@ -28,9 +28,26 @@ const formattedDate = article.data.pubDate.toLocaleDateString("en", {
   year: "numeric",
   timeZone: "Asia/Jakarta"
 });
+const publishedTime = article.data.pubDate.toISOString();
+const modifiedTime = (article.data.updatedDate ?? article.data.pubDate).toISOString();
+const site = Astro.site ?? new URL("https://hilmimuktitama.github.io");
+const articleUrl = new URL(Astro.url.pathname, site).toString();
+const articleImage = new URL(withBase("/og-image.png"), site).toString();
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: article.data.title,
+  description: article.data.description,
+  url: articleUrl,
+  image: articleImage,
+  datePublished: publishedTime,
+  dateModified: modifiedTime,
+  keywords: article.data.tags,
+  author: { "@type": "Person", name: "Hilmi Muktitama" }
+};
 ---
 
-<BaseLayout title={article.data.title} description={article.data.description}>
+<BaseLayout title={article.data.title} description={article.data.description} ogType="article" publishedTime={publishedTime} modifiedTime={modifiedTime} tags={article.data.tags} structuredData={structuredData}>
   <article class="reading-page article-detail-page">
     <header class="reading-header">
       <div class="reading-header-top">

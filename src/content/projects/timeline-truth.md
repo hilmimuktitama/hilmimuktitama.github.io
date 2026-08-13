@@ -1,6 +1,6 @@
 ---
 title: "Timeline Truth"
-description: "The planning component for Truth Tools: turns rough timeline inputs into reviewable artifacts with drift, gaps, assumptions, and source references visible."
+description: "Rough planning inputs can hide drift, gaps, assumptions, and source references inside a polished timeline."
 source: "github"
 status: "public"
 repoUrl: "https://github.com/hilmimuktitama/timeline-truth"
@@ -13,6 +13,12 @@ tags:
   - MCP
   - planning
   - timeline
+kind: "component"
+glance:
+  problem: "Planning inputs can disagree on dates, owners, dependencies, and assumptions."
+  myRole: "Keep timeline compilation and validation focused as a separate planning component."
+  whatChanged: "Turned rough inputs into structured artifacts with source references and visible uncertainty."
+  evidenceAvailable: "A public repository, install instructions, MCP boundaries, examples, tests, and representative inputs."
 ---
 
 ## Component role

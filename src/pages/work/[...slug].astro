@@ -18,9 +18,21 @@ const { project } = Astro.props;
 const { Content } = await render(project);
 const formatProjectStatus = (source: "github" | "manual") =>
   source === "github" ? "public repo" : "case note";
+const projectUrl = new URL(Astro.url.pathname, Astro.site ?? "https://hilmimuktitama.github.io").toString();
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": project.data.source === "github" ? "SoftwareSourceCode" : "CreativeWork",
+  name: project.data.title,
+  description: project.data.description,
+  url: projectUrl,
+  ...(project.data.repoUrl ? { codeRepository: project.data.repoUrl } : {}),
+  ...(project.data.language ? { programmingLanguage: project.data.language } : {}),
+  author: { "@type": "Person", name: "Hilmi Muktitama" },
+  ...(project.data.updatedDate ? { dateModified: project.data.updatedDate.toISOString() } : {})
+};
 ---
 
-<BaseLayout title={project.data.title} description={project.data.description}>
+<BaseLayout title={project.data.title} description={project.data.description} modifiedTime={project.data.updatedDate} structuredData={structuredData}>
   <article class="reading-page project-detail-page">
     <header class="reading-header">
       <div class="reading-header-top">
@@ -45,6 +57,18 @@ const formatProjectStatus = (source: "github" | "manual") =>
         <p>Context, change, evidence, and why the work matters.</p>
       </aside>
       <div class="prose">
+        {project.data.glance && (
+          <section class="project-glance" aria-labelledby="project-glance-title">
+            <h2 id="project-glance-title">At a glance</h2>
+            <dl>
+              {project.data.glance.problem && <><dt>Problem</dt><dd>{project.data.glance.problem}</dd></>}
+              {project.data.glance.myRole && <><dt>My role</dt><dd>{project.data.glance.myRole}</dd></>}
+              {project.data.glance.whatChanged && <><dt>What changed</dt><dd>{project.data.glance.whatChanged}</dd></>}
+              {project.data.glance.evidenceAvailable && <><dt>Evidence available</dt><dd>{project.data.glance.evidenceAvailable}</dd></>}
+              {project.data.glance.evaluationBoundary && <><dt>Evaluation boundary</dt><dd>{project.data.glance.evaluationBoundary}</dd></>}
+            </dl>
+          </section>
+        )}
         <Content />
       </div>
     </div>

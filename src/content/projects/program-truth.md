@@ -13,6 +13,12 @@ tags:
   - Jira
   - Confluence
   - evidence
+kind: "component"
+glance:
+  problem: "A status update can look green because its summary is clean, not because work is unblocked."
+  myRole: "Separate execution reality from the final narrative with a canonical artifact shape."
+  whatChanged: "Split status work into facts, assumptions, blockers, owners, dates, and open questions tied to source evidence."
+  evidenceAvailable: "Public repository structure, prompts, sanitized examples, an installer, a doctor flow, and a repeatable workflow."
 ---
 
 ## Context — component role

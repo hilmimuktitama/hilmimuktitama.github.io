@@ -13,3 +13,7 @@ npm-debug.log*
 .astro-*.log
 .gh-auth-login.*.log
 .qa-*.png
+
+# Playwright verification artifacts
+test-results/
+playwright-report/

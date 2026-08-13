@@ -1,6 +1,6 @@
 ---
 title: "Capture Truth"
-description: "The evidence-intake component for Truth Tools: turns local notes, files, exports, and adapter metadata into neutral evidence packs before review."
+description: "Notes, files, exports, and adapter metadata can lose source identity, freshness, or conflict detail before review."
 source: "github"
 status: "public"
 repoUrl: "https://github.com/hilmimuktitama/capture-truth"
@@ -13,6 +13,12 @@ tags:
   - MCP
   - evidence
   - intake
+kind: "component"
+glance:
+  problem: "Untraceable summaries make downstream program workflows unreliable."
+  myRole: "Separate evidence intake from status, risk, and timeline judgment."
+  whatChanged: "Captured source snapshots, claims, references, freshness metadata, gaps, conflicts, and portable renders in an evidence pack."
+  evidenceAvailable: "A public repository, CLI and MCP boundaries, install notes, development checks, helpers, and benchmark fixtures."
 ---
 
 ## Context — component role

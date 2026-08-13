@@ -24,7 +24,7 @@ export default defineConfig({
     video: "retain-on-failure"
   },
   webServer: {
-    command: "npm run preview -- --host 127.0.0.1 --port 4321",
+    command: "./node_modules/.bin/astro preview --host 127.0.0.1 --port 4321",
     reuseExistingServer: false,
     timeout: 120_000
   },

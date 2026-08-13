@@ -24,11 +24,11 @@ glance:
 ## Component role
 
 Timeline Truth is the planning component in the Truth Suite. It turns rough
-timeline inputs into structured planning artifacts that an operator or agent
-may use when assembling a `StatusArtifact` for Truth Tools, without losing
+timeline inputs into structured planning artifacts that Program Truth can use
+when emitting a canonical `StatusArtifact` v2 for Truth Tools, without losing
 source references or visible uncertainty. It prepares and checks planning
-evidence; it does not assemble a `StatusArtifact` itself, prove semantic
-source support, or compute a critical path.
+evidence; it does not assemble a `StatusArtifact` itself, prove semantic source
+support, or compute a critical path.
 
 The public implementation is a local MCP server that parses inputs locally,
 but the point is review discipline. PRD snippets, Jira notes, CSV exports,
@@ -52,8 +52,8 @@ dependencies, and assumptions.
 
 AI can draft a timeline quickly, but program operators still need to know what
 is known, what is missing, and where each planning item came from. Timeline
-Truth supplies provenance-preserving planning inputs that an operator or agent
-may hand off to a canonical `StatusArtifact` for review by Truth Tools,
+Truth supplies provenance-preserving planning inputs that Program Truth can use
+when emitting a canonical `StatusArtifact` v2 for review by Truth Tools,
 instead of relying on a polished rewrite. That handoff is locator-only and
 contains no excerpts. Its local checks make gaps, assumptions, and detectable
 baseline/current schedule drift visible; they do not prove that the timeline is true or that a source

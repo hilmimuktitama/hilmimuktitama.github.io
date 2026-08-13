@@ -32,7 +32,7 @@ read-only adapter outputs into a neutral `evidence_pack`. Its boundary covers no
 timestamps, source revisions, content hashes, locator-only references,
 unreviewed candidate claims, and derivation metadata. Explicit approval is required for
 candidate text in `portable-summary`. An `internal-evidence-pack` can contain unreviewed
-structured and metadata candidates for internal review, but it is not a repo-safe guarantee.
+structured and metadata candidates for internal review, but it is not a guarantee of portable safety.
 Raw and mixed representations remain excluded from portable output; `raw-local` is local-only
 and is never promoted into a portable representation.
 Its Jira- and Confluence-shaped helpers accept already-fetched evidence;
@@ -54,12 +54,12 @@ downstream review responsibilities, not intake output fields.
 
 - Public repository with CLI commands, MCP tool boundaries, install notes, and development checks.
 - Read-only compact intake helpers for already-fetched Jira and Confluence-shaped evidence; Capture Truth bundles no connectors and performs no fetching.
-- Repo-safe fixture covering export, redaction checks, and compact adapters; it is not an outcome measurement.
+- Checked-in fixture covering export, redaction checks, and compact adapters; it is not an outcome measurement.
 
 ## Why it matters
 
 Program workflows can only be as reliable as the material they start from.
 Capture Truth keeps intake narrow and explicit, so an operator or agent can use
 its provenance-preserving source records and unreviewed candidate claims with Timeline Truth and
-Program Truth when assembling a canonical `StatusArtifact`, rather than relying
-on an untraceable summary.
+Program Truth as it emits a canonical `StatusArtifact` v2, rather than relying on
+an untraceable summary.

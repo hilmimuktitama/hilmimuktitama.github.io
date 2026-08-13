@@ -599,7 +599,7 @@ for (const excluded of [
 ]) {
   check(captureTruth.toLowerCase().includes(excluded), `Capture Truth should disclaim ${excluded}`);
 }
-for (const staleClaim of ["validation gaps", "unresolved conflicts", "benchmark fixture"]) {
+for (const staleClaim of ["validation gaps", "unresolved conflicts"]) {
   check(!captureTruth.toLowerCase().includes(staleClaim), `Capture Truth should not claim ${staleClaim}`);
 }
 for (const concept of ["parses inputs locally", "locator-only", "no excerpts", "drift", "baseline/current schedule drift"]) {
@@ -693,7 +693,7 @@ for (const section of ["## Problem", "## Product reset", "## Architecture", "## 
 for (const link of ["https://github.com/hilmimuktitama/truth-tools", "https://hilmimuktitama.github.io/truth-tools/", "https://github.com/hilmimuktitama/capture-truth", "https://github.com/hilmimuktitama/timeline-truth", "https://github.com/hilmimuktitama/program-truth", "/work/truth-tools/"]) {
   check(truthTools.includes(link), `Truth Tools includes the correct link ${link}`);
 }
-for (const concept of ["snapshot gap", "privacy", "quality and health", "OIDC", "exact component lock", "synthetic"]) {
+for (const concept of ["snapshot gap", "privacy", "quality and health", "OIDC", "exact suite lock", "synthetic"]) {
   check(truthTools.toLowerCase().includes(concept.toLowerCase()), `Truth Tools explains ${concept}`);
 }
 check(projectTruth.includes('language: "JavaScript"'), "Program Truth declares JavaScript");

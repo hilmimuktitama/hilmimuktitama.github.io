@@ -67,6 +67,7 @@ const globalCssSource = read("src/styles/global.css");
 const seniorTpm = read("src/content/resume/mekari-senior-technical-program-manager.md");
 const projectTruth = read("src/content/projects/program-truth.md");
 const captureTruth = read("src/content/projects/capture-truth.md");
+const timelineTruth = read("src/content/projects/timeline-truth.md");
 const truthTools = read("src/content/projects/truth-tools.md");
 const projectSources = readdirSync(join(root, "src", "content", "projects"))
   .filter((file) => file.endsWith(".md"))
@@ -97,6 +98,7 @@ const expectedSitemapUrls = [
   "https://hilmimuktitama.github.io/work/truth-tools/",
   "https://hilmimuktitama.github.io/work/program-truth/",
   "https://hilmimuktitama.github.io/work/capture-truth/",
+  "https://hilmimuktitama.github.io/work/timeline-truth/",
   "https://hilmimuktitama.github.io/articles/the-rupiah-is-now-part-of-my-ai-bill/",
   "https://hilmimuktitama.github.io/articles/ai-is-non-deterministic/"
 ];
@@ -204,11 +206,17 @@ for (const link of [
   check(truthTools.includes(link), `Truth Tools should include the correct link ${link}`);
 }
 for (const concept of [
+  "flagship evidence-first technical-program reliability toolkit",
   "snapshot gap",
   "privacy",
   "quality and health",
   "OIDC",
-  "exact component lock",
+  "exact suite lock",
+  "claim floor",
+  "health consistency",
+  "nested",
+  "locator-only",
+  "portable approval",
   "synthetic"
 ]) {
   check(truthTools.toLowerCase().includes(concept.toLowerCase()), `Truth Tools should explain ${concept}`);
@@ -217,6 +225,14 @@ check(projectTruth.includes('language: "JavaScript"'), "Program Truth should dec
 check(
   !/\b(legacy|retired|umbrella|replaced|deprecated)\b/i.test(truthTools),
   "Truth Tools should not use retired-product framing"
+);
+check(
+  !/Version 0\.3\.1 is published/i.test(truthTools),
+  "Truth Tools should not retain the stale 0.3.1 published claim"
+);
+check(
+  /The 0\.4\.0 release line adds/i.test(truthTools),
+  "Truth Tools should use 0.4.0 release-line framing"
 );
 
 check(css.includes(".prose p+p"), "prose paragraphs should have spacing between adjacent paragraphs");
@@ -260,6 +276,92 @@ check(
 check(
   captureTruth.includes("evidence_pack"),
   "Capture Truth should explain the evidence pack artifact"
+);
+for (const boundary of [
+  "pre-review mechanics",
+  "candidate claims remain unreviewed",
+  "does not establish semantic truth",
+  "does not establish semantic source support"
+]) {
+  check(captureTruth.toLowerCase().includes(boundary), `Capture Truth should preserve its ${boundary} boundary`);
+}
+for (const concept of [
+  "normalization",
+  "timestamps",
+  "revisions",
+  "hashes",
+  "locator-only",
+  "unreviewed candidate claims",
+  "derivation",
+  "explicit approval",
+  "portable",
+  "local"
+]) {
+  check(captureTruth.toLowerCase().includes(concept), `Capture Truth should explain ${concept}`);
+}
+for (const concept of ["already-fetched", "no connectors", "no fetching"]) {
+  check(captureTruth.toLowerCase().includes(concept), `Capture Truth should explain ${concept}`);
+}
+for (const excluded of [
+  "does not own gaps",
+  "final conflicts",
+  "health assessment",
+  "timeline validation",
+  "truth determination"
+]) {
+  check(captureTruth.toLowerCase().includes(excluded), `Capture Truth should disclaim ${excluded}`);
+}
+for (const staleClaim of ["validation gaps", "unresolved conflicts", "benchmark fixture"]) {
+  check(!captureTruth.toLowerCase().includes(staleClaim), `Capture Truth should not claim ${staleClaim}`);
+}
+for (const concept of ["parses inputs locally", "locator-only", "no excerpts", "drift", "baseline/current schedule drift"]) {
+  check(timelineTruth.toLowerCase().includes(concept), `Timeline Truth should explain ${concept}`);
+}
+check(
+  !timelineTruth.toLowerCase().includes("planned and observed"),
+  "Timeline Truth should describe baseline/current schedule drift rather than planned-v-observed drift"
+);
+check(
+  !timelineTruth.includes("directly compile a `StatusArtifact`"),
+  "Timeline Truth should not claim direct canonical artifact compilation"
+);
+for (const boundary of ["does not assemble a `StatusArtifact` itself", "did not compute a critical path"]) {
+  check(timelineTruth.toLowerCase().includes(boundary.toLowerCase()), `Timeline Truth should preserve its ${boundary} boundary`);
+}
+for (const concept of ["explicit health assessment", "available Jira and Confluence connectors", "bundles no connectors"]) {
+  check(projectTruth.toLowerCase().includes(concept.toLowerCase()), `Program Truth should explain ${concept}`);
+}
+check(
+  projectTruth.toLowerCase().includes("does not perform deterministic validation itself"),
+  "Program Truth should disclaim deterministic validation"
+);
+check(
+  !projectTruth.toLowerCase().includes("proves truth"),
+  "Program Truth should not overstate truth determination"
+);
+check(
+  captureTruth.includes("Explicit approval is required for\ncandidate text in `portable-summary`."),
+  "Capture Truth should require explicit approval for candidate text in portable-summary"
+);
+check(
+  captureTruth.includes("An `internal-evidence-pack` can contain unreviewed\nstructured and metadata candidates"),
+  "Capture Truth should allow unreviewed structured and metadata candidates in internal-evidence-pack"
+);
+check(
+  captureTruth.includes("but it is not a repo-safe guarantee"),
+  "Capture Truth should not present internal-evidence-pack as a repo-safe guarantee"
+);
+check(
+  captureTruth.includes("Raw and mixed representations remain excluded from portable output"),
+  "Capture Truth should exclude raw and mixed representations from portable output"
+);
+check(
+  captureTruth.includes("`raw-local` is local-only"),
+  "Capture Truth should keep raw-local local-only"
+);
+check(
+  !captureTruth.toLowerCase().includes("all portable output requires approval"),
+  "Capture Truth should not use generic all-portable-output approval wording"
 );
 
 if (failures.length > 0) {

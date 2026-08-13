@@ -118,6 +118,24 @@ async function assertStaticPageQuality(page: Page, errors: { pageErrors: string[
   expect(errors.consoleErrors, "unexpected console errors").toEqual([]);
 }
 
+async function applyScreenshotTypography(page: Page) {
+  await page.addStyleTag({
+    content: `
+      @font-face {
+        font-family: "E2E Hanken Grotesk";
+        src: url("/fonts/HankenGrotesk-VariableFont_wght.woff2") format("woff2");
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: block;
+      }
+      h1, h2, h3 {
+        font-family: "E2E Hanken Grotesk", sans-serif;
+      }
+    `
+  });
+  await page.evaluate(() => document.fonts.ready);
+}
+
 for (const viewport of viewports) {
   test.describe(`site quality at ${viewport.name}px`, () => {
     test.use({ viewport: { width: viewport.width, height: viewport.height } });
@@ -264,6 +282,7 @@ for (const route of ["/work/", "/articles/"] as const) {
       test(`${route} light screenshot`, async ({ page }) => {
         await preparePage(page, "light");
         await page.goto(route, { waitUntil: "networkidle" });
+        await applyScreenshotTypography(page);
         await expect(page).toHaveScreenshot(`${route.slice(1, -1)}-light-${viewport.name}.png`, {
           fullPage: true,
           animations: "disabled",
@@ -282,6 +301,7 @@ for (const route of ["/work/", "/articles/"] as const) {
       test(`${route} dark screenshot`, async ({ page }) => {
         await preparePage(page, "dark");
         await page.goto(route, { waitUntil: "networkidle" });
+        await applyScreenshotTypography(page);
         await expect(page).toHaveScreenshot(`${route.slice(1, -1)}-dark-${viewport.name}.png`, {
           fullPage: true,
           animations: "disabled",

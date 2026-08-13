@@ -30,6 +30,9 @@ const indexHtml = existsSync(join(root, "dist", "index.html"))
 const contactHtml = existsSync(join(root, "dist", "contact", "index.html"))
   ? read("dist/contact/index.html")
   : "";
+const programTruthHtml = existsSync(join(root, "dist", "work", "program-truth", "index.html"))
+  ? read("dist/work/program-truth/index.html")
+  : "";
 const robotsTxt = existsSync(join(root, "dist", "robots.txt"))
   ? read("dist/robots.txt")
   : "";
@@ -213,13 +216,29 @@ for (const concept of [
   "OIDC",
   "exact suite lock",
   "claim floor",
-  "health consistency",
+  "conservative consistency result",
   "nested",
   "locator-only",
   "portable approval",
   "synthetic"
 ]) {
   check(truthTools.toLowerCase().includes(concept.toLowerCase()), `Truth Tools should explain ${concept}`);
+}
+for (const concept of [
+  "canonical statusartifact v2 directly",
+  "supplied explicit health assessment",
+  "active signals"
+]) {
+  check(
+    programTruthHtml.toLowerCase().includes(concept.toLowerCase()),
+    `Program Truth page should render its ownership of ${concept}`
+  );
+}
+for (const concept of ["active claim floor", "conservative consistency result"]) {
+  check(
+    truthTools.toLowerCase().includes(concept.toLowerCase()),
+    `Truth Tools page should explain its ownership of ${concept}`
+  );
 }
 check(projectTruth.includes('language: "JavaScript"'), "Program Truth should declare JavaScript");
 check(
@@ -348,8 +367,8 @@ check(
   "Capture Truth should allow unreviewed structured and metadata candidates in internal-evidence-pack"
 );
 check(
-  captureTruth.includes("but it is not a repo-safe guarantee"),
-  "Capture Truth should not present internal-evidence-pack as a repo-safe guarantee"
+  captureTruth.includes("but it is not a guarantee of portable safety"),
+  "Capture Truth should not present internal-evidence-pack as a guarantee of portable safety"
 );
 check(
   captureTruth.includes("Raw and mixed representations remain excluded from portable output"),

@@ -71,7 +71,7 @@ evidence review and publication gate.
 The following is a conceptual, operator-or-agent-mediated flow, not a claim
 about a direct runtime pipeline:
 
-**Capture -> provenance-preserving sources/unreviewed candidate claims -> Timeline/Program -> canonical `StatusArtifact` -> Truth Tools -> artifact quality + program-health signal derived from supplied active claims.**
+**Capture -> provenance-preserving sources/unreviewed candidate claims -> Timeline/Program -> Program Truth emits canonical `StatusArtifact` v2 -> Truth Tools -> artifact quality + conservative consistency result.**
 
 Capture agents or adapters preserve source metadata and unreviewed candidate
 claims. The canonical handoff carries locator-only references; source excerpts
@@ -79,16 +79,16 @@ and raw bodies do not cross that boundary. Metadata remains nested in its
 declared source/claim metadata boundary rather than being promoted into claim
 content.
 Timeline Truth provides structured planning inputs, while Program Truth emits
-structured and reviewed program claims. An operator or agent may assemble
-these inputs into a canonical `StatusArtifact`; this is not described as a
-direct component-to-component runtime pipeline. Truth Tools then normalizes and
-validates that supplied artifact with one deterministic core shared by the CLI
-and the two read-only MCP tools: `truth.review` and `truth.doctor`. The result
-is a `TruthReview` with Markdown and JSON output plus explicit CI exit-code
-gates. Truth Tools derives its program-health signal from supplied active
-claims, not from a `health_consistency` field; health consistency is an
-assessment of the supplied claims, not proof of program health. These checks
-do not establish semantic source support or prove program health.
+the canonical `StatusArtifact` v2 directly with structured and reviewed program
+claims. The artifact carries a supplied explicit assessment and active signals
+for Truth Tools; this is not described as a direct component-to-component
+runtime pipeline. Truth Tools then normalizes and validates that supplied
+artifact with one deterministic core shared by the CLI and the two read-only
+MCP tools: `truth.review` and `truth.doctor`. The result is a `TruthReview` with
+Markdown and JSON output plus explicit CI exit-code gates. Truth Tools
+reconciles the supplied explicit assessment with the active claim floor into a
+conservative consistency result. That result is not health derived only from
+claims, and it does not prove program health or semantic source support.
 
 The surrounding Truth Suite remains componentized: Capture Truth prepares
 source metadata and candidate claims, Timeline Truth provides planning inputs,

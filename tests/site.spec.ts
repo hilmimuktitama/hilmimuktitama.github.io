@@ -284,7 +284,7 @@ for (const route of ["/work/", "/articles/"] as const) {
         await page.goto(route, { waitUntil: "networkidle" });
         await applyScreenshotTypography(page);
         await expect(page).toHaveScreenshot(`${route.slice(1, -1)}-light-${viewport.name}.png`, {
-          fullPage: true,
+          fullPage: false,
           animations: "disabled",
           caret: "hide",
           maxDiffPixelRatio: 0.04
@@ -303,7 +303,7 @@ for (const route of ["/work/", "/articles/"] as const) {
         await page.goto(route, { waitUntil: "networkidle" });
         await applyScreenshotTypography(page);
         await expect(page).toHaveScreenshot(`${route.slice(1, -1)}-dark-${viewport.name}.png`, {
-          fullPage: true,
+          fullPage: false,
           animations: "disabled",
           caret: "hide",
           maxDiffPixelRatio: 0.04

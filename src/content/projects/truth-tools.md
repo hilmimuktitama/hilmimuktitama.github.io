@@ -19,9 +19,17 @@ tags:
 
 ## Context
 
-Truth Tools is the flagship review gate in a small, componentized Truth Suite.
-Version 0.3.1 is published with a public repository and static demo; this case
-study does not imply real-world adoption or effectiveness.
+**Flagship framing:**
+
+> Truth Tools is the flagship evidence-first technical-program reliability toolkit combining provenance-preserving evidence intake, defensible timeline compilation, agent-guided status synthesis, and deterministic pre-publication review.
+
+Truth Tools is the flagship product and deterministic review gate in a small,
+componentized Truth Suite. The sentence above is product framing for the
+flagship and its surrounding components, not a claim that every component runs
+as one integrated runtime.
+The 0.4.0 release line adds the public repository, static demo, and
+pre-publication evidence gate described here; this case study does not imply
+real-world adoption or effectiveness.
 
 ## Problem
 
@@ -33,20 +41,24 @@ product, which made its boundary hard to explain.
 
 ## Product reset
 
-Truth Tools answers one narrower question: does a supplied status artifact
-have a reviewable evidence trail, or an obvious gap that should block
-publication? It runs after evidence collection and before publication. It is
-not a source connector or an LLM judge; the component tools remain separate.
+Truth Tools is a deterministic review gate answering one narrower question:
+does a supplied status artifact meet the claim floor for a reviewable evidence
+trail, or have an obvious gap that should block publication? The claim floor is
+an explicit minimum: active claims need stable, locator-only references and
+the required status metadata before they can pass artifact-quality review. It
+is not a source connector, an LLM judge, or an independent source of truth;
+the component tools remain separate. Its deterministic checks do not prove
+that a claim is true or that a source semantically supports a claim.
 
 The flagship distinction is deliberately uncomfortable:
 
 | Artifact | Verdict | Meaning |
 | --- | --- | --- |
-| Broken evidence | `fail` + `blocked` | The status cannot be trusted yet. |
-| Fixed evidence | `pass` + `blocked` | The evidence is trustworthy, and the real blocker is visible. |
+| Broken evidence | `fail` + `blocked` | The status is not ready for publication. |
+| Fixed evidence | `pass` + `blocked` | The artifact passes quality checks while the declared blocker remains visible. |
 
-Fixing the evidence does not fix the program. It makes the blocker trustworthy
-and actionable.
+Fixing the evidence does not fix the program. It makes the declared blocker
+traceable and actionable.
 
 ## What changed
 
@@ -56,16 +68,32 @@ evidence review and publication gate.
 
 ## Architecture
 
-Source systems feed a structured `StatusArtifact` through capture agents or
-adapters. Truth Tools then normalizes and validates that artifact with one
-deterministic core shared by the CLI and the two read-only MCP tools:
-`truth.review` and `truth.doctor`. The result is a `TruthReview` with Markdown
-and JSON output plus explicit CI exit-code gates.
+The following is a conceptual, operator-or-agent-mediated flow, not a claim
+about a direct runtime pipeline:
+
+**Capture -> provenance-preserving sources/unreviewed candidate claims -> Timeline/Program -> canonical `StatusArtifact` -> Truth Tools -> artifact quality + program-health signal derived from supplied active claims.**
+
+Capture agents or adapters preserve source metadata and unreviewed candidate
+claims. The canonical handoff carries locator-only references; source excerpts
+and raw bodies do not cross that boundary. Metadata remains nested in its
+declared source/claim metadata boundary rather than being promoted into claim
+content.
+Timeline Truth provides structured planning inputs, while Program Truth emits
+structured and reviewed program claims. An operator or agent may assemble
+these inputs into a canonical `StatusArtifact`; this is not described as a
+direct component-to-component runtime pipeline. Truth Tools then normalizes and
+validates that supplied artifact with one deterministic core shared by the CLI
+and the two read-only MCP tools: `truth.review` and `truth.doctor`. The result
+is a `TruthReview` with Markdown and JSON output plus explicit CI exit-code
+gates. Truth Tools derives its program-health signal from supplied active
+claims, not from a `health_consistency` field; health consistency is an
+assessment of the supplied claims, not proof of program health. These checks
+do not establish semantic source support or prove program health.
 
 The surrounding Truth Suite remains componentized: Capture Truth prepares
-source metadata, Timeline Truth builds and compares planning timelines, and
-Program Truth maps program status into a canonical artifact. Truth Tools owns
-the contract, review, demo, and evaluation boundary.
+source metadata and candidate claims, Timeline Truth provides planning inputs,
+and Program Truth emits structured and reviewed program claims. Truth Tools
+owns the contract, deterministic review, demo, and evaluation boundary.
 
 ## Engineering decisions
 
@@ -80,10 +108,11 @@ the contract, review, demo, and evaluation boundary.
   `unknown`). A quality pass must not turn a blocked program green.
 - **OIDC release provenance:** publishing is designed around trusted npm and
   Pages workflows with GitHub OIDC rather than long-lived registry tokens.
-- **Exact component lock:** the integrated demo locks the capture-truth,
+- **Exact suite lock:** the integrated demo locks the exact `capture-truth`,
   timeline-truth, and program-truth component checkouts and can require those
   exact sibling APIs in CI; a checked-in public-safe projection is the honest
-  local fallback.
+  local fallback. Capture's portable render is used only after its explicit
+  portable approval boundary.
 - **One contract:** canonical JSON Schema contracts are shared by CLI, MCP,
   generated reports, and verification instead of relying on implicit shapes.
 

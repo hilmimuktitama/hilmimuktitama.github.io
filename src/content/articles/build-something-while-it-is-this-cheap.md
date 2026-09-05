@@ -1,6 +1,6 @@
 ---
 title: "Build Something While It Is This Cheap"
-description: "A personal essay on AI lowering the cost of starting, and why judgment still matters when turning ideas into working artifacts."
+description: "Some thoughts on how AI has made it cheaper to start small projects, and why judgment still matters once they exist."
 pubDate: 2026-05-12
 tags:
   - building

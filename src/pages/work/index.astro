@@ -12,41 +12,40 @@ const formatDate = (date?: Date) =>
   date?.toLocaleDateString("en", { month: "short", year: "numeric" }) ?? "Ready for update";
 
 const formatProjectStatus = (source: "github" | "manual") =>
-  source === "github" ? "public repo" : "case note";
+  source === "github" ? "public repository" : "project note";
 ---
 
-<BaseLayout title="Case Studies" description="Public repository-backed projects for Technical Program Manager work by Hilmi Muktitama.">
-  <section class="section page-intro" aria-labelledby="work-title">
+<BaseLayout title="Experiments" description="Small public experiments by Hilmi Muktitama about planning, project notes, and software delivery.">
+  <section class="section page-intro work-index" aria-labelledby="work-title">
     <div class="section-aside">
-      <p class="eyebrow">Selected work</p>
-      <p class="section-number" aria-hidden="true">02</p>
+      <p class="eyebrow">Public experiments</p>
     </div>
     <div class="page-intro-main">
-      <div class="page-intro-body">
-        <h1 id="work-title">Execution systems with public repositories.</h1>
-        <p class="lede">Projects across delivery planning, source-backed reporting, and reviewable workflow design.</p>
-        <p class="page-note">Each entry starts with an operating problem, then shows what changed and what evidence is safe to inspect.</p>
-      </div>
-      <div class="work-index-list">
-        {projects.map((project, index) => (
-          <article class={`project-index-item ${project.data.featured ? "is-featured" : ""}`}>
-            <span class="item-index">{String(index + 1).padStart(2, "0")}</span>
-            <div class="project-index-title">
-              <p class="item-meta"><span>{project.data.kind === "flagship" ? "Flagship" : project.data.kind === "component" ? "Component" : "Project"}</span><span>{formatDate(project.data.updatedDate)}</span></p>
+      <header class="page-intro-body work-index-header">
+        <h1 id="work-title">On the workbench.</h1>
+        <p class="lede">I use these small repositories to try out ways of organizing plans, notes, evidence, and status updates.</p>
+        <p class="page-note">They are works in progress. I share them because the rough edges are part of what I’m learning.</p>
+      </header>
+      <section class="work-index-list" aria-labelledby="work-list-title">
+        <h2 id="work-list-title" class="sr-only">Public experiments</h2>
+        {projects.map((project) => (
+          <article class={`project-index-item work-entry ${project.data.featured ? "is-featured" : ""}`}>
+            <header class="project-index-title work-entry-header">
+              <p class="item-meta"><span>{project.data.kind === "component" ? "Companion experiment" : "Experiment"}</span><span>{project.data.updatedDate ? <time datetime={project.data.updatedDate.toISOString()}>{formatDate(project.data.updatedDate)}</time> : "Update not recorded"}</span></p>
               <h2><a href={withBase(`/work/${getEntrySlug(project)}/`)}>{project.data.title}</a></h2>
               <div class="tag-row">
                 <span class="tag">{formatProjectStatus(project.data.source)}</span>
                 {project.data.language && <span class="tag">{project.data.language}</span>}
               </div>
-            </div>
+            </header>
             <p class="project-desc">{project.data.description}</p>
-            <div class="project-actions">
-              <a class="row-action" href={withBase(`/work/${getEntrySlug(project)}/`)} aria-label={`Read ${project.data.title} case study`}>Read case study <span aria-hidden="true">↗</span></a>
+            <nav class="project-actions work-entry-actions" aria-label={`${project.data.title} links`}>
+              <a class="row-action" href={withBase(`/work/${getEntrySlug(project)}/`)} aria-label={`See ${project.data.title} experiment`}>See experiment <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
               {project.data.repoUrl && <a class="external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Repository</a>}
-            </div>
+            </nav>
           </article>
         ))}
-      </div>
+      </section>
     </div>
   </section>
 </BaseLayout>

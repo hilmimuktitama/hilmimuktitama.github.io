@@ -1,6 +1,6 @@
 ---
 title: "The Rupiah Is Now Part Of My AI Bill"
-description: "AI was sold as the great equalizer, but the frontier is priced in dollars. With USD/IDR at a record high, an Indonesian tech worker watches that promise quietly tilt, and counts the cost in a currency that keeps losing."
+description: "Notes from Indonesia on paying for AI tools in dollars while the rupiah weakens, and how that changes what ‘affordable’ means."
 pubDate: 2026-06-09T00:00:00+07:00
 tags:
   - AI

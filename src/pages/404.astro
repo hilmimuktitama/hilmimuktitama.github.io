@@ -4,15 +4,17 @@ import { withBase } from "../lib/urls";
 ---
 
 <BaseLayout title="Page not found" description="The page you requested could not be found.">
-  <div class="not-found-page">
-    <p class="eyebrow">404 <span class="eyebrow-divider">/</span> Not found</p>
-    <h1>That page is not in the notebook.</h1>
-    <p>The address may have changed, or the page may never have been published.</p>
+  <section class="not-found-page" aria-labelledby="not-found-title">
+    <header class="not-found-header">
+      <p class="eyebrow">404 <span class="eyebrow-divider">/</span> Not found</p>
+      <h1 id="not-found-title">A loose end.</h1>
+    </header>
+    <p>I couldn’t find that page. The address may have changed, or I may not have published it.</p>
     <nav class="not-found-nav" aria-label="Helpful links">
       <a href={withBase("/")}>Home</a>
-      <a href={withBase("/work/")}>Work</a>
+      <a href={withBase("/work/")}>Experiments</a>
       <a href={withBase("/articles/")}>Writing</a>
       <a href={withBase("/resume/")}>Resume</a>
     </nav>
-  </div>
+  </section>
 </BaseLayout>

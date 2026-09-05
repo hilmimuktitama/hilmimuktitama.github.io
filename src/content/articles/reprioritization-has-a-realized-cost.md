@@ -1,6 +1,6 @@
 ---
 title: "Reprioritization Has A Realized Cost"
-description: "AI can make switching work feel cheaper, but deprioritized in-progress work still carries spent effort, attention, review time, and tokens."
+description: "Some notes on the effort already spent when in-progress work is deprioritized, even when AI makes switching feel cheap."
 pubDate: 2026-05-24
 tags:
   - TPM

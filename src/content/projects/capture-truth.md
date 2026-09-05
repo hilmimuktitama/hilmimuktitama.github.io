@@ -1,6 +1,6 @@
 ---
 title: "Capture Truth"
-description: "Notes, files, exports, and adapter metadata can lose source identity, freshness, or conflict detail before review."
+description: "An experiment in keeping the source, date, and context attached when notes, files, and exports move into a review workflow."
 source: "github"
 status: "public"
 repoUrl: "https://github.com/hilmimuktitama/capture-truth"
@@ -15,51 +15,57 @@ tags:
   - intake
 kind: "component"
 glance:
-  problem: "Untraceable summaries make downstream program workflows unreliable."
-  myRole: "Separate evidence intake from status, risk, and timeline judgment."
-  whatChanged: "Captured source snapshots, claims, references, freshness metadata, gaps, conflicts, and portable renders in an evidence pack."
-  evidenceAvailable: "A public repository, CLI and MCP boundaries, install notes, development checks, helpers, and benchmark fixtures."
+  problem: "Summaries are harder to trust when their sources are missing."
+  myRole: "I focused this piece on collecting evidence before making status or timeline judgments."
+  whatChanged: "The output keeps source snapshots, references, dates, gaps, and conflicts together for later review."
+  evidenceAvailable: "A public repository with command-line and MCP boundaries, install notes, checks, helpers, and sample fixtures."
 ---
 
-## Context — component role
+## Context
 
-Capture Truth is the intake component in the Truth Suite. It owns only the
-pre-review mechanics of preserving what was captured, where it came from, and
-what remains unreviewed before downstream review. Candidate claims remain unreviewed until that downstream review. Capture Truth does not establish semantic truth and does not establish semantic source support; it preserves the captured material and its provenance for review rather than treating intake as verification.
+Capture Truth handles the first step: recording what was captured, where it
+came from, and what has not been reviewed yet. Its scope is the pre-review mechanics.
+Candidate claims remain unreviewed until a later review. It does not establish semantic truth and does not establish semantic source support.
 
-It turns pasted text, local files, CSV or JSON exports, and already-fetched
-read-only adapter outputs into a neutral `evidence_pack`. Its boundary covers normalization,
-timestamps, source revisions, content hashes, locator-only references,
-unreviewed candidate claims, and derivation metadata. Explicit approval is required for
+Pasted text, local files, CSV or JSON exports, and already-fetched adapter
+outputs become an `evidence_pack`. The file records normalization, timestamps,
+source revisions, content hashes, locator-only references, unreviewed candidate claims,
+and derivation details.
+
+Explicit approval is required for
 candidate text in `portable-summary`. An `internal-evidence-pack` can contain unreviewed
 structured and metadata candidates for internal review, but it is not a guarantee of portable safety.
 Raw and mixed representations remain excluded from portable output; `raw-local` is local-only
 and is never promoted into a portable representation.
-Its Jira- and Confluence-shaped helpers accept already-fetched evidence;
+
+The Jira- and Confluence-shaped helpers accept already-fetched evidence.
 Capture Truth bundles no connectors and performs no fetching.
 
-Capture Truth explicitly does not own gaps, final conflicts, program health or
-health assessment, timeline validation, or truth determination. Those are
-downstream review responsibilities, not intake output fields.
+It also does not own gaps, final conflicts, program health or health assessment,
+timeline validation, or truth determination. Those questions belong to a later
+review.
 
-## What changed — component contribution
+## What changed
 
-- Makes evidence intake a separate workflow instead of mixing capture with
-  status, risk, or timeline judgment.
-- Preserved source identity, timestamps, revisions, hashes, and locator-only references before handing unreviewed candidates to downstream workflows.
-- Recorded derivation and explicit approval decisions without deciding whether a claim is true.
-- Kept `portable-summary`, `internal-evidence-pack`, and local representations distinct, with explicit approval required for candidate text in `portable-summary`.
+- Evidence collection is separate from status, risk, and timeline judgment.
+- Source identity, timestamps, revisions, hashes, and locator-only references
+  stay attached when an unreviewed claim moves to the next step.
+- The output records where a candidate came from and whether someone approved
+  it, without deciding whether the claim is true.
+- Portable summaries, internal evidence, and local-only material stay separate.
 
 ## Evidence I can show
 
-- Public repository with CLI commands, MCP tool boundaries, install notes, and development checks.
-- Read-only compact intake helpers for already-fetched Jira and Confluence-shaped evidence; Capture Truth bundles no connectors and performs no fetching.
-- Checked-in fixture covering export, redaction checks, and compact adapters; it is not an outcome measurement.
+- A public repository with command-line commands, MCP boundaries, install notes,
+  and development checks.
+- Small read-only helpers for already-fetched Jira- and Confluence-shaped
+  evidence. They do not fetch anything themselves.
+- A checked-in sample for exports, redaction checks, and compact adapters. It is
+  a technical example, not an outcome measurement.
 
-## Why it matters
+## Why I made it
 
-Program workflows can only be as reliable as the material they start from.
-Capture Truth keeps intake narrow and explicit, so an operator or agent can use
-its provenance-preserving source records and unreviewed candidate claims with Timeline Truth and
-Program Truth as it emits a canonical `StatusArtifact` v2, rather than relying on
-an untraceable summary.
+I wanted a status workflow to keep a trail back to its starting material. This
+small piece does that collection work before Timeline Truth or Program Truth
+tries to interpret it. It is deliberately limited: a traceable input can still
+be wrong, but at least a reviewer can find where it came from.

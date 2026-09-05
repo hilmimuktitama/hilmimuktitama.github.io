@@ -1,7 +1,7 @@
 ---
 section: "skill"
 title: "Tools"
-summary: "Tooling used for program management, product analysis, automation, and AI-augmented TPM workflows."
+summary: "Tools I have used for program management, product analysis, automation, and AI-assisted work."
 items:
   - Jira
   - Jira Forge app development

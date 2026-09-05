@@ -1,6 +1,6 @@
 ---
 title: "Program Truth"
-description: "The program-status component for Truth Tools: emits canonical StatusArtifact v2 directly from execution evidence, with structured reviewed claims that keep blockers and unknowns visible."
+description: "A small part of Truth Tools that turns project evidence into a structured status draft while keeping blockers and unknowns visible."
 source: "github"
 status: "public"
 repoUrl: "https://github.com/hilmimuktitama/program-truth"
@@ -16,42 +16,50 @@ tags:
 kind: "component"
 glance:
   problem: "A status update can look green because its summary is clean, not because work is unblocked."
-  myRole: "Separate execution reality from the final narrative with a canonical artifact shape."
-  whatChanged: "Split status work into facts, assumptions, blockers, owners, dates, and open questions tied to source evidence."
-  evidenceAvailable: "Public repository structure, prompts, sanitized examples, an installer, a doctor flow, and a repeatable workflow."
+  myRole: "I focused this piece on separating the project evidence from the status story."
+  whatChanged: "The draft separates facts, assumptions, blockers, owners, dates, and open questions while keeping their sources attached."
+  evidenceAvailable: "A public repository with prompts, sanitized examples, setup checks, and a repeatable workflow."
 ---
 
-## Context — component role
+## Context
 
-Program Truth is the status-mapping component in the Truth Suite. It emits a
-canonical `StatusArtifact` v2 directly, carrying a supplied explicit health
-assessment alongside active signals and structured, reviewed claims for Truth
-Tools. It keeps execution evidence separate from the final narrative. It does
-not prove truth or semantic source support.
+Program Truth is the piece that turns project evidence into a status draft. It
+emits a canonical `StatusArtifact` v2 directly for Truth Tools. The file carries
+a supplied explicit health assessment, active signals, and claims that someone
+has reviewed. It keeps the evidence separate from the final status story and
+does not verify whether a claim is true.
 
-The familiar problem: the parent ticket says one thing, while task-level evidence shows something messier. A status update can look green because the summary is clean, not because the work is actually unblocked.
+I made it for a familiar mismatch: a parent ticket says one thing while the
+task-level evidence says something messier. A clean summary can make work look
+green even when a blocker is still open.
 
-## What changed — component contribution
+## What changed
 
-- Splits status work into facts, assumptions, blockers, owners, dates, and open questions.
-- Made the update traceable to source evidence instead of relying on memory or meeting narration.
-- Treated the parent-ticket story as a structured claim to review, not the final truth.
-- Kept the output reviewable enough for leadership updates without exposing private project details.
-- Guides operators toward available Jira and Confluence connectors, but bundles no connectors.
-- Emits the canonical `StatusArtifact` v2 with the explicit assessment and active signals for downstream review; it does not perform deterministic validation itself.
+- The draft separates facts, assumptions, blockers, owners, dates, and open
+  questions.
+- Each part can keep a link back to its source instead of relying on memory or
+  a meeting recap.
+- The parent-ticket summary is treated as something to review, not the final
+  answer.
+- The public examples show the shape of the work without including private
+  project details.
+- Setup notes point to available Jira and Confluence connectors, but the project
+  bundles no connectors.
+- Program Truth passes the explicit health assessment and active signals to the
+  next review step. It does not perform deterministic validation itself.
 
 ## Evidence I can show
 
-- Public repository structure and prompts for evidence-first program review.
-- Sanitized examples of how blockers, owners, and decisions are separated before a report is written.
-- Npm installer and doctor flow for setting up the skill in local agent environments.
-- A repeatable workflow that can be adapted to Jira and Confluence-heavy delivery environments.
+- A public repository with prompts and setup notes.
+- Sanitized examples that keep blockers, owners, and decisions separate before
+  a report is written.
+- An npm installer and a small setup check.
+- A workflow that can be adapted to projects using Jira and Confluence.
 
-## Why it matters
+## Why I made it
 
-Good status work is not about making the slide look green. Program Truth makes
-the supplied explicit health assessment, active signals, structured reviewed
-claims, and blockers available so Truth Tools can reconcile the assessment with
-the active claim floor. Program Truth itself performs no deterministic
-validation, and neither component presents its output as proof of truth or
-outcomes.
+I wanted the draft to show its uncertainty before it became a polished status
+update. Truth Tools can compare the supplied explicit health assessment with
+the active signals and claim floor. Program Truth prepares the file; it does
+not decide whether the program is healthy or whether the result led to a better
+outcome.

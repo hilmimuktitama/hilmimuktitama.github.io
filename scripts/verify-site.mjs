@@ -48,6 +48,10 @@ function decodeHtml(value) {
   });
 }
 
+function textFromHtml(value) {
+  return decodeHtml(value.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+}
+
 function openingTags(html, tagName) {
   return [...html.matchAll(new RegExp(`<${tagName}\\b[^>]*>`, "gi"))].map((match) => match[0]);
 }
@@ -463,6 +467,7 @@ const globalCssSource = read("src/styles/global.css");
 const seniorTpm = read("src/content/resume/mekari-senior-technical-program-manager.md");
 const projectTruth = read("src/content/projects/program-truth.md");
 const programTruthPage = pageByRoute.get("/work/program-truth/")?.html ?? "";
+const programTruthText = textFromHtml(programTruthPage);
 const captureTruth = read("src/content/projects/capture-truth.md");
 const timelineTruth = read("src/content/projects/timeline-truth.md");
 const truthTools = read("src/content/projects/truth-tools.md");
@@ -495,7 +500,7 @@ for (const urls of [sitemapUrls, alternateSitemapUrls, textSitemapUrls]) {
   check(!urls.some((url) => new URL(url).pathname.endsWith("/404/")), "sitemap excludes 404", urls, "no /404/ URL");
 }
 for (const concept of [
-  "flagship evidence-first technical-program reliability toolkit",
+  "status draft is ready for a person to review",
   "snapshot gap",
   "privacy",
   "quality and health",
@@ -516,7 +521,7 @@ for (const concept of [
   "active signals"
 ]) {
   check(
-    programTruthPage.toLowerCase().includes(concept.toLowerCase()),
+    programTruthText.toLowerCase().includes(concept.toLowerCase()),
     `Program Truth page should render its ownership of ${concept}`
   );
 }
@@ -701,10 +706,10 @@ check(!publicHtml.includes("AI-assisted workflows"), "public build excludes broa
 check(!publicHtml.includes("Additional work samples are available on request"), "public build excludes generic work-sample availability filler copy");
 check(!publicHtml.includes("Platform Readiness Program"), "public build excludes private Platform Readiness case note");
 check(publicHtml.includes("Capture Truth"), "public build renders Capture Truth project content");
-check(publicHtml.includes("Truth Tools"), "public build renders the Truth Tools flagship");
+check(publicHtml.includes("Truth Tools"), "public build renders the Truth Tools experiment");
 check(featuredProjects.length === 1, "exactly one project is featured");
 check(featuredProjects[0]?.includes('title: "Truth Tools"'), "Truth Tools is the sole featured project");
-for (const section of ["## Problem", "## Product reset", "## Architecture", "## Engineering decisions", "## Honest evaluation boundary", "## TPM competencies", "## Links"]) {
+for (const section of ["## Problem", "## What I changed", "## How the pieces fit", "## A few choices I made", "## Limits", "## What I practised", "## Links"]) {
   check(truthTools.includes(section), `Truth Tools includes ${section}`);
 }
 for (const link of ["https://github.com/hilmimuktitama/truth-tools", "https://hilmimuktitama.github.io/truth-tools/", "https://github.com/hilmimuktitama/capture-truth", "https://github.com/hilmimuktitama/timeline-truth", "https://github.com/hilmimuktitama/program-truth", "/work/truth-tools/"]) {

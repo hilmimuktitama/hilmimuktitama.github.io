@@ -10,6 +10,8 @@ const articles = (await getCollection("articles"))
   .filter((article) => article.data.pubDate.valueOf() <= now)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+const [featuredArticle, ...archiveArticles] = articles;
+
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en", {
     day: "2-digit",
@@ -19,33 +21,71 @@ const formatDate = (date: Date) =>
   });
 ---
 
-<BaseLayout title="Writing" description="Notes on delivery work, planning, and program execution by Hilmi Muktitama.">
-  <section class="section page-intro" aria-labelledby="articles-title">
-    <div class="section-aside">
-      <p class="eyebrow">Field notes</p>
-      <p class="section-number" aria-hidden="true">03</p>
-    </div>
-    <div class="page-intro-main">
-      <div class="page-intro-body">
-        <h1 id="articles-title">Writing on software work, AI, and execution.</h1>
-        <p class="lede">Personal notes on building with AI, technical work, and the operating habits behind software delivery.</p>
-        <p class="page-note">Some are working theories. Some are lessons I only understood after the work got uncomfortable.</p>
-      </div>
-      <div class="article-index-list">
-        {articles.map((article) => (
-          <article class="article-index-item">
-            <p class="item-meta">{formatDate(article.data.pubDate)}</p>
-            <div>
-              <h2><a href={withBase(`/articles/${getEntrySlug(article)}/`)}>{article.data.title}</a></h2>
-              <p>{article.data.description}</p>
-              <div class="tag-row">
-                {article.data.tags.map((tag) => <span class="tag">{tag}</span>)}
-              </div>
-            </div>
-            <a class="row-action" href={withBase(`/articles/${getEntrySlug(article)}/`)} aria-label={`Read ${article.data.title}`}>Read <span aria-hidden="true">↗</span></a>
-          </article>
-        ))}
-      </div>
-    </div>
+<BaseLayout title="Writing" description="Personal notes from Hilmi Muktitama on software work, AI tools, and what he is learning.">
+  <section class="writing-index-page" aria-labelledby="articles-title">
+    <header class="writing-index-header page-intro-body">
+      <p class="writing-index-label">Writing</p>
+      <h1 id="articles-title">Notes on software work, AI, and what I’m learning.</h1>
+      <p class="writing-index-lede">I write about building with AI, working with technical teams, and trying to make software projects easier to follow.</p>
+    </header>
+
+    {featuredArticle ? (
+      <>
+        <article class="writing-index-entry writing-index-entry-featured article-index-item">
+          <p class="writing-index-feature-label">Latest note</p>
+          <div class="writing-index-entry-meta">
+            <time datetime={featuredArticle.data.pubDate.toISOString()}>{formatDate(featuredArticle.data.pubDate)}</time>
+          </div>
+          <div class="writing-index-entry-copy">
+            <h2><a href={withBase(`/articles/${getEntrySlug(featuredArticle)}/`)}>{featuredArticle.data.title}</a></h2>
+            <p>{featuredArticle.data.description}</p>
+            {featuredArticle.data.tags.length > 0 && (
+              <ul class="writing-index-tags" aria-label={`Topics for ${featuredArticle.data.title}`}>
+                {featuredArticle.data.tags.map((tag) => <li>{tag}</li>)}
+              </ul>
+            )}
+          </div>
+          <a
+            class="writing-index-entry-action"
+            href={withBase(`/articles/${getEntrySlug(featuredArticle)}/`)}
+            aria-label={`Read ${featuredArticle.data.title}`}
+          >
+            Read note <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+          </a>
+        </article>
+
+        {archiveArticles.length > 0 && (
+          <section class="writing-index-archive" aria-labelledby="writing-archive-title">
+            <header class="writing-index-archive-heading">
+              <h2 id="writing-archive-title">More notes</h2>
+              <p>{archiveArticles.length} {archiveArticles.length === 1 ? "note" : "notes"}</p>
+            </header>
+
+            <ol class="writing-index-list article-index-list">
+              {archiveArticles.map((article) => (
+                <li class="writing-index-entry">
+                  <article class="article-index-item">
+                    <div class="writing-index-entry-meta">
+                      <time datetime={article.data.pubDate.toISOString()}>{formatDate(article.data.pubDate)}</time>
+                    </div>
+                    <div class="writing-index-entry-copy">
+                      <h2><a href={withBase(`/articles/${getEntrySlug(article)}/`)}>{article.data.title}</a></h2>
+                      <p>{article.data.description}</p>
+                      {article.data.tags.length > 0 && (
+                        <ul class="writing-index-tags" aria-label={`Topics for ${article.data.title}`}>
+                          {article.data.tags.map((tag) => <li>{tag}</li>)}
+                        </ul>
+                      )}
+                    </div>
+                  </article>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+      </>
+    ) : (
+      <p class="writing-index-empty">Writing will appear here once there is something useful to share.</p>
+    )}
   </section>
 </BaseLayout>

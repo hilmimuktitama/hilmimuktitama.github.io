@@ -1,6 +1,6 @@
 ---
 title: "AI Is Non-Deterministic"
-description: "A personal essay on why AI output changes, why that matters for builders and TPMs, and how to work with uncertainty instead of pretending it is a bug."
+description: "Notes on why AI gives different answers, why that can matter, and how I am learning to work with the uncertainty."
 pubDate: 2026-05-19
 tags:
   - AI

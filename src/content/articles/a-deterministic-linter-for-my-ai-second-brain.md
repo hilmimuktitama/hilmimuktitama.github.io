@@ -1,6 +1,6 @@
 ---
 title: "A Deterministic Linter for My AI Second Brain"
-description: "AI can draft, reorganize, and link your notes, but it will quietly break structure. A tiny deterministic linter, not a bigger model, is what keeps a repository second brain honest."
+description: "How a small deterministic linter helps me keep an AI-assisted notes repository from quietly losing its structure."
 pubDate: 2026-07-17T00:00:00+07:00
 tags:
   - AI

@@ -1,6 +1,6 @@
 ---
 title: "Timeline Truth"
-description: "Rough planning inputs can hide drift, gaps, assumptions, and source references inside a polished timeline."
+description: "A small experiment in turning rough planning notes into a timeline that keeps gaps, assumptions, and source references visible."
 source: "github"
 status: "public"
 repoUrl: "https://github.com/hilmimuktitama/timeline-truth"
@@ -16,45 +16,41 @@ tags:
 kind: "component"
 glance:
   problem: "Planning inputs can disagree on dates, owners, dependencies, and assumptions."
-  myRole: "Keep timeline compilation and validation focused as a separate planning component."
-  whatChanged: "Turned rough inputs into structured artifacts with source references and visible uncertainty."
-  evidenceAvailable: "A public repository, install instructions, MCP boundaries, examples, tests, and representative inputs."
+  myRole: "I kept this focused on compiling and checking timelines rather than trying to solve every planning problem."
+  whatChanged: "The output keeps source references and uncertainty alongside the timeline."
+  evidenceAvailable: "A public repository with install notes, examples, tests, and representative inputs."
 ---
 
-## Component role
+## Context
 
-Timeline Truth is the planning component in the Truth Suite. It turns rough
-timeline inputs into structured planning artifacts that Program Truth can use
-when emitting a canonical `StatusArtifact` v2 for Truth Tools, without losing
-source references or visible uncertainty. It prepares and checks planning
-evidence; it does not assemble a `StatusArtifact` itself, prove semantic source
-support, or compute a critical path.
+Timeline Truth is a small planning tool for notes that do not quite agree. It
+takes PRD snippets, Jira notes, CSV exports, launch checklists, and status
+updates, then puts their dates and dependencies into one draft timeline.
 
-The public implementation is a local MCP server that parses inputs locally,
-but the point is review discipline. PRD snippets, Jira notes, CSV exports,
-launch checklists, and status updates can disagree on dates, owners,
-dependencies, and assumptions.
+The public version is a local MCP server that parses inputs locally. It keeps
+the source reference and uncertainty beside each item. It does not assemble a `StatusArtifact` itself,
+decide whether a source is correct, or calculate a critical path.
 
-## What it contributes
+## What changed
 
-- Turned messy planning inputs into structured timeline artifacts for review.
-- Preserved locator-only source references instead of flattening context into a confident summary; the canonical handoff contains locators, not excerpts.
-- Flagged missing dates, owners, dependency references, and sequencing problems; it did not compute a critical path.
-- Produced Mermaid and Markdown planning outputs after local parsing and checks, and can surface baseline/current schedule drift.
+- Rough planning notes become a structured timeline that is easier to check.
+- The handoff keeps locator-only references—locators, no excerpts—rather than
+  rewriting every source into one confident summary.
+- Missing dates, owners, dependency references, and sequencing problems remain
+  visible. The tool did not compute a critical path.
+- It can produce Mermaid and Markdown and point out drift, including detectable baseline/current schedule drift.
 
 ## Evidence I can show
 
-- Public repository with install instructions, MCP tool boundaries, examples, and tests.
-- Example inputs for PRD snippets, Jira CSV exports, launch checklists, and status updates.
-- A narrow project boundary that keeps the tool focused on timeline compilation and validation.
+- A public repository with install instructions, MCP boundaries, examples, and
+  tests.
+- Sample PRD snippets, Jira CSV exports, launch checklists, and status updates.
+- A deliberately narrow scope: compiling and checking a timeline, not making
+  the planning decision.
 
-## Why it matters
+## Why I made it
 
-AI can draft a timeline quickly, but program operators still need to know what
-is known, what is missing, and where each planning item came from. Timeline
-Truth supplies provenance-preserving planning inputs that Program Truth can use
-when emitting a canonical `StatusArtifact` v2 for review by Truth Tools,
-instead of relying on a polished rewrite. That handoff is locator-only and
-contains no excerpts. Its local checks make gaps, assumptions, and detectable
-baseline/current schedule drift visible; they do not prove that the timeline is true or that a source
-supports its interpretation.
+AI can make a tidy timeline quickly. I still want to see what is missing and
+where each date came from. Timeline Truth keeps that information in the draft
+instead of hiding it in a polished rewrite. Its checks can point out gaps,
+assumptions, and schedule drift; they cannot tell me whether the plan is true.

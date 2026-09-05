@@ -4,12 +4,12 @@ title: "Technical Program Manager"
 organization: "PT Mid Solusi Nusantara (Mekari)"
 location: "Indonesia"
 period: "Feb 2022 - Jul 2024"
-summary: "Managed planning and execution of multiple concurrent technical programs across engineering squads, keeping delivery timelines, quality standards, and stakeholder communication coordinated."
+summary: "Worked across several engineering squads to keep technical programs, timelines, quality checks, and stakeholder updates aligned."
 items:
-  - Designed and implemented SDLC automation tools using Apps Script and AppSheet, replacing manual workflows across sprint ceremonies, release tracking, and status reporting.
-  - Established automation tooling as a new standard adopted across the engineering organization.
-  - Established program management practices for cross-squad dependency tracking, weekly sync cadences, and structured risk escalation.
-  - Coordinated sprint ceremonies, release planning, and stakeholder communications across product, engineering, and QA teams.
+  - Built small Apps Script and AppSheet tools to reduce manual work in sprint ceremonies, release tracking, and status updates.
+  - The tools became part of the engineering team’s regular workflow.
+  - Introduced lightweight routines for cross-team dependencies, weekly check-ins, and risk escalation.
+  - Coordinated sprint ceremonies, release planning, and updates across product, engineering, and QA.
 order: 20
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "Truth Tools"
-description: "Status artifacts can flatten conflicting or missing evidence into a confident update before publication."
+description: "An experiment in keeping missing or conflicting evidence visible before a status update is shared."
 source: "github"
 status: "public"
 repoUrl: "https://github.com/hilmimuktitama/truth-tools"
@@ -18,137 +18,117 @@ tags:
 kind: "flagship"
 glance:
   problem: "Status updates can flatten conflicting evidence into one confident story."
-  myRole: "Reset the product boundary around deterministic evidence review and publication."
-  whatChanged: "Capture, timeline, and program-status components now prepare inputs for a separate final review gate."
-  evidenceAvailable: "Public schemas, CLI and MCP interfaces, a static demo, fixtures, reports, and an evaluation harness."
+  myRole: "I narrowed the project to preparing evidence for review before a status update is published."
+  whatChanged: "The capture, timeline, and program-status pieces now meet at a separate review step."
+  evidenceAvailable: "Public schemas, command-line and MCP interfaces, a static demo, fixtures, reports, and a small evaluation setup."
   evaluationBoundary: "Synthetic policy tests measure documented rules, not real-world quality, time saved, or adoption."
 ---
 
 ## Context
 
-**Flagship framing:**
+I started Truth Tools as a small experiment around a problem I kept noticing:
+a status update can sound settled even when the material behind it disagrees.
 
-> Truth Tools is the flagship evidence-first technical-program reliability toolkit combining provenance-preserving evidence intake, defensible timeline compilation, agent-guided status synthesis, and deterministic pre-publication review.
+The repository sits above three smaller companion projects. In practice, it is
+a checker that asks whether a status draft is ready for a person to review.
 
-Truth Tools is the flagship product and deterministic review gate in a small,
-componentized Truth Suite. The sentence above is product framing for the
-flagship and its surrounding components, not a claim that every component runs
-as one integrated runtime.
-The 0.4.0 release line adds the public repository, static demo, and
-pre-publication evidence gate described here; this case study does not imply
-real-world adoption or effectiveness.
+The 0.4.0 release line adds a public repository, a static demo, and a check
+before publication. It is not evidence that the project has been adopted or
+that it improves real programs.
 
 ## Problem
 
-Cross-team status updates often flatten conflicting evidence into one confident
-story. A tracker can name one date, a decision log another, and an unresolved
-blocker can disappear from the leadership summary. A broad workflow also tried
-to solve capture, timeline parsing, reconciliation, exports, and review in one
-product, which made its boundary hard to explain.
+Cross-team status updates can flatten conflicting evidence into one neat story.
+A tracker might name one date, a decision log another, and an unresolved
+blocker may disappear from the summary.
 
-## Product reset
+My first version also tried to handle capture, timeline parsing,
+reconciliation, exports, and review in one workflow. It became hard to explain
+and was probably trying to do too much.
 
-Truth Tools is a deterministic review gate answering one narrower question:
-does a supplied status artifact meet the claim floor for a reviewable evidence
-trail, or have an obvious gap that should block publication? The claim floor is
-an explicit minimum: active claims need stable, locator-only references and
-the required status metadata before they can pass artifact-quality review. It
-is not a source connector, an LLM judge, or an independent source of truth;
-the component tools remain separate. Its deterministic checks do not prove
-that a claim is true or that a source semantically supports a claim.
+## What I changed
 
-The flagship distinction is deliberately uncomfortable:
+I narrowed the project to one question: does a supplied status file contain the
+references and metadata required by its own rules? The repository calls that
+minimum the claim floor. Active claims need stable, locator-only references and
+the expected status metadata before the file can pass the check.
 
-| Artifact | Verdict | Meaning |
+Truth Tools is not a source connector, an AI judge, or an independent source of
+truth. It checks structure and consistency. It cannot tell whether a claim is
+actually true or whether a source really supports it.
+
+One detail matters more than the name of the tool:
+
+| Example input | Check result | What it means |
 | --- | --- | --- |
-| Broken evidence | `fail` + `blocked` | The status is not ready for publication. |
-| Fixed evidence | `pass` + `blocked` | The artifact passes quality checks while the declared blocker remains visible. |
+| Missing references | `fail` + `blocked` | The status is not ready to share. |
+| References repaired | `pass` + `blocked` | The file passes its checks, but the project is still blocked. |
 
-Fixing the evidence does not fix the program. It makes the declared blocker
-traceable and actionable.
+Tidying the evidence does not fix the project. It only makes the blocker easier
+to see and follow up.
 
-## What changed
+## How the pieces fit
 
-The product boundary is now explicit: capture, timeline, and program-status
-components prepare structured inputs, while Truth Tools owns the final
-evidence review and publication gate.
+This is a sketch of the workflow, not a claim that the repositories run as one
+automatic pipeline:
 
-## Architecture
+**Capture -> source references and unreviewed notes -> Timeline/Program -> structured status draft -> Truth Tools -> checks and a review result.**
 
-The following is a conceptual, operator-or-agent-mediated flow, not a claim
-about a direct runtime pipeline:
+Capture Truth keeps source details and candidate claims. Its handoff uses
+locator-only references, so raw excerpts do not travel with the file. Source
+metadata stays nested under the source or claim it belongs to.
 
-**Capture -> provenance-preserving sources/unreviewed candidate claims -> Timeline/Program -> Program Truth emits canonical `StatusArtifact` v2 -> Truth Tools -> artifact quality + conservative consistency result.**
+Timeline Truth prepares planning inputs. Program Truth emits the canonical
+`StatusArtifact` v2 directly, including a supplied explicit assessment and
+active signals. Truth Tools checks that supplied file through the command line
+or two read-only MCP tools, then returns Markdown and JSON. It compares the
+assessment with the active claim floor and reports a conservative consistency result.
+That result is a consistency check, not a measurement of project
+health.
 
-Capture agents or adapters preserve source metadata and unreviewed candidate
-claims. The canonical handoff carries locator-only references; source excerpts
-and raw bodies do not cross that boundary. Metadata remains nested in its
-declared source/claim metadata boundary rather than being promoted into claim
-content.
-Timeline Truth provides structured planning inputs, while Program Truth emits
-the canonical `StatusArtifact` v2 directly with structured and reviewed program
-claims. The artifact carries a supplied explicit assessment and active signals
-for Truth Tools; this is not described as a direct component-to-component
-runtime pipeline. Truth Tools then normalizes and validates that supplied
-artifact with one deterministic core shared by the CLI and the two read-only
-MCP tools: `truth.review` and `truth.doctor`. The result is a `TruthReview` with
-Markdown and JSON output plus explicit CI exit-code gates. Truth Tools
-reconciles the supplied explicit assessment with the active claim floor into a
-conservative consistency result. That result is not health derived only from
-claims, and it does not prove program health or semantic source support.
+## A few choices I made
 
-The surrounding Truth Suite remains componentized: Capture Truth prepares
-source metadata and candidate claims, Timeline Truth provides planning inputs,
-and Program Truth emits structured and reviewed program claims. Truth Tools
-owns the contract, deterministic review, demo, and evaluation boundary.
+- **Dates can disagree.** The repository calls this the snapshot gap.
+  `as_of`, `observed_at`, and `source_updated_at` stay separate so a newer
+  source is visible instead of being treated as automatically current.
+- **Privacy stays narrow.** Records carry metadata and references, not raw Jira
+  tickets or document bodies. The demo has no login, telemetry, or network
+  requests.
+- **Quality and health are different.** A well-formed status file can still
+  describe a blocked project.
+- **Publishing uses OIDC.** The npm and Pages workflows avoid long-lived
+  registry tokens.
+- **The demo uses an exact suite lock.** CI can check the exact companion
+  versions. A checked-in public-safe copy remains the local fallback, and a
+  portable render is used only after the portable approval step.
+- **The tools share one contract.** The command line, MCP tools, reports, and
+  checks use the same JSON Schema instead of each assuming its own shape.
 
-## Engineering decisions
+## What you can inspect
 
-- **Snapshot gap:** `as_of`, `observed_at`, and `source_updated_at` are kept
-  distinct, so a source that changed after its snapshot is a visible review
-  finding rather than silently fresh evidence.
-- **Privacy boundary:** source records carry metadata and structured
-  references, never raw Jira or document bodies. The static demo has no login,
-  telemetry, or network requests.
-- **Quality and health:** `artifact_quality` (`pass`, `needs_review`, `fail`)
-  is independent from `program_health` (`on_track`, `at_risk`, `blocked`,
-  `unknown`). A quality pass must not turn a blocked program green.
-- **OIDC release provenance:** publishing is designed around trusted npm and
-  Pages workflows with GitHub OIDC rather than long-lived registry tokens.
-- **Exact suite lock:** the integrated demo locks the exact `capture-truth`,
-  timeline-truth, and program-truth component checkouts and can require those
-  exact sibling APIs in CI; a checked-in public-safe projection is the honest
-  local fallback. Capture's portable render is used only after its explicit
-  portable approval boundary.
-- **One contract:** canonical JSON Schema contracts are shared by CLI, MCP,
-  generated reports, and verification instead of relying on implicit shapes.
+The repository includes the schemas, command-line and read-only MCP interfaces,
+a no-login demo, sample inputs, generated reports, timeline-drift output, and a
+small evaluation setup.
 
-## Evidence I can show
+## Limits
 
-The repository includes canonical JSON Schema contracts, CLI and read-only MCP
-interfaces, a static no-login demo, launch-readiness fixtures, generated
-reports, timeline-drift output, and a repeatable evaluation harness.
+The hand-written and seeded synthetic tests only check whether the code follows
+its documented rules. They do not show that it improves real status updates,
+saves time, or has been adopted. Testing those claims would need anonymized
+real examples, a documented labeling process, a second reviewer, and measured
+misses and false positives.
 
-## Honest evaluation boundary
+## What I practised
 
-The hand-written and seeded synthetic suites are repeatable policy tests. They
-measure whether the engine implements its own documented rules, not whether it
-improves real-world status quality, saves time, or has adoption. Proving that
-boundary would require anonymized real artifacts, a documented labeling process
-with a second labeler, and measured misses and false positives.
-
-## TPM competencies
-
-This project shows product reset and scope control, contract-first thinking,
-cross-component dependency management, privacy-aware release planning,
-quality-gate design, deterministic verification, and honest communication of
-evidence, risk, and uncertainty.
+I used this project to practise narrowing scope, writing shared contracts,
+tracking dependencies between small tools, thinking about privacy and release
+checks, and being clear about what the evidence cannot show.
 
 ## Links
 
 - [Public repository](https://github.com/hilmimuktitama/truth-tools)
 - [Live demo](https://hilmimuktitama.github.io/truth-tools/)
-- [Portfolio case study (this page)](/work/truth-tools/)
+- [This experiment](/work/truth-tools/)
 - [Capture Truth component](https://github.com/hilmimuktitama/capture-truth)
 - [Timeline Truth component](https://github.com/hilmimuktitama/timeline-truth)
 - [Program Truth component](https://github.com/hilmimuktitama/program-truth)

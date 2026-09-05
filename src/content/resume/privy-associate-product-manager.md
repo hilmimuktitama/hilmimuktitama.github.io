@@ -6,9 +6,9 @@ location: "Yogyakarta, Indonesia"
 period: "Mar 2020 - Nov 2020"
 summary: "Supported product delivery across multiple projects by translating business requirements into product backlogs and guiding client integration work."
 items:
-  - Worked closely with stakeholders to translate business requirements into product backlogs across multiple projects.
-  - Supported 20+ client API integrations, guiding external teams through technical onboarding and integration procedures.
-  - Defined and monitored development tasks within the sprint cycle, ensuring delivery aligned with product goals.
+  - Worked with stakeholders to turn business requirements into product backlogs.
+  - Supported API integrations for 20+ clients and helped external teams through onboarding.
+  - Tracked development work through the sprint and checked it against product goals.
 order: 40
 ---
 

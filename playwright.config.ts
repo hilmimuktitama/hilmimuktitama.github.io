@@ -24,7 +24,8 @@ export default defineConfig({
     video: "retain-on-failure"
   },
   webServer: {
-    command: "./node_modules/.bin/astro preview --host 127.0.0.1 --port 4321",
+    command: "node scripts/preview-for-tests.mjs",
+    url: baseURL,
     reuseExistingServer: false,
     timeout: 120_000
   },

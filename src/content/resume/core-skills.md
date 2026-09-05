@@ -1,7 +1,7 @@
 ---
 section: "skill"
 title: "Core skills"
-summary: "Program, product, and technical delivery skills aligned to B2B SaaS platform, customer data, rollout, and AI automation work."
+summary: "The areas I have worked in across program, product, and technical delivery."
 items:
   - Multi-squad Technical Program Management
   - Stakeholder Communication

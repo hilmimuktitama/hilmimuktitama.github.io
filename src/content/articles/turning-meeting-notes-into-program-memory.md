@@ -1,6 +1,6 @@
 ---
 title: "Turning Meeting Notes Into Program Memory"
-description: "How a cross-team kickoff note became reusable program memory for TPM execution, QA planning, dependency tracking, and future AI-assisted retrieval."
+description: "How I turned one cross-team kickoff note into something I could reuse for planning, testing, and later reference."
 pubDate: 2026-05-16
 tags:
   - TPM

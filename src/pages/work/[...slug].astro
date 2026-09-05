@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 const formatProjectStatus = (source: "github" | "manual") =>
-  source === "github" ? "public repo" : "case note";
+  source === "github" ? "public repository" : "project note";
 const projectUrl = new URL(Astro.url.pathname, Astro.site ?? "https://hilmimuktitama.github.io").toString();
 const structuredData = {
   "@context": "https://schema.org",
@@ -33,39 +33,38 @@ const structuredData = {
 ---
 
 <BaseLayout title={project.data.title} description={project.data.description} modifiedTime={project.data.updatedDate} structuredData={structuredData}>
-  <article class="reading-page project-detail-page">
+  <article class="reading-page project-detail-page" aria-labelledby="project-title">
     <header class="reading-header">
       <div class="reading-header-top">
-        <a class="back-link" href={withBase("/work/")}>← All work</a>
-        <span class="section-number" aria-hidden="true">{project.data.featured ? "01" : "—"}</span>
+        <a class="back-link" href={withBase("/work/")}><i class="ph ph-arrow-left" aria-hidden="true"></i> All experiments</a>
       </div>
-      <p class="eyebrow">{formatProjectStatus(project.data.source)} <span class="eyebrow-divider">/</span> case study</p>
-      <h1>{project.data.title}</h1>
+      <p class="eyebrow">{formatProjectStatus(project.data.source)} <span class="eyebrow-divider">/</span> experiment</p>
+      <h1 id="project-title">{project.data.title}</h1>
       <p class="lede">{project.data.description}</p>
       <div class="reading-meta">
         {project.data.language && <span>{project.data.language}</span>}
-        {project.data.updatedDate && <span>Updated {project.data.updatedDate.toLocaleDateString("en", { month: "long", year: "numeric" })}</span>}
+        {project.data.updatedDate && <span>Updated <time datetime={project.data.updatedDate.toISOString()}>{project.data.updatedDate.toLocaleDateString("en", { month: "long", year: "numeric" })}</time></span>}
       </div>
-      <div class="link-row">
+      <nav class="link-row project-detail-links" aria-label={`${project.data.title} links`}>
         {project.data.repoUrl && <a class="button-link primary external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Open repository</a>}
         {project.data.liveUrl && <a class="button-link external-link" href={project.data.liveUrl} target="_blank" rel="noreferrer">Live site</a>}
-      </div>
+      </nav>
     </header>
-    <div class="reading-layout">
+    <div class="reading-layout project-detail-layout">
       <aside class="reading-aside">
-        <p class="eyebrow">Read for</p>
-        <p>Context, change, evidence, and why the work matters.</p>
+        <p class="eyebrow">About this</p>
+        <p>What I tried, what changed, and what is still uncertain.</p>
       </aside>
-      <div class="prose">
+      <div class="prose project-detail-content">
         {project.data.glance && (
           <section class="project-glance" aria-labelledby="project-glance-title">
             <h2 id="project-glance-title">At a glance</h2>
             <dl>
-              {project.data.glance.problem && <><dt>Problem</dt><dd>{project.data.glance.problem}</dd></>}
-              {project.data.glance.myRole && <><dt>My role</dt><dd>{project.data.glance.myRole}</dd></>}
+              {project.data.glance.problem && <><dt>What I was trying to solve</dt><dd>{project.data.glance.problem}</dd></>}
+              {project.data.glance.myRole && <><dt>What I worked on</dt><dd>{project.data.glance.myRole}</dd></>}
               {project.data.glance.whatChanged && <><dt>What changed</dt><dd>{project.data.glance.whatChanged}</dd></>}
-              {project.data.glance.evidenceAvailable && <><dt>Evidence available</dt><dd>{project.data.glance.evidenceAvailable}</dd></>}
-              {project.data.glance.evaluationBoundary && <><dt>Evaluation boundary</dt><dd>{project.data.glance.evaluationBoundary}</dd></>}
+              {project.data.glance.evidenceAvailable && <><dt>What you can inspect</dt><dd>{project.data.glance.evidenceAvailable}</dd></>}
+              {project.data.glance.evaluationBoundary && <><dt>What this does not prove</dt><dd>{project.data.glance.evaluationBoundary}</dd></>}
             </dl>
           </section>
         )}

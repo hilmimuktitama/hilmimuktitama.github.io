@@ -1,6 +1,6 @@
 ---
 title: "Bug Reports Build Technical Instinct"
-description: "A personal essay on how TPMs, PMs, and other non-engineering roles can build better technical judgment by capturing bugs with context, evidence, and lightweight debugging habits."
+description: "What I learned about technical judgment by writing bug reports with more context, evidence, and a little browser debugging."
 pubDate: 2026-06-01T00:00:00+07:00
 tags:
   - TPM

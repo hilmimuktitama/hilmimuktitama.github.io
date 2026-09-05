@@ -48,37 +48,39 @@ const structuredData = {
 ---
 
 <BaseLayout title={article.data.title} description={article.data.description} ogType="article" publishedTime={publishedTime} modifiedTime={modifiedTime} tags={article.data.tags} structuredData={structuredData}>
-  <article class="reading-page article-detail-page">
-    <header class="reading-header">
-      <div class="reading-header-top">
-        <a class="back-link" href={withBase("/articles/")}>← All writing</a>
-        <span class="section-number" aria-hidden="true">✳</span>
+  <article class="writing-detail-page">
+    <header class="writing-detail-header">
+      <div class="writing-detail-nav">
+        <a class="writing-detail-back" href={withBase("/articles/")}><i class="ph ph-arrow-left" aria-hidden="true"></i> All writing</a>
+        <span class="writing-detail-mark" aria-hidden="true">A note from the work</span>
       </div>
-      <p class="eyebrow">Field note <span class="eyebrow-divider">/</span> {formattedDate}</p>
+      <p class="writing-detail-label">Writing <span aria-hidden="true">/</span> <time datetime={publishedTime}>{formattedDate}</time></p>
       <h1>{article.data.title}</h1>
-      <p class="lede">{article.data.description}</p>
+      <p class="writing-detail-lede">{article.data.description}</p>
       {article.data.tags.length > 0 && (
-        <div class="tag-row" aria-label="Article tags">
-          {article.data.tags.map((tag) => <span class="tag">{tag}</span>)}
-        </div>
+        <ul class="writing-detail-tags" aria-label="Article topics">
+          {article.data.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
       )}
     </header>
-    <div class="reading-layout">
-      <aside class="reading-aside">
-        <p class="eyebrow">A note from the notebook</p>
-        <p>Read slowly. The useful part is usually one paragraph past the summary.</p>
+
+    <div class="writing-detail-layout">
+      <aside class="writing-detail-aside">
+        <p class="writing-detail-aside-label">Why I write</p>
+        <p>Writing helps me slow down, test what I think I know, and leave room to change my mind.</p>
       </aside>
-      <div class="prose">
+      <div class="writing-detail-body prose">
         <Content />
       </div>
     </div>
-    <footer class="article-next">
-      <p class="eyebrow">Continue reading</p>
-      <a href={withBase(`/articles/${getEntrySlug(nextArticle)}/`)}>
+
+    <footer class="writing-detail-footer">
+      <p class="writing-detail-footer-label">Continue reading</p>
+      <a class="writing-detail-next" href={withBase(`/articles/${getEntrySlug(nextArticle)}/`)}>
         <span>{nextArticle.data.title}</span>
-        <span aria-hidden="true">↗</span>
+        <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
       </a>
-      <a class="all-writing" href={withBase("/articles/")}>View all writing</a>
+      <a class="writing-detail-all" href={withBase("/articles/")}>View all writing</a>
     </footer>
   </article>
 </BaseLayout>

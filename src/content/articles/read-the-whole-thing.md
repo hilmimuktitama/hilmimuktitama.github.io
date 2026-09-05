@@ -1,6 +1,6 @@
 ---
 title: "Read The Whole Thing"
-description: "AI now produces the artifacts, the skills, and the workflows you asked for. That does not remove your job. You still have to read all of it, review it, and test it where it is uncomfortable, especially before you hand it to a group."
+description: "AI can produce a lot of work quickly. I still think someone needs to read it carefully, review it, and test the uncomfortable parts before sharing it with a group."
 pubDate: 2026-06-25T00:00:00+07:00
 tags:
   - AI

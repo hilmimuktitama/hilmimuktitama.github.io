@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "@phosphor-icons/web/regular";
 import { GITHUB_URL, LINKEDIN_URL, withBase } from "../lib/urls";
 
 interface Props {
@@ -16,7 +17,7 @@ interface Props {
 
 const {
   title = "Hilmi Muktitama",
-  description = "Senior Technical Program Manager focused on B2B SaaS platform delivery, customer data, AI automation, rollout readiness, and source-backed program execution.",
+  description = "Hilmi Muktitama is a Senior Technical Program Manager who writes about software delivery, AI tools, and what he is learning along the way.",
   showContactFooter = true,
   ogType = "website",
   ogImage,
@@ -101,21 +102,23 @@ const isCurrent = (path: string) => pathname.startsWith(withBase(path));
       <header class="site-header">
         <div class="site-header-inner">
           <a class="brand" href={withBase("/")} aria-label="Hilmi Muktitama home">
-            <span class="brand-mark">HM</span>
             <span class="brand-copy">
               <span class="brand-name">Hilmi Muktitama</span>
-              <span class="brand-role">Technical Program Manager</span>
+              <span class="brand-role">Senior Technical Program Manager at Mekari</span>
             </span>
           </a>
           <nav class="site-nav" aria-label="Primary navigation">
-            <a href={withBase("/work/")} aria-current={isCurrent("/work/") ? "page" : undefined}>Work</a>
             <a href={withBase("/articles/")} aria-current={isCurrent("/articles/") ? "page" : undefined}>Writing</a>
+            <a href={withBase("/work/")} aria-current={isCurrent("/work/") ? "page" : undefined}>Experiments</a>
             <a href={withBase("/resume/")} aria-current={isCurrent("/resume/") ? "page" : undefined}>Resume</a>
             <a href={withBase("/contact/")} aria-current={isCurrent("/contact/") ? "page" : undefined}>Contact</a>
           </nav>
           <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to dark mode">
-            <span class="theme-icon" aria-hidden="true">◐</span>
-            <span data-theme-toggle-value>Light</span>
+            <span class="theme-toggle-icons" aria-hidden="true">
+              <i class="ph ph-sun theme-icon-light"></i>
+              <i class="ph ph-moon theme-icon-dark"></i>
+            </span>
+            <span class="sr-only" data-theme-toggle-value>Light</span>
           </button>
         </div>
       </header>
@@ -124,14 +127,13 @@ const isCurrent = (path: string) => pathname.startsWith(withBase(path));
       </main>
       {showContactFooter && (
         <footer class="site-footer" id="contact">
-          <div class="footer-mark" aria-hidden="true">HM</div>
           <div class="footer-intro">
-            <p class="footer-kicker">A working notebook by Hilmi Muktitama.</p>
-            <p class="muted">Program clarity, technical judgment, and the work between a decision and a release.</p>
+            <p class="footer-kicker">Notes by Hilmi Muktitama.</p>
+            <p class="muted">Software work, AI tools, and things I am still figuring out.</p>
           </div>
           <div class="footer-cta">
-            <p class="footer-kicker">Have a difficult program to move?</p>
-            <a href={withBase("/contact/")}>Let's talk <span aria-hidden="true">↗</span></a>
+            <p class="footer-kicker">Want to compare notes?</p>
+            <a href={withBase("/contact/")}>Say hello <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
           </div>
           <div class="footer-links" aria-label="Contact links">
             <a href="mailto:hilmimukti@gmail.com">hilmimukti@gmail.com</a>

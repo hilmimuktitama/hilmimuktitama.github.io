@@ -260,15 +260,30 @@ for (const route of ["/work/", "/articles/"] as const) {
         await preparePage(page);
         await page.goto(route, { waitUntil: "networkidle" });
         const geometry = await page.locator(route === "/work/" ? ".work-index-list" : ".article-index-list").evaluate((list, currentRoute) => {
-          const section = list.closest("section")!;
-          const intro = section.querySelector<HTMLElement>(".page-intro-body")!;
+          const pageSection = list.closest<HTMLElement>(currentRoute === "/work/" ? ".page-intro" : ".writing-index-page")!;
+          const intro = pageSection.querySelector<HTMLElement>(".page-intro-body")!;
+          const layout = currentRoute === "/work/" ? list : list.closest<HTMLElement>(".writing-index-archive")!;
           const description = list.querySelector<HTMLElement>(currentRoute === "/work/" ? ".project-desc" : ".article-index-item > div > p")!;
           const listBox = list.getBoundingClientRect();
           const introBox = intro.getBoundingClientRect();
-          return { listLeft: listBox.left, introLeft: introBox.left, listWidth: listBox.width, sectionWidth: section.getBoundingClientRect().width, descriptionWidth: description.getBoundingClientRect().width };
+          const layoutBox = layout.getBoundingClientRect();
+          return {
+            listLeft: listBox.left,
+            introLeft: introBox.left,
+            layoutLeft: layoutBox.left,
+            listWidth: listBox.width,
+            layoutWidth: layoutBox.width,
+            descriptionWidth: description.getBoundingClientRect().width
+          };
         }, route);
-        expect(Math.abs(geometry.listLeft - geometry.introLeft)).toBeLessThanOrEqual(2);
-        expect(geometry.listWidth).toBeGreaterThanOrEqual(geometry.sectionWidth * 0.7);
+        expect(Math.abs(geometry.layoutLeft - geometry.introLeft)).toBeLessThanOrEqual(2);
+        if (route === "/articles/") {
+          expect(geometry.listLeft).toBeGreaterThan(geometry.layoutLeft + 150);
+          expect(geometry.listWidth).toBeGreaterThanOrEqual(geometry.layoutWidth * 0.55);
+        } else {
+          expect(Math.abs(geometry.listLeft - geometry.introLeft)).toBeLessThanOrEqual(2);
+          expect(geometry.listWidth).toBeGreaterThanOrEqual(geometry.layoutWidth * 0.7);
+        }
         expect(geometry.descriptionWidth).toBeGreaterThan(200);
       });
     }

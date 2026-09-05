@@ -1,6 +1,6 @@
 ---
 title: "A Bridge Is the Wrong Job Description"
-description: "Engineers and product managers are expanding toward each other with AI, so what is left for the TPM who used to be the translator? A working theory: the bridge was the wrong job description, and the real job is owning coherence across a faster, partly-agentic delivery system."
+description: "A working theory about how the TPM role may change as engineers and product managers do more of each other’s work with AI."
 pubDate: 2026-08-11T00:00:00+07:00
 tags:
   - TPM

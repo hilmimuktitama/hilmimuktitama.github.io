@@ -12,19 +12,27 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
 
 <BaseLayout
   title="Resume"
-  description="Resume for Hilmi Muktitama, Senior Technical Program Manager at Mekari with experience across B2B SaaS platform delivery, customer data, AI automation, product management, and QA engineering."
+  description="Resume for Hilmi Muktitama, a Senior Technical Program Manager at Mekari with a background in QA, product management, and software delivery."
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Hilmi Muktitama",
+    jobTitle: "Senior Technical Program Manager",
+    url: new URL(Astro.url.pathname, Astro.site ?? "https://hilmimuktitama.github.io").toString(),
+    sameAs: [LINKEDIN_URL, GITHUB_URL],
+    worksFor: { "@type": "Organization", name: "Mekari" }
+  }}
 >
-  <article class="resume-page">
-    <header class="resume-hero">
+  <article class="resume-page" aria-labelledby="resume-title">
+    <header class="resume-hero resume-intro">
       <div class="section-aside">
         <p class="eyebrow">Resume</p>
-        <p class="section-number" aria-hidden="true">04</p>
       </div>
       <div class="resume-hero-body">
-        <h1>Hilmi Muktitama</h1>
+        <h1 id="resume-title">Hilmi Muktitama</h1>
         <p class="role-title">Senior Technical Program Manager</p>
         <p class="lede">
-          Senior TPM at Mekari with 5+ years across program management, product management, and QA engineering, currently leading cross-squad B2B SaaS platform and automation programs.
+          I’m a Senior TPM at Mekari. I started in QA, moved into product, and now help teams plan and deliver platform and automation work.
         </p>
         <div class="resume-contact" aria-label="Public resume contact links">
           <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn</a>
@@ -33,16 +41,16 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
       </div>
     </header>
 
-    <section class="resume-section" aria-labelledby="experience-title">
-      <div class="resume-section-heading">
-        <p class="eyebrow">01 / Experience</p>
+    <section class="resume-section resume-experience" aria-labelledby="experience-title">
+      <header class="resume-section-heading">
+        <p class="eyebrow">Experience</p>
         <h2 id="experience-title">Work history</h2>
-      </div>
+      </header>
       <div class="resume-timeline">
         {experience.map((entry) => (
-          <article class="resume-role">
+          <article class="resume-role resume-experience-entry">
             <div class="resume-role-meta">
-              <p>{entry.data.period}</p>
+              <p><span class="sr-only">Period: </span>{entry.data.period}</p>
               {entry.data.location && <p>{entry.data.location}</p>}
             </div>
             <div>
@@ -60,14 +68,14 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
       </div>
     </section>
 
-    <section class="resume-section resume-grid-section" aria-labelledby="credentials-title">
-      <div class="resume-section-heading">
-        <p class="eyebrow">02 / Credentials</p>
+    <section class="resume-section resume-credentials" aria-labelledby="credentials-title">
+      <header class="resume-section-heading">
+        <p class="eyebrow">Background</p>
         <h2 id="credentials-title">Skills, education, and certifications</h2>
-      </div>
-      <div class="resume-grid">
-        <section class="resume-card resume-skill-block" aria-labelledby="skills-title">
-          <h3 id="skills-title">Top skills</h3>
+      </header>
+      <div class="resume-credential-groups">
+        <section class="resume-credential-group resume-skill-block" aria-labelledby="skills-title">
+          <h3 id="skills-title">Areas I work in</h3>
           {skills.map((entry) => (
             <div>
               <p>{entry.data.summary}</p>
@@ -78,7 +86,7 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
           ))}
         </section>
 
-        <section class="resume-card" aria-labelledby="education-title">
+        <section class="resume-credential-group" aria-labelledby="education-title">
           <h3 id="education-title">Education</h3>
           {education.map((entry) => (
             <div class="credential-item">
@@ -95,7 +103,7 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
           ))}
         </section>
 
-        <section class="resume-card" aria-labelledby="certifications-title">
+        <section class="resume-credential-group" aria-labelledby="certifications-title">
           <h3 id="certifications-title">Certifications</h3>
           {certifications.map((entry) => (
             <div class="credential-item">

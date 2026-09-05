@@ -5,28 +5,29 @@ import { GITHUB_URL, LINKEDIN_URL } from "../lib/urls";
 
 <BaseLayout
   title="Contact"
-  description="Contact Hilmi Muktitama for Senior Technical Program Manager roles across program and product delivery, platform work, and AI automation readiness."
+  description="Get in touch with Hilmi Muktitama about technical program work, product delivery, or software projects."
   showContactFooter={false}
 >
   <section class="section contact-page" aria-labelledby="contact-title">
     <div class="section-aside">
-      <p class="eyebrow">Open line</p>
-      <p class="section-number" aria-hidden="true">05</p>
+      <p class="eyebrow">Contact</p>
     </div>
     <div class="contact-body">
-      <p class="eyebrow">Hilmi Muktitama <span class="eyebrow-divider">/</span> Jakarta, Indonesia</p>
-      <h1 id="contact-title">Let's talk about the work that needs making clearer.</h1>
-      <p class="lede">Open to roles where program and product delivery matter, especially when the path from ambiguity to release needs a steady hand.</p>
-      <div class="contact-letter">
+      <header class="contact-header">
+        <p class="eyebrow">Hilmi Muktitama <span class="eyebrow-divider">/</span> Jakarta, Indonesia</p>
+        <h1 id="contact-title">Let’s compare notes.</h1>
+        <p class="lede">I’m open to conversations about technical program roles, product delivery, and the messy coordination work in between.</p>
+      </header>
+      <address class="contact-letter contact-primary">
         <p class="eyebrow">Best way to reach me</p>
-        <a class="contact-email" href="mailto:hilmimukti@gmail.com">hilmimukti@gmail.com <span aria-hidden="true">↗</span></a>
+        <a class="contact-email" href="mailto:hilmimukti@gmail.com">hilmimukti@gmail.com <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
         <p class="contact-note">A short note about the problem, the team, or the role is a good place to start.</p>
-      </div>
-      <div class="contact-elsewhere">
+      </address>
+      <nav class="contact-elsewhere contact-secondary" aria-label="Other ways to connect">
         <p class="eyebrow">Elsewhere</p>
         <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn</a>
         <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub</a>
-      </div>
+      </nav>
     </div>
   </section>
 </BaseLayout>

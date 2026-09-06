@@ -8,13 +8,13 @@ tags:
   - judgment
 ---
 
-An assistant can help me assemble a weekly update. I still have to decide whether the program is in trouble. That gap is where I want to examine the TPM role: what changes when producing an account of the work becomes easier than resolving the problems inside it?
+An assistant can help me assemble a weekly update. I still have to decide whether the program is in trouble. That gap raises a broader question for TPMs: how should we change our work when AI helps people produce both program information and software, while the program still needs reliable commitments across teams?
 
 In [A Bridge Is the Wrong Job Description](/articles/a-bridge-is-the-wrong-job-description/), I wrote about the anxiety behind this change. Engineers and product managers can use AI to do more of each other's work. A TPM who earns a seat through translation has reason to reconsider that contribution.
 
-In an ordinary week, a TPM running a billing migration can face this without shipping an AI feature. Engineers use agents to implement changes. Product arrives with a prototype. The TPM uses an assistant to reconcile notes and tickets. The product stays familiar while the work around it changes.
+Consider a hypothetical billing migration. Engineers use agents to implement changes. Product arrives with a prototype. The TPM uses an assistant to reconcile notes and tickets. AI affects both how the TPM manages the program and how the teams do the work being managed. The migration itself does not need to ship an AI feature for either change to matter.
 
-My working thesis is that **AI shifts the balance of TPM work toward examining evidence, designing workflows, and resolving decisions.** Less manual assembly could make room for that work. It also puts pressure on a role built around being the person everyone asks for context.
+My working thesis is that **AI can shift the balance of TPM work toward examining evidence, designing workflows, and resolving decisions.** When drafts and code become easier to produce, more of the unresolved work may sit in assessing them and agreeing what happens next. Whether this frees TPM time depends on how much supervision and rework the tools require.
 
 Anthropic and OpenAI's openings give me a way to examine the thesis. What do these companies still want TPMs to own when AI is close at hand?
 
@@ -30,7 +30,7 @@ Technical depth and readiness were already part of the work. So was building som
 
 ## Why the AI labs are useful evidence
 
-Anthropic has published evidence of substantial internal AI use. Its December 2025 study surveyed 132 engineers and researchers, conducted 53 interviews, and examined Claude Code usage. Respondents reported using Claude in about 60% of their work. Most said they could fully delegate only 0–20%. Supervision and validation remained part of using it.[^8] Those figures describe surveyed technical staff, not TPMs. They give us context for reading the openings.
+Anthropic has published evidence of substantial internal AI use. Its December 2025 study surveyed 132 engineers and researchers, conducted 53 interviews, and examined Claude Code usage. Respondents reported using Claude in about 60% of their work. Most said they could fully delegate only 0–20% of their work. Supervision and validation remained part of using it.[^8] Those figures describe surveyed technical staff, not TPMs. They give us context for reading the openings.
 
 Anthropic's **Launches** posting still asks for dependency sequencing, status communication, decision logs, and tradeoffs between speed, quality, and scope.[^9] Much of that would be recognizable to the TPM in Dropbox's earlier account. A company reporting extensive AI use still hires for coordination across teams. The posting leaves open how much supporting paperwork is automated.
 
@@ -38,9 +38,7 @@ OpenAI's **Applied API & Product** opening makes tool use explicit. It asks the 
 
 Anthropic's **Research** TPM opening asks for problem definition as well as execution. The TPM identifies gaps, builds programs without established playbooks, shapes evaluation plans early, and recommends technical decisions.[^10] That shows what technical judgment means in this research setting: helping establish what needs to be learned and how the results will inform a decision. The posting supports the continued importance of that judgment. It does not show that AI introduced the responsibility.
 
-I read these labs as places to look for early signals. Their resources and research needs differ from other organizations. Still, their expectations let us examine what persists alongside AI adoption and what could travel beyond the labs.
-
-The distinction I want to keep is between a new tool, a change in the balance of work, and a domain specialization. OpenAI explicitly naming AI tooling is evidence of the first. Whether it frees TPM time for decisions needs observation. Evaluation infrastructure and training resources describe the domain. Reading the postings this way lets me learn from them without assuming every AI-lab duty is the future of every TPM.
+The labs' resources and research needs differ from other organizations. I want to distinguish a new tool, a change in the balance of work, and a domain specialization. OpenAI explicitly naming AI tooling is evidence of the first. Whether it frees TPM time for decisions needs observation. Evaluation infrastructure and training resources describe the domain. The openings establish employer expectations; the workflow examples below explore how changes in producing information and software could affect a familiar program.
 
 ## The status update needs a dependable workflow
 
@@ -54,7 +52,7 @@ I would want the tool to flag the condition and link both sources. Then I can ge
 
 ## The plan must follow the bottleneck
 
-DORA's March 2026 analysis describes time saved in generation being reallocated to auditing and verification. It also reports higher AI adoption associated with both greater delivery throughput and greater instability.[^3] I draw a planning implication from that research: check which stage actually became faster before changing the program's commitments.
+DORA's March 2026 analysis of 1,110 open-ended responses from Google software engineers describes time saved in generation being reallocated to auditing and verification. The article also cites the 2025 DORA report's association between higher AI adoption, greater delivery throughput, and greater instability.[^3] I draw a planning implication from that research: check which stage actually became faster before changing the program's commitments.
 
 Imagine the migration team finishes three adapters early. The engineer who must review compatibility is still handling an incident. Work has reached the review queue sooner, but the reviewer is unavailable. The launch date needs its own justification. I would make review capacity explicit and agree manageable batches with engineering. These are familiar practices whose priority can change when one stage accelerates.
 
@@ -76,47 +74,23 @@ DORA's research on builder intent describes a loosening relationship between tit
 
 Suppose a product manager uses AI to build a working version of the migration's admin screen. Stakeholders can try the flow before engineering has assessed permissions, integrations, or reliability. That can improve the product discussion. It can also make the work look closer to delivery than it is. The demo demonstrates a flow; it leaves production questions unanswered.
 
-Different people have always authored, reviewed, and operated software. The change to examine here is when a convincing artifact becomes available relative to those reviews. If AI helps someone build the demo before feasibility is assessed, the TPM needs to make the remaining assessment and implementation work visible before anyone promises a launch date. Product can explain what the demo has validated, engineering can identify what remains technically unproven, and the plan can name owners for the next steps.
+If AI helps someone build the demo before feasibility is assessed, the TPM needs to make the remaining assessment and implementation work visible before anyone promises a launch date. Product can explain which parts of the flow stakeholders tried and what feedback they gave. Engineering can identify which permissions, integration, and reliability checks remain. The plan needs owners and estimates for that work. Prototypes have always left such questions open; the possible change is how early someone can produce a convincing one.
 
-Technical learning has a purpose here. I need enough understanding of the permissions model to ask whether the demo restricts each user's access correctly. An AI explanation can help me prepare for that conversation with engineering. I should leave able to explain what still needs checking and how it affects delivery. The same access makes reading unfamiliar code or drafting a small tool more approachable for TPMs, provided we check those contributions and learn where they fail.
+Technical learning has a purpose here. I need enough understanding of the permissions model to ask whether the demo restricts each user's access correctly. An AI explanation can help me prepare for that conversation with engineering. I should leave able to explain what still needs checking and how it affects delivery.
 
-<figure class="tpm-comparison" aria-labelledby="tpm-comparison-title">
-<figcaption id="tpm-comparison-title"><strong>How I expect the work to shift</strong><span>A practical interpretation of the evidence, not a claim that every TPM followed the same historical path.</span></figcaption>
-<dl>
-<div class="tpm-comparison-row">
-<dt>Program status</dt>
-<dd><span class="tpm-era">Established work</span>Gather updates and establish which commitments are on track.</dd>
-<dd><span class="tpm-era">With AI in the workflow</span>Use AI to draft updates, then verify the claims and unresolved conditions before reporting progress.</dd>
-</div>
-<div class="tpm-comparison-row">
-<dt>Delivery planning</dt>
-<dd><span class="tpm-era">Established work</span>Sequence work around dependencies and available capacity.</dd>
-<dd><span class="tpm-era">With AI in the workflow</span>Recheck which stages are faster and where review or integration still limits delivery.</dd>
-</div>
-<div class="tpm-comparison-row">
-<dt>Scope and capacity</dt>
-<dd><span class="tpm-era">Established work</span>Agree the scope the team can realistically deliver with its available capacity.</dd>
-<dd><span class="tpm-era">With AI in the workflow</span>Reassess capacity as AI changes the effort required. Expand scope only when review, testing, and integration can support the additional work.</dd>
-</div>
-<div class="tpm-comparison-row">
-<dt>Cross-team ownership</dt>
-<dd><span class="tpm-era">Established work</span>Agree responsibilities and acceptance at handoffs.</dd>
-<dd><span class="tpm-era">With AI in the workflow</span>When prototypes arrive before engineering assessment, assign the remaining review and production work before committing to delivery.</dd>
-</div>
-<div class="tpm-comparison-row">
-<dt>Program tooling</dt>
-<dd><span class="tpm-era">Established work</span>Build or commission tools that reduce recurring coordination effort.</dd>
-<dd><span class="tpm-era">With AI in the workflow</span>Use AI to help build and run program tools. Define their inputs, check their results, and decide which actions still require review.</dd>
-</div>
-</dl>
-<p class="tpm-comparison-takeaway">The responsibility survives. The balance between doing the task, designing its workflow, and reviewing its result changes.</p>
-</figure>
+## Cross-team ownership needs an agreement behind the code
 
-## Delegation becomes part of the craft
+Cross-team ownership concerns what each team agrees to deliver and support. Google engineers in DORA's analysis described using AI to navigate unfamiliar codebases.[^3] That makes contributions across team boundaries a possibility worth examining. It does not tell us how those teams divided responsibility.
 
-I would start with a recurring task whose result I can inspect. For the migration, an assistant could compare this week's scope with the last agreed version. I would ask for the changes, links to both versions, and affected dependencies. Missing sources should remain visible. The relevant owners still decide what the changes mean for the launch.
+Consider a hypothetical extension of the migration: it needs tenant-permission support in an endpoint owned by the platform team. If AI reduces the effort of understanding that service, the migration team might offer to implement the change itself. This could save platform engineering time and change the original division of work. The teams still need to agree whether the platform team will accept the proposed behavior and take responsibility for the release and ongoing support.
 
-The TPM's work includes defining the assignment and checking it against known cases. It also includes deciding how the result enters the program record. A proposed change must remain a proposal until someone accepts it.
+I would bring the two engineering owners together to settle that agreement before either team commits its time. They might agree that the migration team authors the patch, updates its client, and runs the integration tests, while the platform team reviews and releases the endpoint change and maintains it afterward. The platform owner decides whether to accept the service change and commits to when it will be available for testing. The TPM makes sure both teams' plans reflect those responsibilities and dates. Contributions across teams already happen; my inference is that if AI makes them practical for more work, TPMs should revisit who will implement each dependency while securing the receiving team's agreement to review and support it.
+
+## AI program tools need checks for meaning
+
+AI can also help TPMs build and operate their own program tools. I would start with a recurring task whose result I can inspect. For the migration, an assistant could compare this week's scope with the last agreed version. I would ask for the changes, links to both versions, and affected dependencies. Missing sources should remain visible. The relevant owners still decide what the changes mean for the launch.
+
+A text diff can show which words changed. Asking an assistant to identify affected dependencies adds interpretation: it must connect the revised wording to work elsewhere in the program. That changes what I need to check in the tool. I need to test those interpretations against known cases and decide how reviewed results enter the program record. A proposed change must remain a proposal until someone accepts it.
 
 For that comparison tool, I would try a revision that changes only wording, another that changes a dependency, and one whose source is missing. The results would show whether it can distinguish those situations. I would also review missed changes in actual use. An assistant that flags everything simply moves the reading burden into another queue; its usefulness depends on helping a reviewer find consequential changes.
 
@@ -130,23 +104,60 @@ The safety openings make another part of the work visible. OpenAI's **AI Safety 
 
 Anthropic's **Safeguards (Infrastructure & Evals)** role names the recurring work: service-level objectives, incident follow-through, current runbooks, and completed post-mortem actions.[^12] It asks for enough production-ML understanding to triage effectively. The TPM does not need to write the code, but must follow what is failing.
 
-Fullstory already described operational programs in its earlier account. The AI roles apply that ownership to the systems used to evaluate and constrain model behavior. That gives technical learning a direction: understanding whether the checks are ready, what they cover, and whether they continue to work as the system changes.
+Fullstory already described operational programs in its earlier account. These safety roles apply that ownership to the systems used to evaluate and constrain model behavior. They concern managing AI systems; the connection to our ordinary migration is the continuing responsibility for checks and operations after launch. To understand what AI use might change there, we need to examine the migration's workflow separately.
 
-Consider the migration after its first rollout. The team uses AI to change a shared interface before extending the rollout to more accounts. Earlier compatibility results cover the previous version. The TPM coordinates renewed checks with affected teams and makes sure the expansion decision uses results for the version that will actually run. That gives the readiness work a concrete purpose after launch.
+Consider the migration after its first rollout. The team uses AI to change a shared interface before extending the rollout to more accounts. Earlier compatibility results cover the previous version. The TPM coordinates renewed checks with affected teams and makes sure the expansion decision uses results for the version that will actually run. The service owner also checks that monitoring will catch failures in the updated interface and that the runbook names the right response. Readiness now includes both compatibility and the ability to operate the changed service.
 
 A human-written change would need the same care. If AI allows the team to attempt more changes between rollout stages, there is more work to connect each change to the checks and decisions it affects. My inference is that review planning and keeping those records current deserve more TPM attention in that situation. The safety openings illustrate ongoing ownership; they do not establish that AI adoption caused every responsibility they list.
 
 These checks also need a route to a decision. The TPM may maintain the readiness record while engineering assesses compatibility and product decides whether to narrow the rollout. If those owners disagree, there must be an escalation path. Faster evidence gathering helps prepare that conversation. It does not give the TPM authority to accept a risk on someone else's behalf.
 
+<figure class="tpm-comparison" aria-labelledby="tpm-comparison-title">
+<figcaption id="tpm-comparison-title"><strong>Where I would reassess TPM work</strong><span>Established responsibilities, with possible adjustments where AI changes the work.</span></figcaption>
+<dl>
+<div class="tpm-comparison-row">
+<dt>Program status</dt>
+<dd><span class="tpm-era">Established work</span>Gather and verify updates to establish which commitments are on track.</dd>
+<dd><span class="tpm-era">With AI in the workflow</span>Use AI to draft updates, then verify the claims and unresolved conditions before reporting progress.</dd>
+</div>
+<div class="tpm-comparison-row">
+<dt>Delivery planning</dt>
+<dd><span class="tpm-era">Established work</span>Sequence work around dependencies and available capacity.</dd>
+<dd><span class="tpm-era">With AI in the workflow</span>Recheck which stages are faster and where review or integration still limits delivery.</dd>
+</div>
+<div class="tpm-comparison-row">
+<dt>Scope and capacity</dt>
+<dd><span class="tpm-era">Established work</span>Agree the scope the team can realistically deliver with its available capacity.</dd>
+<dd><span class="tpm-era">With AI in the workflow</span>Reassess capacity as AI changes the effort required. Expand scope only when review, testing, integration, and support can accommodate the additional work.</dd>
+</div>
+<div class="tpm-comparison-row">
+<dt>Cross-team ownership</dt>
+<dd><span class="tpm-era">Established work</span>Agree what each team will deliver, who accepts it, and who supports it after handoff.</dd>
+<dd><span class="tpm-era">With AI in the workflow</span>If AI makes it practical to contribute to another team's service, revisit who implements the change and secure agreement on review, release, and ongoing support.</dd>
+</div>
+<div class="tpm-comparison-row">
+<dt>Program tooling</dt>
+<dd><span class="tpm-era">Established work</span>Build or commission tools that reduce recurring coordination effort, and check that they work correctly.</dd>
+<dd><span class="tpm-era">With AI in the workflow</span>Use AI to help build tools and interpret program records. Check those interpretations against known cases before relying on them for decisions.</dd>
+</div>
+<div class="tpm-comparison-row">
+<dt>Postlaunch readiness</dt>
+<dd><span class="tpm-era">Established work</span>Keep compatibility checks, monitoring, and response procedures current as the live service changes.</dd>
+<dd><span class="tpm-era">With AI in the workflow</span>If AI enables more changes between rollout stages, plan the checks and operational updates needed for each version before expanding the rollout.</dd>
+</div>
+</dl>
+<p class="tpm-comparison-takeaway">Start with the workflow that actually changed, then decide which evidence, capacity, or ownership agreement the program needs.</p>
+</figure>
+
 ## Where I would put the next hour
 
 Taken together, the openings suggest an evolution with several parts. Anthropic's Launches role preserves familiar coordination work. OpenAI explicitly brings AI into the TPM's tools. Research and safety roles make problem definition, technical evidence, and operational ownership concrete. The broader research helps explain why that combination deserves attention: people can produce more, cross familiar role boundaries, and still need to supervise the results.
 
-My expectation is that information handling alone becomes a weaker basis for the role wherever it can be automated reliably. The opportunity is to improve how the program makes commitments: what evidence it needs, which additional work the team can support, and who resolves a disagreement. That work should leave a usable decision. In the migration, that could be agreement that permissions testing can begin, or approval to expand the rollout after the updated interface passes compatibility checks.
+My expectation is that information handling alone becomes a weaker basis for the role wherever it can be automated reliably. AI may also change what teams can offer to build, so the opportunity extends to improving how the program makes commitments: what evidence it needs, which additional work the teams can support, and who owns each contribution. In the migration, that could mean the platform team agrees to review, release, and maintain the endpoint change while the migration team implements and tests it. Or the rollout owners agree to expand after compatibility and operational checks pass. Those are decisions the program can act on.
 
 There is no guarantee the TPM gets that larger mandate. Product and engineering leaders can absorb some of the work, and organizations will divide it differently. These sources cannot tell us whether TPM headcount will grow or shrink. They give me a direction for developing the role without pretending its future is settled.
 
-I would start with one recurring status workflow and use any saved preparation time on an ambiguity that matters. Perhaps the receiving team still needs confirmation that the endpoint supports tenant permissions. Perhaps nobody has agreed to maintain the new dashboard. Did we resolve that question before another team committed its time? Did the decision hold when the work reached integration? Those are the improvements I would look for as routine tasks become easier to delegate.
+I would start with one recurring status workflow and check whether it saves time after review and corrections. Any saving should go toward an ambiguity that matters: whether the platform team has agreed to support the endpoint change, or whether the migration team can maintain the new dashboard within its capacity. Did we resolve that question before another team committed its time? Did the decision hold when the work reached integration? Those are the improvements I would look for as routine tasks become easier to delegate.
 
 **Source note.** Sources checked September 6, 2026. Dropbox and Fullstory provide historical company examples. DORA and METR examine software work. Anthropic's internal study describes AI use among surveyed engineers and researchers. The five openings describe employer expectations, not measured changes in TPM time allocation. None of these sources isolates AI adoption as the cause of a hiring requirement. The implications for TPM work are my interpretation. The migration scenarios are hypothetical; the linked personal experiments describe their own limits.
 

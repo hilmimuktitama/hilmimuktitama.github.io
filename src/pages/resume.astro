@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { GITHUB_URL, LINKEDIN_URL, withBase } from "../lib/urls";
+import { GITHUB_URL, LINKEDIN_URL } from "../lib/urls";
 import { CONTACT_EMAIL, getResumeEntries, groupExperienceByOrganization } from "../lib/resume";
 
 const entries = await getResumeEntries();
@@ -36,8 +36,7 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
         </p>
         <div class="resume-actions" aria-label="Resume actions">
           <a class="resume-action resume-action-primary" href={`mailto:${CONTACT_EMAIL}`}>Contact me <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-          <a class="resume-action" href={withBase("/resume.pdf")} download="hilmi-muktitama-resume.pdf">Download resume (PDF) <i class="ph ph-download-simple" aria-hidden="true"></i></a>
-          <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+          <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">View on LinkedIn <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
           <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
         </div>
       </div>

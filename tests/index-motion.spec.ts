@@ -23,6 +23,12 @@ async function titleSnapshot(page: Page) {
 
 async function clickTitle(page: Page, titleIndex: number) {
   const title = page.locator(".view-transition-title").nth(titleIndex);
+  await title.scrollIntoViewIfNeeded();
+  // Below-fold entries can be transparent while Playwright considers them visible.
+  // Wait for their reveal to settle before testing the title's navigation.
+  await expect.poll(() => title.evaluate((element) =>
+    element.closest("[data-scroll-reveal]")?.getAttribute("data-scroll-state") ?? "shown"
+  )).toBe("shown");
   const link = title.locator("a");
   if (await link.count()) {
     await link.first().click();

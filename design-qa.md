@@ -229,3 +229,15 @@ The changes are applied locally at `http://127.0.0.1:4348/`. The user’s existi
 References: [MDN Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) and [MDN reduced-motion media query](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion). Motion timing and interruption behavior also follow the applied Emil design engineering and Apple design skills.
 
 final result: passed
+
+## Release preparation — 6 September 2026
+
+The pre-release privacy review covered the complete prospective repository, Git history, generated site, and public assets. Gitleaks 8.30.1 reported no secrets in the 231-file candidate, staged diff, generated output, or all 89 preceding commits. The dependency audit reported zero vulnerabilities. Two unnecessary machine-specific paths were removed from QA documentation. Public contact details, resume facts, and the Search Console verification file are intentional public information. Local environment files, caches, and test outputs are ignored; Pages publishes only the generated `dist` directory.
+
+The first GitHub workflow for `d89e7cf` passed build, dependency audit, site verification, and 99 browser checks, but four Writing screenshot comparisons failed. Comparing GitHub's expected and actual images showed that the reference images still contained earlier introductions, employer wording, date placement, and split action underlines. The actual images matched the approved current design. Those stale references had remained within the existing local comparison tolerance.
+
+All 14 Writing and Experiments references were regenerated from the current build and reviewed as paired before/after images at the same viewport and theme. The seven Writing pairs were reviewed by the primary agent; the seven Experiments pairs were independently reviewed by a LUNA agent. The intentional differences match the delivered changes documented above. No clipping, unintended wrapping, or theme regression was observed. Source code, tests, comparison thresholds, and article content were unchanged in this correction.
+
+The refreshed images are the existing 14 PNG paths in `tests/site.spec.ts-snapshots/`. The baseline refresh passed all 14 checks. A separate run without snapshot updates also passed all 14 comparisons.
+
+final result: passed

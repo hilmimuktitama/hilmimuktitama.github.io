@@ -1,0 +1,194 @@
+---
+import "../styles/scroll-motion.css";
+---
+
+<script is:inline>
+  (() => {
+    const revealSelector = "[data-scroll-reveal]";
+    const stateAttribute = "scrollState";
+    const animationName = "scroll-reveal-in";
+    const root = document.documentElement;
+    const candidates = Array.from(document.querySelectorAll(revealSelector));
+    const initialViewportWidth = window.innerWidth;
+    let observer;
+    let keyboardDisabled = false;
+    let pageHidden = false;
+    const setShown = (element) => {
+      element.dataset[stateAttribute] = "shown";
+      element.style.removeProperty("--scroll-reveal-delay");
+      element.removeEventListener("animationend", onAnimationFinished);
+      element.removeEventListener("animationcancel", onAnimationFinished);
+      try {
+        observer?.unobserve(element);
+      } catch {
+        // A broken observer must not keep a revealed element hidden.
+      }
+    };
+
+    const settleAll = (includePending = true) => {
+      candidates.forEach((element) => {
+        if (includePending || element.dataset[stateAttribute] === "entering") {
+          setShown(element);
+        }
+      });
+    };
+
+    const onAnimationFinished = (event) => {
+      if (event.animationName === animationName) setShown(event.currentTarget);
+    };
+
+    const enter = (element, delay = 0) => {
+      if (keyboardDisabled || pageHidden || element.dataset[stateAttribute] !== "pending") return;
+      element.style.setProperty("--scroll-reveal-delay", `${delay}ms`);
+      element.dataset[stateAttribute] = "entering";
+      try {
+        observer?.unobserve(element);
+      } catch {
+        // A broken observer must not keep a revealed element hidden.
+      }
+      element.addEventListener("animationend", onAnimationFinished);
+      element.addEventListener("animationcancel", onAnimationFinished);
+    };
+
+    const settleActive = (event) => {
+      settleAll(false);
+      const target = event.target instanceof Element ? event.target.closest(revealSelector) : null;
+      if (target?.dataset[stateAttribute] === "pending") setShown(target);
+    };
+    const disableForKeyboard = () => {
+      if (keyboardDisabled) return;
+      keyboardDisabled = true;
+      settleAll();
+      observer?.disconnect();
+      removeListeners();
+    };
+
+    const settleFocusedReveal = (event) => {
+      const target = event.target instanceof Element ? event.target.closest(revealSelector) : null;
+      if (target) setShown(target);
+    };
+
+    const settleHashReveal = () => {
+      if (!window.location.hash) return;
+      let id = window.location.hash.slice(1);
+      try {
+        id = decodeURIComponent(id);
+      } catch {
+        // An undecodable hash still gets a safe, static page.
+      }
+      const target = document.getElementById(id);
+      const reveal = target?.closest(revealSelector);
+      if (reveal) setShown(reveal);
+    };
+
+    const settlePage = () => {
+      pageHidden = true;
+      settleAll();
+      observer?.disconnect();
+      removeListeners();
+    };
+
+    const settleOnWidthChange = () => {
+      if (window.innerWidth !== initialViewportWidth) settlePage();
+    };
+
+    const removeListeners = () => {
+      document.removeEventListener("keydown", disableForKeyboard, true);
+      document.removeEventListener("focusin", settleFocusedReveal, true);
+      document.removeEventListener("pointerdown", settleActive, true);
+      window.removeEventListener("hashchange", settleHashReveal);
+      window.removeEventListener("resize", settleOnWidthChange);
+      window.removeEventListener("beforeprint", settlePage);
+      window.removeEventListener("pagehide", onPageHide);
+      if (reducedMotion) {
+        reducedMotion.removeEventListener?.("change", onMotionPreferenceChange);
+        reducedMotion.removeListener?.(onMotionPreferenceChange);
+      }
+      if (printMedia) {
+        printMedia.removeEventListener?.("change", onPrintPreferenceChange);
+        printMedia.removeListener?.(onPrintPreferenceChange);
+      }
+    };
+
+    const onPageHide = () => {
+      settlePage();
+    };
+
+    const onMotionPreferenceChange = (event) => {
+      if (event.matches) {
+        settlePage();
+      }
+    };
+
+    const onPrintPreferenceChange = (event) => {
+      if (event.matches) settlePage();
+    };
+
+    let reducedMotion;
+    let printMedia;
+    try {
+      reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      printMedia = window.matchMedia("print");
+    } catch {
+      settleAll();
+      return;
+    }
+
+    if (!candidates.length || root.dataset.input === "keyboard" || reducedMotion.matches || printMedia.matches || window.location.hash) {
+      settleAll();
+      return;
+    }
+
+    try {
+      const viewportHeight = window.innerHeight;
+      candidates.forEach((element) => {
+        const rect = element.getBoundingClientRect();
+        element.dataset[stateAttribute] = rect.top >= viewportHeight ? "pending" : "shown";
+      });
+
+      observer = new IntersectionObserver((entries) => {
+        try {
+          const entering = entries
+            .filter((entry) => entry.isIntersecting && entry.target.dataset[stateAttribute] === "pending")
+            .sort((a, b) => candidates.indexOf(a.target) - candidates.indexOf(b.target));
+          entering.forEach((entry, index) => enter(entry.target, index === 0 ? 0 : index === 1 ? 50 : 80));
+        } catch {
+          settleAll();
+          observer?.disconnect();
+        }
+      }, { threshold: 0, rootMargin: "0px 0px -40px 0px" });
+
+      candidates.forEach((element) => {
+        if (element.dataset[stateAttribute] === "pending") observer.observe(element);
+      });
+    } catch {
+      settleAll();
+      return;
+    }
+
+    const addChangeListener = (media, listener) => {
+      if (typeof media.addEventListener === "function") {
+        media.addEventListener("change", listener);
+      } else {
+        media.addListener?.(listener);
+      }
+    };
+
+    try {
+      document.addEventListener("keydown", disableForKeyboard, true);
+      document.addEventListener("focusin", settleFocusedReveal, true);
+      document.addEventListener("pointerdown", settleActive, { capture: true, passive: true });
+      window.addEventListener("hashchange", settleHashReveal);
+      window.addEventListener("resize", settleOnWidthChange, { passive: true });
+      window.addEventListener("beforeprint", settlePage);
+      window.addEventListener("pagehide", onPageHide);
+      addChangeListener(reducedMotion, onMotionPreferenceChange);
+      addChangeListener(printMedia, onPrintPreferenceChange);
+    } catch {
+      settleAll();
+      observer?.disconnect();
+      removeListeners();
+    }
+
+  })();
+</script>

@@ -1,0 +1,151 @@
+:root {
+  --motion-fast: 140ms;
+  --motion-ui: 220ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Keep the two theme glyphs in the same box so their state change can crossfade. */
+.theme-toggle-icons {
+  position: relative;
+  width: 1.4em;
+  height: 1.4em;
+}
+
+.theme-toggle-icons > .theme-icon-light,
+.theme-toggle-icons > .theme-icon-dark {
+  grid-area: 1 / 1;
+  display: inline-block;
+}
+
+.theme-icon-light,
+.theme-icon-dark {
+  opacity: 0;
+  transform: scale(0.86) rotate(-10deg);
+}
+
+.theme-icon-light {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+:root[data-theme="dark"] .theme-icon-light {
+  opacity: 0;
+  transform: scale(0.86) rotate(10deg);
+}
+
+:root[data-theme="dark"] .theme-icon-dark {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Keep press feedback inside the control's existing hit area. */
+.theme-toggle:active {
+  transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-input="keyboard"]) .theme-icon-light,
+  :root:not([data-input="keyboard"]) .theme-icon-dark {
+    transition: opacity var(--motion-ui) ease, transform var(--motion-ui) var(--ease-out);
+  }
+
+  :root:not([data-input="keyboard"]) .theme-toggle-icons {
+    transition: transform var(--motion-fast) var(--ease-out);
+  }
+
+  :root:not([data-input="keyboard"]) .theme-toggle:active .theme-toggle-icons {
+    transform: scale(0.92);
+  }
+
+  :root:not([data-input="keyboard"]) a:active > .ph,
+  :root:not([data-input="keyboard"]) a:active .action-link-label > .ph {
+    transform: scale(0.96);
+  }
+
+  :root:not([data-input="keyboard"]) .action-link-label > .ph {
+    transition: transform var(--motion-fast) var(--ease-out);
+  }
+
+  :root:not([data-input="keyboard"]) .site-nav a {
+    position: relative;
+    text-decoration: none;
+  }
+
+  :root:not([data-input="keyboard"]) .site-nav a[aria-current="page"] {
+    text-decoration: underline;
+  }
+
+  :root:not([data-input="keyboard"]) .site-nav a::after {
+    position: absolute;
+    right: 0;
+    bottom: 0.25rem;
+    left: 0;
+    height: 1px;
+    background: currentColor;
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--motion-fast) var(--ease-out);
+  }
+
+  :root:not([data-input="keyboard"]) .site-nav a:hover::after {
+    transform: scaleX(1);
+  }
+
+  :root:not([data-input="keyboard"]) .site-nav a[aria-current="page"]::after {
+    display: none;
+  }
+
+  :root:not([data-input="keyboard"]) .action-link-label > .ph-arrow-right,
+  :root:not([data-input="keyboard"]) .action-link-label > .ph-arrow-left,
+  :root:not([data-input="keyboard"]) a > .ph-arrow-right,
+  :root:not([data-input="keyboard"]) a > .ph-arrow-left {
+    transition: transform var(--motion-fast) var(--ease-out);
+  }
+
+  :root:not([data-input="keyboard"]) .action-link-label > .ph-arrow-right,
+  :root:not([data-input="keyboard"]) a > .ph-arrow-right {
+    transform: translateX(0);
+  }
+
+  :root:not([data-input="keyboard"]) .action-link-label > .ph-arrow-left,
+  :root:not([data-input="keyboard"]) a > .ph-arrow-left {
+    transform: translateX(0);
+  }
+
+  :root:not([data-input="keyboard"]) .action-link-label > .ph-arrow-up-right,
+  :root:not([data-input="keyboard"]) a > .ph-arrow-up-right {
+    transition: transform var(--motion-fast) var(--ease-out);
+    transform: translate(0, 0);
+  }
+
+  :root:not([data-input="keyboard"]) a:hover > .ph-arrow-right,
+  :root:not([data-input="keyboard"]) a:hover .action-link-label > .ph-arrow-right {
+    transform: translateX(3px);
+  }
+
+  :root:not([data-input="keyboard"]) a:hover > .ph-arrow-left,
+  :root:not([data-input="keyboard"]) a:hover .action-link-label > .ph-arrow-left {
+    transform: translateX(-3px);
+  }
+
+  :root:not([data-input="keyboard"]) a:hover > .ph-arrow-up-right,
+  :root:not([data-input="keyboard"]) a:hover .action-link-label > .ph-arrow-up-right {
+    transform: translate(2px, -2px);
+  }
+
+  :root:not([data-input="keyboard"]) a:active > .ph-arrow-right,
+  :root:not([data-input="keyboard"]) a:active .action-link-label > .ph-arrow-right {
+    transform: translateX(3px) scale(0.96);
+  }
+
+  :root:not([data-input="keyboard"]) a:active > .ph-arrow-left,
+  :root:not([data-input="keyboard"]) a:active .action-link-label > .ph-arrow-left {
+    transform: translateX(-3px) scale(0.96);
+  }
+
+  :root:not([data-input="keyboard"]) a:active > .ph-arrow-up-right,
+  :root:not([data-input="keyboard"]) a:active .action-link-label > .ph-arrow-up-right {
+    transform: translate(2px, -2px) scale(0.96);
+  }
+}

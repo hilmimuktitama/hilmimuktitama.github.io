@@ -13,6 +13,15 @@ const formatDate = (date?: Date) =>
 
 const formatProjectStatus = (source: "github" | "manual") =>
   source === "github" ? "public repository" : "project note";
+
+const projectDescriptors: Record<string, string> = {
+  "Truth Tools": "Checks whether a status draft has the evidence and metadata needed for review.",
+  "Capture Truth": "Records source details and unreviewed notes before they enter review.",
+  "Timeline Truth": "Builds timelines from planning notes while keeping gaps and references visible.",
+  "Program Truth": "Turns project evidence into a structured status draft with blockers and unknowns visible."
+};
+
+const getProjectDescriptor = (title: string, fallback: string) => projectDescriptors[title] ?? fallback;
 ---
 
 <BaseLayout title="Experiments" description="Small public experiments by Hilmi Muktitama about planning, project notes, and software delivery.">
@@ -22,26 +31,25 @@ const formatProjectStatus = (source: "github" | "manual") =>
     </div>
     <div class="page-intro-main">
       <header class="page-intro-body work-index-header">
-        <h1 id="work-title">On the workbench.</h1>
-        <p class="lede">I use these small repositories to try out ways of organizing plans, notes, evidence, and status updates.</p>
-        <p class="page-note">They are works in progress. I share them because the rough edges are part of what I’m learning.</p>
+        <h1 id="work-title">Experiments</h1>
+        <p class="lede">Small tools for keeping plans, evidence, and status easier to check.</p>
       </header>
-      <section class="work-index-list" aria-labelledby="work-list-title">
+      <section id="work-list" class="work-index-list" aria-labelledby="work-list-title">
         <h2 id="work-list-title" class="sr-only">Public experiments</h2>
         {projects.map((project) => (
-          <article class={`project-index-item work-entry ${project.data.featured ? "is-featured" : ""}`}>
+          <article class={`project-index-item work-entry ${project.data.featured ? "is-featured" : ""}`} data-scroll-reveal>
             <header class="project-index-title work-entry-header">
               <p class="item-meta"><span>{project.data.kind === "component" ? "Companion experiment" : "Experiment"}</span><span>{project.data.updatedDate ? <time datetime={project.data.updatedDate.toISOString()}>{formatDate(project.data.updatedDate)}</time> : "Update not recorded"}</span></p>
-              <h2><a href={withBase(`/work/${getEntrySlug(project)}/`)}>{project.data.title}</a></h2>
+              <h2 class="view-transition-title" style={`--title-view-transition-name: experiment-title-${getEntrySlug(project)}`}><a href={withBase(`/work/${getEntrySlug(project)}/`)}>{project.data.title}</a></h2>
               <div class="tag-row">
                 <span class="tag">{formatProjectStatus(project.data.source)}</span>
                 {project.data.language && <span class="tag">{project.data.language}</span>}
               </div>
             </header>
-            <p class="project-desc">{project.data.description}</p>
+            <p class="project-desc">{getProjectDescriptor(project.data.title, project.data.description)}</p>
             <nav class="project-actions work-entry-actions" aria-label={`${project.data.title} links`}>
-              <a class="row-action" href={withBase(`/work/${getEntrySlug(project)}/`)} aria-label={`See ${project.data.title} experiment`}>See experiment <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-              {project.data.repoUrl && <a class="external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Repository</a>}
+              <a class="row-action" href={withBase(`/work/${getEntrySlug(project)}/`)} aria-label={`See ${project.data.title} experiment`}><span class="action-link-label">See experiment <i class="ph ph-arrow-right" aria-hidden="true"></i></span></a>
+              {project.data.repoUrl && <a class="external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Repository <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>}
             </nav>
           </article>
         ))}

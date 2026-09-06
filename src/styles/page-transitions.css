@@ -1,0 +1,81 @@
+:root[data-input="keyboard"] { scroll-behavior: auto; }
+:root[data-input="keyboard"] :is(a, button, .ph, .theme-toggle-icons, .copy-email-content),
+:root[data-input="keyboard"] a::after { transition: none !important; }
+
+/* Match an index title to the same item's detail heading during pointer navigation. */
+:root[data-input="keyboard"] .view-transition-title,
+:root[data-transition="theme"] .view-transition-title {
+  view-transition-name: none;
+}
+
+@supports (view-transition-class: entry-title) {
+  .view-transition-title {
+    view-transition-name: var(--title-view-transition-name, none);
+    view-transition-class: entry-title;
+  }
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .site-header { view-transition-name: site-header; }
+
+  ::view-transition { pointer-events: none; }
+  ::view-transition-group(*) {
+    animation-duration: var(--motion-ui);
+    animation-timing-function: var(--ease-out);
+  }
+  ::view-transition-old(root) {
+    animation: page-fade-out var(--motion-fast) ease-out both;
+  }
+  ::view-transition-new(root) {
+    animation: page-arrive var(--motion-ui) var(--ease-out) both;
+  }
+
+  /* Keep the masthead still while the next page arrives beneath it. */
+  ::view-transition-group(site-header),
+  ::view-transition-new(site-header) { animation: none; }
+  ::view-transition-old(site-header) { animation: none; opacity: 0; }
+
+  @supports (view-transition-class: entry-title) {
+    /* Matched titles use the incoming text as the only visible snapshot. */
+    ::view-transition-old(.entry-title) {
+      animation: none;
+      opacity: 0;
+    }
+    ::view-transition-new(.entry-title) {
+      animation: none;
+      opacity: 1;
+      height: auto;
+      object-fit: contain;
+      object-position: left top;
+    }
+
+    /* Unmatched titles keep a short fade instead of disappearing abruptly. */
+    ::view-transition-old(.entry-title):only-child {
+      opacity: 1;
+      animation: page-fade-out var(--motion-fast) ease-out both;
+    }
+    ::view-transition-new(.entry-title):only-child {
+      animation: page-arrive var(--motion-ui) var(--ease-out) both;
+    }
+  }
+
+  :root[data-transition="theme"] .site-header { view-transition-name: none; }
+  :root[data-transition="theme"]::view-transition-old(root) {
+    animation: page-fade-out 180ms ease both;
+  }
+  :root[data-transition="theme"]::view-transition-new(root) {
+    animation: theme-fade-in 180ms ease both;
+  }
+
+  @keyframes page-fade-out { to { opacity: 0; } }
+  @keyframes page-arrive {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes theme-fade-in { from { opacity: 0; } }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  .view-transition-title { view-transition-name: none; }
+}

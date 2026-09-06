@@ -1,7 +1,9 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ReadingOutline from "../../components/ReadingOutline.astro";
 import { getEntrySlug } from "../../lib/content";
+import { getReadingTime } from "../../lib/reading";
 import { withBase } from "../../lib/urls";
 
 export async function getStaticPaths() {
@@ -16,7 +18,12 @@ export async function getStaticPaths() {
 }
 
 const { article } = Astro.props;
-const { Content } = await render(article);
+const { Content, headings } = await render(article);
+const outlineHeadings = headings.filter(({ depth, slug }) =>
+  (depth === 2 || depth === 3) && slug !== "footnote-label"
+);
+const hasReadingOutline = outlineHeadings.length >= 3;
+const readingTime = getReadingTime(article.body ?? "");
 const publishedArticles = (await getCollection("articles"))
   .filter((entry) => entry.data.pubDate.valueOf() <= Date.now())
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -32,7 +39,8 @@ const publishedTime = article.data.pubDate.toISOString();
 const modifiedTime = (article.data.updatedDate ?? article.data.pubDate).toISOString();
 const site = Astro.site ?? new URL("https://hilmimuktitama.github.io");
 const articleUrl = new URL(Astro.url.pathname, site).toString();
-const articleImage = new URL(withBase("/og-image.png"), site).toString();
+const articleImagePath = withBase(`/og/articles/${getEntrySlug(article)}.png`);
+const articleImage = new URL(articleImagePath, site).toString();
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -47,16 +55,17 @@ const structuredData = {
 };
 ---
 
-<BaseLayout title={article.data.title} description={article.data.description} ogType="article" publishedTime={publishedTime} modifiedTime={modifiedTime} tags={article.data.tags} structuredData={structuredData}>
+<BaseLayout title={article.data.title} description={article.data.description} ogImage={articleImage} ogType="article" publishedTime={publishedTime} modifiedTime={modifiedTime} tags={article.data.tags} structuredData={structuredData}>
   <article class="writing-detail-page">
     <header class="writing-detail-header">
       <div class="writing-detail-nav">
-        <a class="writing-detail-back" href={withBase("/articles/")}><i class="ph ph-arrow-left" aria-hidden="true"></i> All writing</a>
+        <a class="writing-detail-back" href={withBase("/articles/")}><span class="action-link-label"><i class="ph ph-arrow-left" aria-hidden="true"></i> All writing</span></a>
         <span class="writing-detail-mark" aria-hidden="true">A note from the work</span>
       </div>
       <p class="writing-detail-label">Writing <span aria-hidden="true">/</span> <time datetime={publishedTime}>{formattedDate}</time></p>
-      <h1>{article.data.title}</h1>
+      <h1 class="view-transition-title" style={`--title-view-transition-name: article-title-${getEntrySlug(article)}`}>{article.data.title}</h1>
       <p class="writing-detail-lede">{article.data.description}</p>
+      <div class="reading-meta"><span>{readingTime.label}</span></div>
       {article.data.tags.length > 0 && (
         <ul class="writing-detail-tags" aria-label="Article topics">
           {article.data.tags.map((tag) => <li>{tag}</li>)}
@@ -64,11 +73,8 @@ const structuredData = {
       )}
     </header>
 
-    <div class="writing-detail-layout">
-      <aside class="writing-detail-aside">
-        <p class="writing-detail-aside-label">Why I write</p>
-        <p>Writing helps me slow down, test what I think I know, and leave room to change my mind.</p>
-      </aside>
+    <div class:list={{ "writing-detail-layout": true, "has-reading-outline": hasReadingOutline }}>
+      <ReadingOutline headings={outlineHeadings} />
       <div class="writing-detail-body prose">
         <Content />
       </div>
@@ -78,9 +84,9 @@ const structuredData = {
       <p class="writing-detail-footer-label">Continue reading</p>
       <a class="writing-detail-next" href={withBase(`/articles/${getEntrySlug(nextArticle)}/`)}>
         <span>{nextArticle.data.title}</span>
-        <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+        <i class="ph ph-arrow-right" aria-hidden="true"></i>
       </a>
-      <a class="writing-detail-all" href={withBase("/articles/")}>View all writing</a>
+      <a class="writing-detail-all" href={withBase("/articles/")}><span class="action-link-label">View all writing</span></a>
     </footer>
   </article>
 </BaseLayout>

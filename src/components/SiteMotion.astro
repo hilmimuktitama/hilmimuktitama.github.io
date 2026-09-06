@@ -1,0 +1,25 @@
+<style is:inline id="navigation-motion" media="screen and (prefers-reduced-motion: no-preference)">
+  @view-transition { navigation: auto; }
+</style>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const navigationMotion = document.getElementById("navigation-motion");
+    const setInput = (input) => {
+      if (root.dataset.input === input) return;
+      root.dataset.input = input;
+      // Opt out before keyboard navigation starts; native links and history stay intact.
+      if (navigationMotion) {
+        navigationMotion.media = input === "keyboard"
+          ? "not all"
+          : "screen and (prefers-reduced-motion: no-preference)";
+      }
+    };
+
+    document.addEventListener("keydown", () => setInput("keyboard"), true);
+    document.addEventListener("pointerdown", () => setInput("pointer"), { passive: true, capture: true });
+    document.addEventListener("pointermove", () => setInput("pointer"), { passive: true });
+
+  })();
+</script>

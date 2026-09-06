@@ -1,14 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Hilmi Muktitama, Technical Program Manager">
-  <rect width="1200" height="630" fill="#ffffff"/>
-  <rect x="0" y="0" width="96" height="630" fill="#0b1110"/>
-  <rect x="24" y="24" width="48" height="48" rx="7" fill="none" stroke="#3e4b46"/>
-  <text x="48" y="56" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800" fill="#ffffff">HM</text>
-  <text x="170" y="190" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="780" fill="#07543f">Senior Technical Program Manager</text>
-  <text x="170" y="300" font-family="Inter, Arial, sans-serif" font-size="88" font-weight="850" fill="#0d1110">Hilmi</text>
-  <text x="170" y="392" font-family="Inter, Arial, sans-serif" font-size="88" font-weight="850" fill="#0d1110">Muktitama</text>
-  <text x="170" y="472" font-family="Inter, Arial, sans-serif" font-size="28" fill="#303936">Delivery truth, blocker visibility, and leadership-ready updates.</text>
-  <rect x="170" y="526" width="184" height="42" rx="21" fill="none" stroke="#dfe5e2"/>
-  <text x="262" y="553" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#6b7470">Source-backed</text>
-  <rect x="374" y="526" width="184" height="42" rx="21" fill="none" stroke="#dfe5e2"/>
-  <text x="466" y="553" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#6b7470">Release-ready</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Notes and experiments by Hilmi Muktitama">
+  <rect width="1200" height="630" fill="#e7eef0"/>
+  <rect width="8" height="630" fill="#ae3b20"/>
+  <rect x="1072" y="48" width="64" height="64" rx="10" fill="#163841"/>
+  <text x="1104" y="89" text-anchor="middle" font-family="Hanken Grotesk, Arial, sans-serif" font-size="27" font-weight="600" letter-spacing="-1" fill="#f09673">HM</text>
+  <text x="64" y="91" font-family="Hanken Grotesk, Arial, sans-serif" font-size="38" font-weight="600" fill="#ae3b20">Hilmi Muktitama</text>
+  <text id="category" x="64" y="162" font-family="Hanken Grotesk, Arial, sans-serif" font-size="18" font-weight="600" letter-spacing="2" fill="#536e75">WRITING &amp; EXPERIMENTS</text>
+  <g id="card-title" font-family="Hanken Grotesk, Arial, sans-serif" font-size="84" font-weight="600" fill="#163841">
+    <text x="64" y="280">A few things</text>
+    <text x="64" y="376">I’m figuring out.</text>
+  </g>
+  <image id="thread-art" href="/images/loose-ends-light.png" x="746" y="286" width="430" height="194"/>
+  <rect x="64" y="516" width="1072" height="1" fill="#bbcdd1"/>
+  <text id="card-footer" x="64" y="565" font-family="Hanken Grotesk, Arial, sans-serif" font-size="23" font-weight="600" fill="#35535b">Software delivery, AI tools, and technical judgment.</text>
+  <text x="64" y="600" font-family="Hanken Grotesk, Arial, sans-serif" font-size="17" font-weight="600" fill="#536e75">hilmimuktitama.github.io</text>
 </svg>

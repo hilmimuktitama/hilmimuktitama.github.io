@@ -1,0 +1,54 @@
+---
+import "../styles/index-motion.css";
+---
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const arrivalAttribute = "homeArrival";
+    const sessionKey = "index-home-arrival-played";
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const navigation = performance.getEntriesByType("navigation")[0];
+
+    if (root.dataset.input === "keyboard" || reducedMotion.matches || navigation?.type === "reload" || navigation?.type === "back_forward") return;
+
+    if (document.referrer) {
+      try {
+        if (new URL(document.referrer, window.location.href).origin === window.location.origin) return;
+      } catch {
+        return;
+      }
+    }
+
+    let storage;
+    try {
+      storage = window.sessionStorage;
+      if (storage.getItem(sessionKey)) return;
+      storage.setItem(sessionKey, "1");
+    } catch {
+      return;
+    }
+
+    let active = true;
+    const cleanup = () => {
+      if (!active) return;
+      active = false;
+      delete root.dataset[arrivalAttribute];
+      document.removeEventListener("keydown", cleanup, true);
+      document.removeEventListener("pointerdown", cleanup, true);
+      document.removeEventListener("animationend", onAnimationFinished, true);
+      document.removeEventListener("animationcancel", onAnimationFinished, true);
+      reducedMotion.removeEventListener("change", cleanup);
+    };
+    const onAnimationFinished = (event) => {
+      if (event.animationName === "index-home-caption-arrive") cleanup();
+    };
+
+    document.addEventListener("keydown", cleanup, true);
+    document.addEventListener("pointerdown", cleanup, { capture: true, passive: true });
+    document.addEventListener("animationend", onAnimationFinished, true);
+    document.addEventListener("animationcancel", onAnimationFinished, true);
+    reducedMotion.addEventListener("change", cleanup);
+    root.dataset[arrivalAttribute] = "pending";
+  })();
+</script>

@@ -137,11 +137,7 @@ tests/site.spec.ts-snapshots/articles-dark-1440.png
 tests/site.spec.ts-snapshots/articles-dark-390.png
 ```
 
-The pre-fix Work capture is outside the repository at:
-
-```text
-/var/folders/_0/6htfpcv52tg6r8d09381vm4r0000gn/T/opencode/work-before-1440.png
-```
+The pre-fix Work capture, `work-before-1440.png`, was stored locally outside the repository.
 
 Playwright failure output is written to `test-results/`, with the HTML report
 in `playwright-report/`. GitHub Actions uploads both directories when browser

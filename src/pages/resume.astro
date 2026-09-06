@@ -1,10 +1,11 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { GITHUB_URL, LINKEDIN_URL } from "../lib/urls";
+import { GITHUB_URL, LINKEDIN_URL, withBase } from "../lib/urls";
+import { CONTACT_EMAIL, getResumeEntries, groupExperienceByOrganization } from "../lib/resume";
 
-const entries = (await getCollection("resume")).sort((a, b) => a.data.order - b.data.order);
+const entries = await getResumeEntries();
 const experience = entries.filter((entry) => entry.data.section === "experience");
+const experienceGroups = groupExperienceByOrganization(experience);
 const skills = entries.filter((entry) => entry.data.section === "skill");
 const education = entries.filter((entry) => entry.data.section === "education");
 const certifications = entries.filter((entry) => entry.data.section === "certification");
@@ -12,15 +13,14 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
 
 <BaseLayout
   title="Resume"
-  description="Resume for Hilmi Muktitama, a Senior Technical Program Manager at Mekari with a background in QA, product management, and software delivery."
+  description="Resume for Hilmi Muktitama, a technical program manager with a background in QA, product management, and software delivery."
   structuredData={{
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Hilmi Muktitama",
     jobTitle: "Senior Technical Program Manager",
     url: new URL(Astro.url.pathname, Astro.site ?? "https://hilmimuktitama.github.io").toString(),
-    sameAs: [LINKEDIN_URL, GITHUB_URL],
-    worksFor: { "@type": "Organization", name: "Mekari" }
+    sameAs: [LINKEDIN_URL, GITHUB_URL]
   }}
 >
   <article class="resume-page" aria-labelledby="resume-title">
@@ -32,11 +32,13 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
         <h1 id="resume-title">Hilmi Muktitama</h1>
         <p class="role-title">Senior Technical Program Manager</p>
         <p class="lede">
-          I’m a Senior TPM at Mekari. I started in QA, moved into product, and now help teams plan and deliver platform and automation work.
+          I work across program, product, and technical delivery, helping teams plan and ship complex platform and automation work.
         </p>
-        <div class="resume-contact" aria-label="Public resume contact links">
-          <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn</a>
-          <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub</a>
+        <div class="resume-actions" aria-label="Resume actions">
+          <a class="resume-action resume-action-primary" href={`mailto:${CONTACT_EMAIL}`}>Contact me <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+          <a class="resume-action" href={withBase("/resume.pdf")} download="hilmi-muktitama-resume.pdf">Download resume (PDF) <i class="ph ph-download-simple" aria-hidden="true"></i></a>
+          <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+          <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
         </div>
       </div>
     </header>
@@ -47,23 +49,32 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
         <h2 id="experience-title">Work history</h2>
       </header>
       <div class="resume-timeline">
-        {experience.map((entry) => (
-          <article class="resume-role resume-experience-entry">
-            <div class="resume-role-meta">
-              <p><span class="sr-only">Period: </span>{entry.data.period}</p>
-              {entry.data.location && <p>{entry.data.location}</p>}
+        {experienceGroups.map((group) => (
+          <section class="resume-employer" aria-labelledby={`employer-${group.organization.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}>
+            <header class="resume-employer-heading">
+              <p class="eyebrow">Employer</p>
+              <h3 id={`employer-${group.organization.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}>{group.organization}</h3>
+            </header>
+            <div class="resume-employer-roles">
+              {group.roles.map((entry) => (
+                <article class="resume-role resume-experience-entry">
+                  <div class="resume-role-meta">
+                    <p><span class="sr-only">Period: </span>{entry.data.period}</p>
+                    {entry.data.location && <p>{entry.data.location}</p>}
+                  </div>
+                  <div>
+                    <h4>{entry.data.title}</h4>
+                    <p>{entry.data.summary}</p>
+                    {entry.data.items.length > 0 && (
+                      <ul class="resume-bullets">
+                        {entry.data.items.map((item) => <li>{item}</li>)}
+                      </ul>
+                    )}
+                  </div>
+                </article>
+              ))}
             </div>
-            <div>
-              <h3>{entry.data.title}</h3>
-              {entry.data.organization && <p class="resume-org">{entry.data.organization}</p>}
-              <p>{entry.data.summary}</p>
-              {entry.data.items.length > 0 && (
-                <ul class="resume-bullets">
-                  {entry.data.items.map((item) => <li>{item}</li>)}
-                </ul>
-              )}
-            </div>
-          </article>
+          </section>
         ))}
       </div>
     </section>
@@ -107,7 +118,6 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
           <h3 id="certifications-title">Certifications</h3>
           {certifications.map((entry) => (
             <div class="credential-item">
-              <p class="credential-title">{entry.data.title}</p>
               {entry.data.summary && <p>{entry.data.summary}</p>}
               {entry.data.items.length > 0 && (
                 <ul class="credential-list">
@@ -121,3 +131,95 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
     </section>
   </article>
 </BaseLayout>
+
+<style>
+  .resume-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.7rem 1.25rem;
+    margin-top: 1.75rem;
+  }
+
+  .resume-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .resume-action-primary {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .resume-action-primary:hover {
+    color: var(--bg);
+  }
+
+  .resume-actions .external-link {
+    text-decoration: underline;
+  }
+
+  .resume-employer + .resume-employer {
+    margin-top: 3.25rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .resume-employer-heading h3 {
+    margin-top: 0.6rem;
+    font-size: 1.25rem;
+  }
+
+  .resume-employer-roles {
+    margin-top: 1.5rem;
+  }
+
+  .resume-employer-roles .resume-role {
+    padding-bottom: 2.5rem;
+  }
+
+  .resume-employer-roles .resume-role + .resume-role {
+    padding-top: 2rem;
+  }
+
+  .resume-role h4 {
+    font-size: 1.55rem;
+    line-height: 1.2;
+  }
+
+  .resume-employer-roles .resume-role:first-child h4 {
+    color: var(--accent);
+  }
+
+  @media (max-width: 600px) {
+    .resume-actions {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .resume-employer + .resume-employer {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+    }
+  }
+
+  @media print {
+    .resume-actions,
+    .resume-employer-heading .eyebrow {
+      display: none;
+    }
+
+    .resume-employer + .resume-employer {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+    }
+  }
+</style>

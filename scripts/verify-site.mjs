@@ -225,6 +225,12 @@ function inspectLinks(page, pageByRoute) {
       check(false, "internal link URL is valid", error.message, "a valid URL or relative href", page);
       continue;
     }
+    if (/^<(?:a|area)\b/i.test(tag) && ["http:", "https:"].includes(targetUrl.protocol) &&
+      (targetUrl.origin !== siteOrigin || isApprovedExternalSiteUrl(targetUrl))) {
+      check(attribute(tag, "target") === "_blank", "external links open in a new tab", href, 'target="_blank"', page);
+      const rel = (attribute(tag, "rel") ?? "").toLowerCase().split(/\s+/);
+      check(rel.includes("noopener") || rel.includes("noreferrer"), "external links isolate the opener", href, "noopener or noreferrer", page);
+    }
     if (targetUrl.protocol === "http:") {
       check(false, "links use HTTPS", href, "an HTTPS URL", page);
       continue;

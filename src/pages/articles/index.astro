@@ -24,58 +24,55 @@ const formatDate = (date: Date) =>
 <BaseLayout title="Writing" description="Personal notes from Hilmi Muktitama on software work, AI tools, and what he is learning.">
   <section class="writing-index-page" aria-labelledby="articles-title">
     <header class="writing-index-header page-intro-body">
-      <p class="writing-index-label">Writing</p>
-      <h1 id="articles-title">Notes on software work, AI, and what I’m learning.</h1>
-      <p class="writing-index-lede">I write about building with AI, working with technical teams, and trying to make software projects easier to follow.</p>
+      <h1 id="articles-title">Writing</h1>
+      <p class="writing-index-lede">Notes on software work, AI, and the judgment that keeps projects moving.</p>
     </header>
 
     {featuredArticle ? (
       <>
-        <article class="writing-index-entry writing-index-entry-featured article-index-item">
+        <article id="writing-list" class="writing-index-entry writing-index-entry-featured article-index-item" data-scroll-reveal>
           <p class="writing-index-feature-label">Latest note</p>
-          <div class="writing-index-entry-meta">
-            <time datetime={featuredArticle.data.pubDate.toISOString()}>{formatDate(featuredArticle.data.pubDate)}</time>
-          </div>
           <div class="writing-index-entry-copy">
-            <h2><a href={withBase(`/articles/${getEntrySlug(featuredArticle)}/`)}>{featuredArticle.data.title}</a></h2>
+            <h2 class="view-transition-title" style={`--title-view-transition-name: article-title-${getEntrySlug(featuredArticle)}`}><a href={withBase(`/articles/${getEntrySlug(featuredArticle)}/`)}>{featuredArticle.data.title}</a></h2>
             <p>{featuredArticle.data.description}</p>
-            {featuredArticle.data.tags.length > 0 && (
-              <ul class="writing-index-tags" aria-label={`Topics for ${featuredArticle.data.title}`}>
-                {featuredArticle.data.tags.map((tag) => <li>{tag}</li>)}
-              </ul>
-            )}
+            <div class="writing-index-entry-meta">
+              <time datetime={featuredArticle.data.pubDate.toISOString()}>{formatDate(featuredArticle.data.pubDate)}</time>
+              {featuredArticle.data.tags.length > 0 && (
+                <ul class="writing-index-tags" aria-label={`Topics for ${featuredArticle.data.title}`}>
+                  {featuredArticle.data.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+              )}
+            </div>
           </div>
           <a
             class="writing-index-entry-action"
             href={withBase(`/articles/${getEntrySlug(featuredArticle)}/`)}
             aria-label={`Read ${featuredArticle.data.title}`}
-          >
-            Read note <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
-          </a>
+          ><span class="action-link-label">Read note <i class="ph ph-arrow-right" aria-hidden="true"></i></span></a>
         </article>
 
         {archiveArticles.length > 0 && (
           <section class="writing-index-archive" aria-labelledby="writing-archive-title">
-            <header class="writing-index-archive-heading">
+            <header class="writing-index-archive-heading" data-scroll-reveal>
               <h2 id="writing-archive-title">More notes</h2>
               <p>{archiveArticles.length} {archiveArticles.length === 1 ? "note" : "notes"}</p>
             </header>
 
             <ol class="writing-index-list article-index-list">
               {archiveArticles.map((article) => (
-                <li class="writing-index-entry">
+                <li class="writing-index-entry" data-scroll-reveal>
                   <article class="article-index-item">
-                    <div class="writing-index-entry-meta">
-                      <time datetime={article.data.pubDate.toISOString()}>{formatDate(article.data.pubDate)}</time>
-                    </div>
                     <div class="writing-index-entry-copy">
-                      <h2><a href={withBase(`/articles/${getEntrySlug(article)}/`)}>{article.data.title}</a></h2>
+                      <h2 class="view-transition-title" style={`--title-view-transition-name: article-title-${getEntrySlug(article)}`}><a href={withBase(`/articles/${getEntrySlug(article)}/`)}>{article.data.title}</a></h2>
                       <p>{article.data.description}</p>
-                      {article.data.tags.length > 0 && (
-                        <ul class="writing-index-tags" aria-label={`Topics for ${article.data.title}`}>
-                          {article.data.tags.map((tag) => <li>{tag}</li>)}
-                        </ul>
-                      )}
+                      <div class="writing-index-entry-meta">
+                        <time datetime={article.data.pubDate.toISOString()}>{formatDate(article.data.pubDate)}</time>
+                        {article.data.tags.length > 0 && (
+                          <ul class="writing-index-tags" aria-label={`Topics for ${article.data.title}`}>
+                            {article.data.tags.map((tag) => <li>{tag}</li>)}
+                          </ul>
+                        )}
+                      </div>
                     </div>
                   </article>
                 </li>

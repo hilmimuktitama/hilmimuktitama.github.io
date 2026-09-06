@@ -1,0 +1,52 @@
+@media screen and (prefers-reduced-motion: no-preference) {
+  /* A single first-visit composition makes the home hero arrive as one thought. */
+  :root[data-home-arrival="pending"] .home-hero-copy {
+    animation: index-home-copy-arrive var(--motion-ui) var(--ease-out) both;
+  }
+
+  :root[data-home-arrival="pending"] .home-thread {
+    animation: index-home-thread-arrive var(--motion-ui) var(--ease-out) 30ms both;
+  }
+
+  :root[data-home-arrival="pending"] .home-caption {
+    animation: index-home-caption-arrive var(--motion-ui) var(--ease-out) 60ms both;
+  }
+
+  @keyframes index-home-copy-arrive {
+    from {
+      opacity: 0.6;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes index-home-thread-arrive {
+    from {
+      opacity: 0;
+      translate: 0 6px;
+      scale: 0.985;
+    }
+
+    to {
+      opacity: 1;
+      translate: 0 0;
+      scale: 1;
+    }
+  }
+
+  @keyframes index-home-caption-arrive {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

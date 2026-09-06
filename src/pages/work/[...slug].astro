@@ -1,8 +1,12 @@
 ---
 import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ReadingOutline from "../../components/ReadingOutline.astro";
 import { getEntrySlug } from "../../lib/content";
+import { getReadingTime } from "../../lib/reading";
 import { withBase } from "../../lib/urls";
+import truthToolsDemo from "../../../public/images/truth-tools-demo.jpg";
 
 export async function getStaticPaths() {
   const projects = (await getCollection("projects")).filter(
@@ -15,7 +19,16 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const { Content } = await render(project);
+const { Content, headings } = await render(project);
+const outlineHeadings = [
+  ...(project.data.glance ? [{ depth: 2, text: "At a glance", slug: "project-glance-title" }] : []),
+  ...headings.filter(({ depth, slug }) =>
+    (depth === 2 || depth === 3) && slug !== "footnote-label"
+  )
+];
+const hasReadingOutline = outlineHeadings.length >= 3;
+const readingTime = getReadingTime(project.body ?? "");
+const isTruthTools = getEntrySlug(project) === "truth-tools";
 const formatProjectStatus = (source: "github" | "manual") =>
   source === "github" ? "public repository" : "project note";
 const projectUrl = new URL(Astro.url.pathname, Astro.site ?? "https://hilmimuktitama.github.io").toString();
@@ -36,26 +49,43 @@ const structuredData = {
   <article class="reading-page project-detail-page" aria-labelledby="project-title">
     <header class="reading-header">
       <div class="reading-header-top">
-        <a class="back-link" href={withBase("/work/")}><i class="ph ph-arrow-left" aria-hidden="true"></i> All experiments</a>
+        <a class="back-link" href={withBase("/work/")}><span class="action-link-label"><i class="ph ph-arrow-left" aria-hidden="true"></i> All experiments</span></a>
       </div>
       <p class="eyebrow">{formatProjectStatus(project.data.source)} <span class="eyebrow-divider">/</span> experiment</p>
-      <h1 id="project-title">{project.data.title}</h1>
+      <h1 id="project-title" class="view-transition-title" style={`--title-view-transition-name: experiment-title-${getEntrySlug(project)}`}>{project.data.title}</h1>
       <p class="lede">{project.data.description}</p>
       <div class="reading-meta">
         {project.data.language && <span>{project.data.language}</span>}
         {project.data.updatedDate && <span>Updated <time datetime={project.data.updatedDate.toISOString()}>{project.data.updatedDate.toLocaleDateString("en", { month: "long", year: "numeric" })}</time></span>}
+        <span>{readingTime.label}</span>
       </div>
       <nav class="link-row project-detail-links" aria-label={`${project.data.title} links`}>
-        {project.data.repoUrl && <a class="button-link primary external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Open repository</a>}
-        {project.data.liveUrl && <a class="button-link external-link" href={project.data.liveUrl} target="_blank" rel="noreferrer">Live site</a>}
+        {project.data.repoUrl && <a class="button-link primary external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer"><span class="action-link-label">View on GitHub <i class="ph ph-arrow-up-right" aria-hidden="true"></i></span></a>}
+        {project.data.liveUrl && <a class="button-link external-link" href={project.data.liveUrl} target="_blank" rel="noreferrer"><span class="action-link-label">View demo <i class="ph ph-arrow-up-right" aria-hidden="true"></i></span></a>}
       </nav>
     </header>
-    <div class="reading-layout project-detail-layout">
-      <aside class="reading-aside">
-        <p class="eyebrow">About this</p>
-        <p>What I tried, what changed, and what is still uncertain.</p>
-      </aside>
+    <div class:list={{ "reading-layout": true, "project-detail-layout": true, "has-reading-outline": hasReadingOutline }}>
+      <ReadingOutline headings={outlineHeadings} />
       <div class="prose project-detail-content">
+        {isTruthTools && project.data.liveUrl && (
+          <figure class="project-evidence">
+            <a class="project-evidence-image-link" href={project.data.liveUrl} target="_blank" rel="noreferrer" aria-label="Open the Truth Tools demo">
+              <Image
+                class="project-evidence-image"
+                src={truthToolsDemo}
+                widths={[390, 720, 1236]}
+                sizes="(max-width: 720px) 100vw, 720px"
+                format="webp"
+                quality={90}
+                alt="Truth Tools shows a quality pass while project health remains blocked"
+              />
+            </a>
+            <figcaption>
+              Evidence repaired and quality checks passing while the project remains blocked.
+              <a class="project-evidence-demo-link" href={project.data.liveUrl} target="_blank" rel="noreferrer">Open demo <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+            </figcaption>
+          </figure>
+        )}
         {project.data.glance && (
           <section class="project-glance" aria-labelledby="project-glance-title">
             <h2 id="project-glance-title">At a glance</h2>
@@ -73,3 +103,11 @@ const structuredData = {
     </div>
   </article>
 </BaseLayout>
+
+<style>
+  .project-evidence { margin: 0 0 3rem; }
+  .project-evidence-image-link { display: block; }
+  .project-evidence-image { width: 100%; height: auto; border: 1px solid var(--rule); }
+  .project-evidence figcaption { margin-top: 0.8rem; color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+  .project-evidence-demo-link { display: inline-flex; align-items: center; gap: 0.35rem; margin-left: 0.5rem; white-space: nowrap; }
+</style>

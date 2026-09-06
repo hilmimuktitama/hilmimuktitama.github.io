@@ -1,0 +1,233 @@
+---
+interface OutlineHeading {
+  depth: number;
+  text: string;
+  slug: string;
+}
+
+const {
+  label = "On this page",
+  headings = [],
+  minimumHeadings = 3
+}: {
+  label?: string;
+  headings?: OutlineHeading[];
+  minimumHeadings?: number;
+} = Astro.props;
+const outlineHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const showOutline = outlineHeadings.length >= minimumHeadings;
+const idPrefix = "reading-outline";
+---
+
+{showOutline && (
+  <aside class="reading-outline">
+    <nav class="reading-outline-desktop" aria-labelledby={`${idPrefix}-desktop-label`}>
+      <p class="reading-outline-label" id={`${idPrefix}-desktop-label`}>{label}</p>
+      <ol>
+        {outlineHeadings.map((heading) => (
+          <li class:list={{ "list-depth": heading.depth === 3 }}>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+    <details class="reading-outline-mobile">
+      <summary>
+        <span>{label}</span>
+        <i class="ph ph-caret-down" aria-hidden="true"></i>
+      </summary>
+      <div class="reading-outline-panel">
+        <nav aria-label={label}>
+          <ol>
+            {outlineHeadings.map((heading) => (
+              <li class:list={{ "list-depth": heading.depth === 3 }}>
+                <a href={`#${heading.slug}`}>{heading.text}</a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </div>
+    </details>
+  </aside>
+)}
+
+<script is:inline>
+  (() => {
+    const duration = 220;
+    const easing = "cubic-bezier(0.22, 1, 0.36, 1)";
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const detailsElements = Array.from(document.querySelectorAll(".reading-outline-mobile"));
+    const activeAnimations = new Map();
+
+    if (detailsElements.length === 0) return;
+
+    const panelFor = (details) => details.querySelector(".reading-outline-panel");
+
+    const clearAnimation = (details) => {
+      const state = activeAnimations.get(details);
+      if (state) {
+        if (state.animation) {
+          state.animation.onfinish = null;
+          state.animation.oncancel = null;
+          state.animation.cancel();
+        }
+        state.animation = null;
+        activeAnimations.delete(details);
+      }
+
+      const panel = panelFor(details);
+      if (!panel) return;
+      panel.style.removeProperty("height");
+      panel.style.removeProperty("overflow");
+      panel.style.removeProperty("transition");
+      delete details.dataset.readingOutlineState;
+    };
+
+    const settleImmediately = (details, open = details.open) => {
+      const state = activeAnimations.get(details);
+      if (state?.animation) {
+        state.animation.onfinish = null;
+        state.animation.oncancel = null;
+      }
+      if (!open) details.open = false;
+      clearAnimation(details);
+      if (details.open !== open) details.open = open;
+    };
+
+    const markImmediate = (details) => {
+      details.dataset.readingOutlineImmediate = "";
+    };
+
+    const animate = (details, open) => {
+      const panel = panelFor(details);
+      if (!panel) return;
+
+      const currentHeight = details.open ? panel.getBoundingClientRect().height : 0;
+      clearAnimation(details);
+      delete details.dataset.readingOutlineImmediate;
+      const state = {
+        targetOpen: open,
+        panel,
+        animation: null
+      };
+      activeAnimations.set(details, state);
+
+      if (!details.open) details.open = true;
+      panel.style.overflow = "hidden";
+      panel.style.height = `${currentHeight}px`;
+      panel.offsetHeight;
+      details.dataset.readingOutlineState = open ? "opening" : "closing";
+
+      const targetHeight = open ? panel.scrollHeight : 0;
+      if (Math.abs(currentHeight - targetHeight) < 0.5) {
+        clearAnimation(details);
+        if (!open) details.open = false;
+        return;
+      }
+      if (typeof panel.animate !== "function") {
+        clearAnimation(details);
+        details.open = open;
+        return;
+      }
+
+      const animation = panel.animate(
+        [{ height: `${currentHeight}px` }, { height: `${targetHeight}px` }],
+        { duration, easing, fill: "forwards" }
+      );
+      state.animation = animation;
+      const finish = () => {
+        if (activeAnimations.get(details) !== state) return;
+        animation.onfinish = null;
+        animation.oncancel = null;
+        animation.cancel();
+        activeAnimations.delete(details);
+        if (!state.targetOpen) details.open = false;
+        panel.style.removeProperty("height");
+        panel.style.removeProperty("overflow");
+        delete details.dataset.readingOutlineState;
+        state.animation = null;
+      };
+      animation.onfinish = finish;
+      animation.oncancel = finish;
+    };
+
+    detailsElements.forEach((details) => {
+      const summary = details.querySelector("summary");
+      if (!summary) return;
+
+      summary.addEventListener("click", (event) => {
+        const state = activeAnimations.get(details);
+        if (event.detail === 0 || reduceMotion.matches) {
+          if (state) {
+            event.preventDefault();
+            markImmediate(details);
+            settleImmediately(details, !state.targetOpen);
+            return;
+          }
+          clearAnimation(details);
+          markImmediate(details);
+          return;
+        }
+
+        const panel = panelFor(details);
+        if (!panel || typeof panel.animate !== "function") return;
+        event.preventDefault();
+        const currentTarget = state?.targetOpen ?? details.open;
+        animate(details, !currentTarget);
+      });
+
+      details.addEventListener("toggle", () => {
+        const state = activeAnimations.get(details);
+        if (state) {
+          if (!details.open) settleImmediately(details, false);
+          return;
+        }
+        clearAnimation(details);
+      });
+    });
+
+    reduceMotion.addEventListener("change", (event) => {
+      if (!event.matches) return;
+      detailsElements.forEach((details) => {
+        const target = activeAnimations.get(details)?.targetOpen ?? details.open;
+        settleImmediately(details, target);
+      });
+    });
+
+    window.addEventListener("resize", () => {
+      detailsElements.forEach((details) => {
+        const state = activeAnimations.get(details);
+        if (state) settleImmediately(details, state.targetOpen);
+      });
+    });
+  })();
+</script>
+
+<style>
+  .reading-outline { position: sticky; top: 2rem; align-self: start; color: var(--muted); font-size: 0.9rem; }
+  .reading-outline-label { color: var(--accent); font-size: 0.75rem; line-height: 1.5; font-weight: 650; letter-spacing: 0.11em; text-transform: uppercase; }
+  .reading-outline ol { display: grid; gap: 0.65rem; margin-top: 0.9rem; padding: 0; list-style: none; }
+  .reading-outline li.list-depth { padding-left: 0.8rem; font-size: 0.85rem; }
+  .reading-outline a { display: flex; align-items: center; min-height: 28px; line-height: 1.4; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.25em; }
+  .reading-outline a:hover, .reading-outline a:focus-visible { text-decoration-color: currentColor; }
+  .reading-outline-mobile { display: none; }
+  .reading-outline-mobile summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; color: var(--accent); font-size: 0.8rem; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; list-style: none; }
+  .reading-outline-mobile summary::-webkit-details-marker { display: none; }
+  .reading-outline-mobile summary .ph { transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .reading-outline-mobile[open] summary .ph { transform: rotate(180deg); }
+  .reading-outline-mobile[data-reading-outline-state="closing"] summary .ph { transform: rotate(0deg); }
+  .reading-outline-mobile[data-reading-outline-immediate] summary .ph { transition: none; }
+  .reading-outline-mobile nav { padding-bottom: 0.75rem; }
+
+  @media (max-width: 900px) {
+    .reading-outline { position: static; width: 100%; }
+    .reading-outline-desktop { display: none; }
+    .reading-outline-mobile { display: block; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .reading-outline ol { margin-top: 0.25rem; }
+    .reading-outline-mobile a { min-height: 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reading-outline-mobile summary .ph { transition: none; }
+  }
+</style>

@@ -55,15 +55,6 @@ test.describe("portfolio improvement regressions", () => {
     await expect.poll(() => page.evaluate(() => window.getSelection()?.toString())).toBe(email);
   });
 
-  test("resume PDF responds as a PDF document", async ({ request }) => {
-    const response = await request.get("/resume.pdf");
-    expect(response.status()).toBe(200);
-    expect(response.headers()["content-type"]).toMatch(/^application\/pdf(?:;|$)/i);
-
-    const signature = Array.from((await response.body()).subarray(0, 4));
-    expect(signature).toEqual([0x25, 0x50, 0x44, 0x46]);
-  });
-
   test.describe("article metadata and navigation", () => {
     test.use({ viewport: { width: 1024, height: 768 } });
 

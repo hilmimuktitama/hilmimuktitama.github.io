@@ -5,6 +5,7 @@ import ReadingOutline from "../../components/ReadingOutline.astro";
 import { getEntrySlug } from "../../lib/content";
 import { getReadingTime } from "../../lib/reading";
 import { withBase } from "../../lib/urls";
+import "../../styles/ai-news-figures.css";
 
 export async function getStaticPaths() {
   const now = Date.now();

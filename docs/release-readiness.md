@@ -6,7 +6,7 @@ The editorial revamp and public-source cleanup are authorized for publication to
 
 - Content-led homepage, two shared GSAP line studies, coordinated inner-page typography and spacing, and one compact homepage footer.
 - Retired cat/knot components, runtime imagery, unused GSAP plugins, reveal engines, old tests, render harnesses, and the unused italic font have been removed. The runtime vendor directory contains GSAP core, ScrollTrigger, and their provenance record.
-- Homepage navigation and lifecycle assertions target the current design. All 14 archive screenshot baselines use their named viewport and a 1% difference tolerance.
+- Homepage navigation and lifecycle assertions target the current design. All 14 archive screenshot views use their named viewport and a 1% difference tolerance, with separate reviewed macOS and Linux baselines.
 - Astro is pinned to 7.3.3 with a portable lockfile. CI uses the latest Node 22 patch, meeting the dependency tree's Node 22.19 minimum.
 - The [standalone preview](redesign-proposals/2026-11-01-editorial-lines/preview.html), [design direction](design-direction.md), and [current reference notes](redesign-proposals/2026-11-01-editorial-lines/README.md) describe the selected implementation.
 
@@ -29,17 +29,21 @@ Verification for publication combines fresh installation, build, site, and brows
 | Clean dependency installation and audit | Passed; 0 vulnerabilities reported |
 | Astro check and production build | 40 files, 0 errors/warnings/hints; 21 pages built |
 | Static site verification | Passed |
-| Complete Chromium suite | 107 passed, including all 14 unchanged screenshot baselines |
+| Complete Chromium suite | 107 passed on macOS, including all 14 unchanged screenshot images |
 | Firefox and WebKit functional suites | 184 passed; two expected skips for the Chromium-only clipboard permission test |
 | Vendor formatting follow-up | Build/site checks and 42 focused cases across all three browsers passed after normalizing header whitespace and regenerating the preview |
 | Private-source guard | Nested private `.md` and `.mdx` fixtures rejected; public content quoting a private-status example accepted; fixtures removed |
 | Sharing cards | All 12 PNG dimensions checked; site card and representative short/long article cards visually inspected |
 | Deployment artifact cleanup | 58 files / 5,901,625 bytes; the three retired public assets are absent |
-| Public-source scan | 244 files checked; no common credential signatures, local-machine metadata, sensitive filenames, or broken Markdown file links found |
+| Public-source scan | 244 initial files checked; no common credential signatures, local-machine metadata, sensitive filenames, or broken Markdown file links found. The platform baseline follow-up adds 14 reviewed Linux images and their provenance notes |
 | Standalone preview | Regenerated from the checked build |
 | Publication history | All 91 commits in the release ancestry filtered; the private path and all four of its original blob versions are absent |
 
-The private-source guard checks and visual sharing-card inspection are retained cleanup evidence; their source files were revalidated unchanged for publication. The publication recheck used the production build on isolated port 4327. Chromium passed in 25.6 seconds; Firefox/WebKit passed in 1.2 minutes. Screenshot baselines were not changed. These local results do not establish physical-device performance or a complete accessibility audit; the deployment workflow separately checks the committed release on Linux with Node 22.
+The private-source guard checks and visual sharing-card inspection are retained cleanup evidence; their source files were revalidated unchanged for publication. The publication recheck used the production build on isolated port 4327. Chromium passed in 25.6 seconds; Firefox/WebKit passed in 1.2 minutes. The macOS screenshot images were not changed.
+
+The initial Linux workflow passed all 93 functional tests but failed the 14 visual comparisons against macOS images. All 14 Linux captures were visually reviewed and were byte-identical across three attempts. Platform/project-specific baseline paths now preserve both rendering environments; the 1% tolerance and application code remain unchanged. All 14 macOS comparisons passed again after changing the baseline paths. The [baseline notes](../tests/site.spec.ts-snapshots/README.md) record their provenance, and the deployment workflow records the subsequent comparison result.
+
+These local results do not establish physical-device performance or a complete accessibility audit; the deployment workflow separately checks the committed release on Linux with Node 22.
 
 ## Publication source and history
 

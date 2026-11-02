@@ -11,7 +11,7 @@ const baseURL = environment?.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:4321";
 export default defineConfig({
   testDir: "./tests",
   outputDir: "test-results",
-  snapshotPathTemplate: "{testDir}/site.spec.ts-snapshots/{arg}{ext}",
+  snapshotPathTemplate: "{testDir}/site.spec.ts-snapshots/{platform}/{projectName}/{arg}{ext}",
   fullyParallel: true,
   forbidOnly: ci,
   retries: ci ? 2 : 0,

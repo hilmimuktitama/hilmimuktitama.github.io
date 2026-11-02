@@ -1,0 +1,20 @@
+{
+  "family": "Newsreader",
+  "upstream": "https://raw.githubusercontent.com/google/fonts/6c1dbe27dcf7d817d4b62cec033ba77fa8e2a5ec/ofl/newsreader/Newsreader%5Bopsz,wght%5D.ttf",
+  "commit": "6c1dbe27dcf7d817d4b62cec033ba77fa8e2a5ec",
+  "upstreamSha256": "8a08d13f8a6c0d51be379a60af84f945f65369a67e509ee3c3bdcc421254d7c1",
+  "license": "OFL.txt",
+  "licenseUpstream": "https://raw.githubusercontent.com/google/fonts/6c1dbe27dcf7d817d4b62cec033ba77fa8e2a5ec/ofl/newsreader/OFL.txt",
+  "transformation": {
+    "tool": "fonttools",
+    "version": "4.60.2",
+    "axes": {
+      "opsz": 48,
+      "wght": 400
+    },
+    "note": "Static instance for build-time sharing-card rendering; system fonts disabled."
+  },
+  "file": "Newsreader-Regular.ttf",
+  "sha256": "6aa8ab69f643f7a89ec692fc9cd941aae6f70f80f738bf7630487b11a0689e77",
+  "licenseNote": "Upstream license wording is preserved; trailing whitespace is normalized."
+}

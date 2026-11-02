@@ -5,6 +5,7 @@ import { CONTACT_EMAIL, getResumeEntries, groupExperienceByOrganization } from "
 
 const entries = await getResumeEntries();
 const experience = entries.filter((entry) => entry.data.section === "experience");
+const currentRole = experience[0]?.data.title;
 const experienceGroups = groupExperienceByOrganization(experience);
 const skills = entries.filter((entry) => entry.data.section === "skill");
 const education = entries.filter((entry) => entry.data.section === "education");
@@ -18,7 +19,7 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Hilmi Muktitama",
-    jobTitle: "Senior Technical Program Manager",
+    ...(currentRole ? { jobTitle: currentRole } : {}),
     url: new URL(Astro.url.pathname, Astro.site ?? "https://hilmimuktitama.github.io").toString(),
     sameAs: [LINKEDIN_URL, GITHUB_URL]
   }}
@@ -30,13 +31,13 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
       </div>
       <div class="resume-hero-body">
         <h1 id="resume-title">Hilmi Muktitama</h1>
-        <p class="role-title">Senior Technical Program Manager</p>
+        {currentRole && <p class="role-title">{currentRole}</p>}
         <p class="lede">
           I work across program, product, and technical delivery, helping teams plan and ship complex platform and automation work.
         </p>
         <div class="resume-actions" aria-label="Resume actions">
           <a class="resume-action resume-action-primary" href={`mailto:${CONTACT_EMAIL}`}>Contact me <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-          <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">View on LinkedIn <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+          <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
           <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
         </div>
       </div>
@@ -51,7 +52,6 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
         {experienceGroups.map((group) => (
           <section class="resume-employer" aria-labelledby={`employer-${group.organization.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}>
             <header class="resume-employer-heading">
-              <p class="eyebrow">Employer</p>
               <h3 id={`employer-${group.organization.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}>{group.organization}</h3>
             </header>
             <div class="resume-employer-roles">
@@ -136,7 +136,8 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.7rem 1.25rem;
+    gap: 12px;
+    font-size: 13px;
     margin-top: 1.75rem;
   }
 
@@ -146,9 +147,10 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
     gap: 0.4rem;
     padding: 0.55rem 0.75rem;
     border: 1px solid var(--rule);
-    border-radius: 999px;
+    border-radius: 2px;
+    min-height: 44px;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 13px;
   }
 
   .resume-action-primary {
@@ -162,7 +164,7 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
   }
 
   .resume-actions .external-link {
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   .resume-employer + .resume-employer {
@@ -172,8 +174,8 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
   }
 
   .resume-employer-heading h3 {
-    margin-top: 0.6rem;
-    font-size: 1.25rem;
+    margin-top: 0;
+    font-size: 28px;
   }
 
   .resume-employer-roles {
@@ -189,21 +191,16 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
   }
 
   .resume-role h4 {
-    font-size: 1.55rem;
+    font-size: 23px;
+    margin-bottom: 12px;
     line-height: 1.2;
   }
 
   .resume-employer-roles .resume-role:first-child h4 {
-    color: var(--accent);
+    color: var(--ink);
   }
 
   @media (max-width: 600px) {
-    .resume-actions {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
     .resume-employer + .resume-employer {
       margin-top: 2.5rem;
       padding-top: 2rem;

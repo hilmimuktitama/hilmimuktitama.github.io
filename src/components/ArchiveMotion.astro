@@ -1,0 +1,49 @@
+---
+import { withBase } from "../lib/urls";
+---
+<script is:inline src={withBase("/vendor/gsap/gsap.min.js")}></script>
+<script is:inline src={withBase("/vendor/gsap/ScrollTrigger.min.js")}></script>
+<script is:inline>
+  (() => {
+    const { gsap, ScrollTrigger } = window;
+    if (!gsap || !ScrollTrigger) return;
+    window.__archiveMotion?.destroy?.();
+    gsap.registerPlugin(ScrollTrigger);
+    const listeners = new AbortController();
+    const listen = (target, event, callback) => target.addEventListener(event, callback, { signal: listeners.signal });
+    let media, disposed = false, suspended = false;
+    let keyboardMode = document.documentElement.dataset.input === "keyboard";
+    let userPaused = false;
+    try { userPaused = localStorage.getItem("thread-motion") === "off"; } catch {}
+    function mount(restoring = false) {
+      media = gsap.matchMedia(document.body);
+      media.add("(prefers-reduced-motion: no-preference)", () => {
+        if (keyboardMode || userPaused || restoring) return;
+        const intro = document.querySelector(".writing-index-header,.work-index-header,.contact-header,.resume-hero,.writing-detail-header,.reading-header");
+        if (intro) gsap.from(intro, { y: 14, opacity: .75, duration: .65, ease: "power2.out" });
+        gsap.utils.toArray(".writing-index-entry-featured,.writing-index-list > li,.work-entry").forEach(item => {
+          gsap.from(item, { y: 14, opacity: .7, duration: .65, ease: "power2.out", scrollTrigger: { trigger: item, start: "top 96%", once: true } });
+        });
+      });
+    }
+    mount();
+    listen(document, "keydown", event => {
+      if (event.key !== "Tab" || keyboardMode) return;
+      keyboardMode = true; media.revert();
+    });
+    document.fonts.ready.then(() => { if (!disposed && !suspended) ScrollTrigger.refresh(); });
+    function destroy() {
+      if (disposed) return;
+      disposed = true; media.revert(); listeners.abort(); delete window.__archiveMotion;
+    }
+    listen(window, "pagehide", event => {
+      if (!event.persisted) { destroy(); return; }
+      suspended = true; media.revert();
+    });
+    listen(window, "pageshow", event => {
+      if (!event.persisted || disposed) return;
+      suspended = false; mount(true); ScrollTrigger.refresh();
+    });
+    window.__archiveMotion = { destroy };
+  })();
+</script>

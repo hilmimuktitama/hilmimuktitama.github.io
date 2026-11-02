@@ -1,0 +1,20 @@
+/* Derived from the retained DZN composition. Shared edges and source order remain;
+   content, rather than fixed scene heights, determines the page rhythm. */
+[data-dzn-page="home"] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: min(calc(100% - 2 * var(--editorial-gutter)), var(--editorial-width));
+  margin-inline: auto;
+  padding-bottom: 24px;
+}
+[data-dzn-page="home"] > [data-dzn-region] { min-width: 0; position: relative; }
+[data-dzn-region="intro"] { margin-top: 48px; }
+[data-dzn-region="writing"] { margin-top: 28px; }
+[data-dzn-region="experiments"] { margin-top: 64px; }
+[data-dzn-region="contact"] { margin-top: 48px; }
+@media (max-width: 699px) {
+  [data-dzn-region="intro"] { margin-top: 32px; }
+  [data-dzn-region="writing"] { margin-top: 20px; }
+  [data-dzn-region="experiments"] { margin-top: 40px; }
+  [data-dzn-region="contact"] { margin-top: 32px; }
+}

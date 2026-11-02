@@ -107,14 +107,23 @@ function routeForFile(filePath) {
 
 const projectContentDirectory = join(root, "src", "content", "projects");
 const projectRecords = existsSync(projectContentDirectory)
-  ? readdirSync(projectContentDirectory)
-      .filter((file) => file.endsWith(".md"))
+  ? readdirSync(projectContentDirectory, { recursive: true })
+      .filter((file) => /\.mdx?$/.test(file))
       .map((file) => ({ file, content: readFileSync(join(projectContentDirectory, file), "utf8") }))
   : [];
 const publicProjectRecords = projectRecords.filter(({ content }) => /^status:\s*["']public["']\s*$/m.test(content));
 const privateProjectSlugs = projectRecords
   .filter(({ content }) => !/^status:\s*["']public["']\s*$/m.test(content))
-  .map(({ file }) => file.replace(/\.md$/, ""));
+  .map(({ file }) => file.replace(/\.mdx?$/, ""));
+for (const { file, content } of projectRecords) {
+  const frontmatter = content.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/)?.[1] ?? "";
+  check(
+    !/^status:\s*["']?private-case-study["']?\s*(?:#.*)?$/m.test(frontmatter),
+    "private case studies are kept outside the public source repository",
+    file,
+    "only content intended for public source access"
+  );
+}
 const approvedExternalSiteUrls = publicProjectRecords.flatMap(({ content }) => {
   const match = content.match(/^liveUrl:\s*["']([^"']+)["']\s*$/m);
   if (!match) return [];
@@ -477,9 +486,7 @@ const programTruthText = textFromHtml(programTruthPage);
 const captureTruth = read("src/content/projects/capture-truth.md");
 const timelineTruth = read("src/content/projects/timeline-truth.md");
 const truthTools = read("src/content/projects/truth-tools.md");
-const projectSources = readdirSync(join(root, "src", "content", "projects"))
-  .filter((file) => file.endsWith(".md"))
-  .map((file) => read(join("src", "content", "projects", file)));
+const projectSources = projectRecords.map(({ content }) => content);
 const featuredProjects = projectSources.filter((content) => /^featured:\s*true\s*$/m.test(content));
 
 check(robotsTxt.includes("User-agent: *"), "robots.txt declares a catch-all user agent");
@@ -693,8 +700,8 @@ check(distIndexHtml.includes('property="og:title"'), "homepage renders Open Grap
 check(distIndexHtml.includes('name="twitter:card"'), "homepage renders Twitter card metadata");
 check(distIndexHtml.includes('rel="icon"'), "homepage renders a favicon link");
 check(distIndexHtml.includes("og-image.png"), "homepage references the PNG share image");
-check(distIndexHtml.includes("View full resume"), "homepage resume preview links to the full resume page");
-check(homepageContactLinks.length >= 2, "homepage header and hero Contact links target /contact/");
+check(openingTags(distIndexHtml, "a").some(tag => ["/resume/", `${basePath}/resume/`].includes(attribute(tag, "href"))), "homepage links to the full resume page");
+check(homepageContactLinks.length >= 1, "homepage navigation links to the contact page");
 check(!distIndexHtml.includes("/#contact"), "homepage Contact links do not point to the footer anchor");
 check(contactHtml.includes(approvedEmail), "contact page shows the public email address");
 check(contactHtml.includes(`mailto:${approvedEmail}`), "contact page links the public email address");

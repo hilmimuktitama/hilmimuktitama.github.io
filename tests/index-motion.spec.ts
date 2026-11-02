@@ -1,9 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
 
-const homeMotionAttribute = "data-home-arrival";
-const homeMotionValue = "pending";
-const homeMotionSeenKey = "index-home-arrival-played";
-
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light", reducedMotion: "no-preference" });
 });
@@ -24,11 +20,6 @@ async function titleSnapshot(page: Page) {
 async function clickTitle(page: Page, titleIndex: number) {
   const title = page.locator(".view-transition-title").nth(titleIndex);
   await title.scrollIntoViewIfNeeded();
-  // Below-fold entries can be transparent while Playwright considers them visible.
-  // Wait for their reveal to settle before testing the title's navigation.
-  await expect.poll(() => title.evaluate((element) =>
-    element.closest("[data-scroll-reveal]")?.getAttribute("data-scroll-state") ?? "shown"
-  )).toBe("shown");
   const link = title.locator("a");
   if (await link.count()) {
     await link.first().click();
@@ -148,78 +139,12 @@ test("matched article snapshots hide the old title to prevent ghost text", async
   expect(snapshotStyles.newObjectFit).toBe("contain");
 });
 
-test("Home arrival runs once per session and leaves the page immediately usable", async ({ page }) => {
-  await page.addInitScript(({ attribute }) => {
-    const events: Array<{ value: string | null }> = [];
-    (window as typeof window & { __indexMotionEvents?: typeof events }).__indexMotionEvents = events;
-    const observer = new MutationObserver((records) => {
-      for (const record of records) {
-        if (record.target === document.documentElement && record.attributeName === attribute) {
-          events.push({ value: document.documentElement.getAttribute(attribute) });
-        }
-      }
-    });
-    observer.observe(document, { attributes: true, subtree: true });
-  }, { attribute: homeMotionAttribute, value: homeMotionValue });
-
-  await page.goto("/", { waitUntil: "networkidle" });
-  const firstVisit = await page.evaluate(({ attribute, value, seenKey }) => ({
-    started: ((window as typeof window & { __indexMotionEvents?: Array<{ value: string | null }> }).__indexMotionEvents ?? [])
-      .some((event) => event.value === value),
-    seen: sessionStorage.getItem(seenKey),
-    active: document.documentElement.getAttribute(attribute)
-  }), { attribute: homeMotionAttribute, value: homeMotionValue, seenKey: homeMotionSeenKey });
-  expect(firstVisit.started).toBeTruthy();
-  expect(firstVisit.seen).toBeTruthy();
-  await expect(page.locator(".home-hero h1")).toBeVisible();
-
-  await page.reload({ waitUntil: "networkidle" });
-  const revisit = await page.evaluate(({ attribute, value, seenKey }) => ({
-    started: ((window as typeof window & { __indexMotionEvents?: Array<{ value: string | null }> }).__indexMotionEvents ?? [])
-      .some((event) => event.value === value),
-    seen: sessionStorage.getItem(seenKey),
-    active: document.documentElement.getAttribute(attribute)
-  }), { attribute: homeMotionAttribute, value: homeMotionValue, seenKey: homeMotionSeenKey });
-  expect(revisit.started).toBeFalsy();
-  expect(revisit.seen).toBeTruthy();
-  expect(revisit.active).not.toBe(homeMotionValue);
-});
-
-test("Home arrival cancels synchronously when keyboard input begins", async ({ page }) => {
-  await page.addInitScript(({ attribute, value }) => {
-    const events: Array<{ phase: string; value: string | null }> = [];
-    (window as typeof window & { __indexMotionEvents?: typeof events }).__indexMotionEvents = events;
-    const observer = new MutationObserver((records) => {
-      for (const record of records) {
-        if (record.target === document.documentElement && record.attributeName === attribute &&
-            document.documentElement.getAttribute(attribute) === value) {
-          events.push({ phase: "started", value });
-          document.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, key: "Tab" }));
-          events.push({ phase: "after-keyboard", value: document.documentElement.getAttribute(attribute) });
-        }
-      }
-    });
-    observer.observe(document, { attributes: true, subtree: true });
-  }, { attribute: homeMotionAttribute, value: homeMotionValue });
-
-  await page.goto("/", { waitUntil: "networkidle" });
-  const result = await page.evaluate(({ attribute }) => ({
-    input: document.documentElement.dataset.input,
-    active: document.documentElement.getAttribute(attribute),
-    events: (window as typeof window & { __indexMotionEvents?: Array<{ phase: string; value: string | null }> }).__indexMotionEvents ?? []
-  }), { attribute: homeMotionAttribute, value: homeMotionValue });
-  expect(result.input).toBe("keyboard");
-  expect(result.events.some((event) => event.phase === "started")).toBeTruthy();
-  expect(result.events.some((event) => event.phase === "after-keyboard" && event.value !== homeMotionValue)).toBeTruthy();
-  await expect(page.locator(".home-hero h1")).toBeVisible();
-});
-
 test.describe("native fallback", () => {
   test.use({ javaScriptEnabled: false });
 
   test("index titles remain usable and route to detail pages without JavaScript", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
-    await expect(page.locator(".home-hero h1")).toBeVisible();
+    await expect(page.locator(".editorial-hero h1")).toBeVisible();
 
     await page.goto("/articles/", { waitUntil: "networkidle" });
     const title = page.locator(".view-transition-title").first();

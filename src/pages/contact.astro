@@ -6,7 +6,7 @@ import { CONTACT_EMAIL } from "../lib/resume";
 
 <BaseLayout
   title="Contact"
-  description="Get in touch with Hilmi Muktitama about technical program work, product delivery, or software projects."
+  description="Email and links for Hilmi Muktitama."
   showContactFooter={false}
 >
   <section class="section contact-page" aria-labelledby="contact-title">
@@ -15,12 +15,11 @@ import { CONTACT_EMAIL } from "../lib/resume";
     </div>
     <div class="contact-body">
       <header class="contact-header">
-        <p class="eyebrow">Hilmi Muktitama <span class="eyebrow-divider">/</span> Jakarta, Indonesia</p>
         <h1 id="contact-title">Get in touch.</h1>
-        <p class="lede">Contact me about technical program roles, product delivery, or software projects.</p>
+        <p class="lede">Email is the easiest way to reach me.</p>
       </header>
       <address class="contact-letter contact-primary">
-        <p class="eyebrow">Best way to reach me</p>
+        <p class="eyebrow">Email</p>
         <div class="contact-email-row">
           <a class="contact-email" href={`mailto:${CONTACT_EMAIL}`}><span data-contact-email>{CONTACT_EMAIL}</span> <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
           <button class="copy-email" type="button" data-copy-email={CONTACT_EMAIL}>
@@ -31,7 +30,6 @@ import { CONTACT_EMAIL } from "../lib/resume";
           </button>
         </div>
         <p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
-        <p class="contact-note">A short note about the problem, the team, or the role is a good place to start.</p>
       </address>
       <nav class="contact-elsewhere contact-secondary" aria-label="Other ways to connect">
         <p class="eyebrow">Elsewhere</p>
@@ -58,11 +56,12 @@ import { CONTACT_EMAIL } from "../lib/resume";
     min-inline-size: 8rem;
     padding: 0.55rem 0.75rem;
     border: 1px solid var(--rule);
-    border-radius: 999px;
+    border-radius: 2px;
+    min-height: 44px;
     background: transparent;
     color: inherit;
     font: inherit;
-    font-size: 0.9rem;
+    font-size: 13px;
     cursor: pointer;
     white-space: nowrap;
   }
@@ -102,7 +101,7 @@ import { CONTACT_EMAIL } from "../lib/resume";
     min-height: 1.35em;
     margin-top: 0.3rem;
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 13px;
   }
 
   @media (max-width: 600px) {

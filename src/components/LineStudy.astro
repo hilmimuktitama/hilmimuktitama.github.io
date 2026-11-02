@@ -1,0 +1,114 @@
+---
+interface Props { variant?: "hero" | "section"; }
+const { variant = "hero" } = Astro.props;
+const hero = variant === "hero";
+type Point = [number, number];
+type Frame = [number, number, number, number, number, number];
+type State = 0 | 1 | 2;
+const states: State[] = [0, 1, 2];
+const n = (v: number) => Number(v.toFixed(2));
+// The same spline basis drives the longitudinal curves, cross-ribs and anchors.
+// Every pose keeps identical SVG commands for direct GSAP interpolation.
+const blend = (a: number, b: number, c: number, d: number, t: number) =>
+  .5 * ((2 * b) + (-a + c) * t + (2 * a - 5 * b + 4 * c - d) * t * t + (-a + 3 * b - 3 * c + d) * t * t * t);
+const sample = (frames: Frame[], u: number): Frame => {
+  const position = Math.min(Math.max(u, 0), 1) * (frames.length - 1);
+  const i = Math.min(Math.floor(position), frames.length - 2), t = position - i;
+  return frames[i].map((_, key) => blend(frames[Math.max(0, i - 1)][key], frames[i][key], frames[i + 1][key], frames[Math.min(frames.length - 1, i + 2)][key], t)) as Frame;
+};
+const spline = (points: Point[]) => points.slice(1).reduce((path, point, i) => {
+  const a = points[Math.max(0, i - 1)], b = points[i], c = point, d = points[Math.min(points.length - 1, i + 2)];
+  return `${path} C${n(b[0] + (c[0] - a[0]) / 6)} ${n(b[1] + (c[1] - a[1]) / 6)} ${n(c[0] - (d[0] - b[0]) / 6)} ${n(c[1] - (d[1] - b[1]) / 6)} ${n(c[0])} ${n(c[1])}`;
+}, `M${n(points[0][0])} ${n(points[0][1])}`);
+const shared: Frame[] = [[-100, 594, 0, 40, 0, 0], [260, 584, 0, 36, 0, -6], [550, 558, 0, 28, 0, -8], [720, 516, 18, 30, 0, -12]];
+const sheets: Frame[][] = [
+  [...shared, [880, 430, 55, 60, 0, -28], [1050, 378, 70, 76, 0, -50], [1230, 446, 85, 68, 0, -35], [1500, 520, 110, 52, 0, -12]],
+  [...shared, [880, 388, 32, 52, 8, -40], [1060, 250, 65, 82, 6, -66], [1260, 165, 80, 118, 0, -36], [1500, 140, 90, 98, 0, 0]],
+  [...shared, [960, 462, 54, 80, -12, -55], [1120, 490, 88, 100, -24, -30], [1335, 480, 55, 100, 85, -10], [1260, 565, -65, 28, 60, 18]]
+];
+const sheetFrames = (layer: number, state: State): Frame[] => sheets[layer].map((frame, i) => {
+  if (i < 4 || state === 0) return frame;
+  const t = (i - 3) / 4;
+  const [x, y, dx, dy, bx, by] = frame;
+  if (state === 1) return [x + (layer === 2 ? 18 : -12) * Math.sin(t * Math.PI), y + [24, -22, 16][layer] * Math.sin(t * Math.PI), dx * 1.12, dy * 1.1, bx * 1.15, by * 1.1];
+  return [x + (layer === 1 ? -24 : 16) * Math.sin(t * Math.PI), y + [-22, 60, -60][layer] * t, dx * .82, dy * .72, bx * .7, by * .7];
+});
+const onSheet = ([x, y, dx, dy, bx, by]: Frame, v: number): Point => [x + v * dx + (1 - v * v) * bx, y + v * dy + (1 - v * v) * by];
+const tubeFrames = (state: State): Frame[] => {
+  const xs = [[20, 125, 245, 365, 480, 590, 700], [20, 150, 265, 365, 455, 580, 700], [20, 190, 300, 410, 505, 605, 700]][state];
+  const rs = [[64, 12, 85, 60, 9, 77, 36], [52, 26, 100, 76, 16, 88, 46], [56, 42, 62, 38, 18, 56, 24]][state];
+  return xs.map((x, i) => [x, 120 + Math.sin(i * 1.15 + state * .65) * 7, rs[i] * .28, rs[i], 0, 0]);
+};
+const onTube = ([x, y, rx, ry]: Frame, angle: number): Point => [x + Math.cos(angle) * rx, y + Math.sin(angle) * ry];
+const ellipse = ([x, y, rx, ry]: Frame) => {
+  const k = .55228475;
+  return `M${n(x + rx)} ${n(y)} C${n(x + rx)} ${n(y + ry * k)} ${n(x + rx * k)} ${n(y + ry)} ${n(x)} ${n(y + ry)} C${n(x - rx * k)} ${n(y + ry)} ${n(x - rx)} ${n(y + ry * k)} ${n(x - rx)} ${n(y)} C${n(x - rx)} ${n(y - ry * k)} ${n(x - rx * k)} ${n(y - ry)} ${n(x)} ${n(y - ry)} C${n(x + rx * k)} ${n(y - ry)} ${n(x + rx)} ${n(y - ry * k)} ${n(x + rx)} ${n(y)} Z`;
+};
+const paths: { poses: string[]; kind: string; phase: number; detail: boolean; opacity: number }[] = [];
+const nodes: { poses: Point[]; phase: number; accent: boolean; ring: boolean }[] = [];
+const addPath = (poses: string[], kind: string, phase: number, detail = false, opacity = 1) => paths.push({ poses, kind, phase, detail, opacity });
+const addNode = (poses: Point[], phase: number, accent = false, ring = false) => nodes.push({ poses, phase, accent, ring });
+if (hero) {
+  for (const layer of [2, 0, 1]) {
+    const phase = [0, .08, .15][layer];
+    const frames = states.map(state => sheetFrames(layer, state));
+    for (let i = 0; i <= 20; i++) {
+      const v = -1 + i / 10;
+      addPath(frames.map(pose => spline(pose.map(frame => onSheet(frame, v)))), i === 0 || i === 20 ? 'edge' : 'contour', phase, i % 2 === 1, [.48, .66, .34][layer]);
+    }
+    for (let i = 0; i < 12; i++) {
+      const u = .47 + i * .53 / 11;
+      addPath(frames.map(pose => spline(Array.from({length: 7}, (_, v) => onSheet(sample(pose, u), -1 + v / 3)))), i === 11 && layer === 2 ? 'edge' : 'rib', phase, i % 2 === 1 && i !== 11, [.35, .48, .24][layer]);
+    }
+  }
+  for (const [layer, v] of [[1, -.15], [0, .35]]) {
+    const phase = [0, .08][layer];
+    const poses = states.map(state => spline(sheetFrames(layer, state).map(frame => onSheet(frame, v))));
+    addPath(poses, 'accent', phase, false, layer === 1 ? 1 : .65);
+    addPath(poses, 'tracer', phase);
+    for (const station of [4, 5, 6]) {
+      const anchors = states.map(state => onSheet(sheetFrames(layer, state)[station], v));
+      addNode(anchors, phase, true, station === 5);
+      if (layer === 1) {
+        addPath(anchors.map(([x, y]) => `M${n(x)} ${n(Math.max(12, y - 100))} V${n(610 - (station - 4) * 10)}`), 'axis', phase, false, .65);
+        addPath(anchors.map(([x, y]) => `M${n(x - 22)} ${n(y - 34)} L${n(x + 22)} ${n(y - 22)} V${n(y + 34)} L${n(x - 22)} ${n(y + 22)} Z`), 'plane', phase, station === 4, .4);
+        addNode(anchors.map(([x, y]) => [x, Math.max(12, y - 100)]), phase);
+      }
+    }
+  }
+} else {
+  const frames = states.map(tubeFrames);
+  for (let i = 0; i < 32; i++) {
+    const angle = i / 32 * Math.PI * 2;
+    addPath(frames.map(pose => spline(pose.map(frame => onTube(frame, angle)))), i % 8 === 0 ? 'edge' : 'contour', .04, i % 2 === 1, Math.cos(angle) < 0 ? .3 : .66);
+  }
+  for (let i = 0; i < 12; i++) {
+    const u = .16 + i * .069;
+    addPath(frames.map(pose => ellipse(sample(pose, u))), 'rib', .04, i % 2 === 1, .48);
+  }
+  for (const station of [2, 4, 5]) {
+    addPath(frames.map(pose => {
+      const [x, y, , ry] = pose[station];
+      return `M${n(x - 26)} ${n(y - ry - 12)} L${n(x + 26)} ${n(y - ry + 8)} V${n(y + ry + 12)} L${n(x - 26)} ${n(y + ry - 8)} Z`;
+    }), 'plane', .04, false, .6);
+    addPath(frames.map(pose => { const [x, y, , ry] = pose[station]; return `M${n(x)} ${n(y - ry - 18)} V${n(y + ry + 18)}`; }), 'axis', .04, false, .4);
+  }
+  for (const angle of [Math.PI * .22, Math.PI * 1.4]) {
+    const poses = frames.map(pose => spline(pose.map(frame => onTube(frame, angle))));
+    addPath(poses, 'accent', .04, false, angle < Math.PI ? 1 : .65);
+    addPath(poses, 'tracer', .04);
+    for (const station of [1, 2, 4, 5]) addNode(frames.map(pose => onTube(pose[station], angle)), .04, true, station === 4);
+  }
+}
+---
+<svg class:list={["line-study", `line-study-${variant}`]} data-line-study data-line-variant={variant} viewBox={hero ? "0 0 1440 640" : "0 0 720 240"} preserveAspectRatio={hero ? "none" : "xMidYMid meet"} fill="none" aria-hidden="true" focusable="false">
+  <g class="line-field">
+    {paths.map(path => <path class:list={[`line-${path.kind}`, {'line-detail': path.detail}]} data-line-shape data-line-phase={path.phase} data-line-open={path.poses[1]} data-line-resolved={path.poses[2]} d={path.poses[0]} pathLength="1" style={`--line-opacity:${path.opacity}`} />)}
+  </g>
+  <g class="line-structure">
+    {nodes.map(node => <>
+      <circle class:list={["line-node", {"is-accent": node.accent}]} cx={node.poses[0][0]} cy={node.poses[0][1]} data-line-node data-line-phase={node.phase} data-line-open-x={node.poses[1][0]} data-line-open-y={node.poses[1][1]} data-line-to-x={node.poses[2][0]} data-line-to-y={node.poses[2][1]} r={node.accent ? 2.7 : 1.5} />
+      {node.ring && <circle class="line-node-ring" cx={node.poses[0][0]} cy={node.poses[0][1]} data-line-node data-line-phase={node.phase} data-line-open-x={node.poses[1][0]} data-line-open-y={node.poses[1][1]} data-line-to-x={node.poses[2][0]} data-line-to-y={node.poses[2][1]} r="9" />}
+    </>)}
+  </g>
+</svg>

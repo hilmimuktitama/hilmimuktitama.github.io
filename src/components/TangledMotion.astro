@@ -1,0 +1,102 @@
+---
+import { withBase } from "../lib/urls";
+---
+<script is:inline src={withBase("/vendor/gsap/gsap.min.js")}></script>
+<script is:inline src={withBase("/vendor/gsap/ScrollTrigger.min.js")}></script>
+<script is:inline>
+  (() => {
+    const { gsap, ScrollTrigger } = window;
+    const page = document.querySelector(".editorial-home");
+    const control = document.querySelector("[data-world-motion]");
+    if (!gsap || !ScrollTrigger || !page || !control) return;
+    window.__editorialMotion?.destroy();
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
+    const root = document.documentElement;
+    const listeners = new AbortController();
+    const listen = (target, type, callback) => target.addEventListener(type, callback, { signal: listeners.signal });
+    let media, disposed = false, suspended = false, keyboardMode = false, motionOff = false;
+    let userPaused = false;
+    try { userPaused = localStorage.getItem("thread-motion") === "off"; } catch {}
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+    function mount(restoring = false) {
+      media?.revert();
+      motionOff = userPaused || keyboardMode || reduced.matches;
+      root.classList.toggle("editorial-still", motionOff);
+      control.setAttribute("aria-pressed", String(motionOff));
+      control.textContent = reduced.matches ? "Motion: reduced" : motionOff ? "Motion: off" : "Motion: on";
+      control.title = reduced.matches ? "Reduced motion is enabled in your device settings" : "Toggle decorative animation";
+      media = gsap.matchMedia(page);
+      media.add({ all: "(min-width: 0px)", reduce: "(prefers-reduced-motion: reduce)", compact: "(max-width: 699px)" }, context => {
+        if (userPaused || keyboardMode || context.conditions.reduce) return;
+        const visibleDetail = path => !(context.conditions.compact && path.classList.contains("line-detail"));
+        // Each field keeps one scroll timeline. Layers unfold, then settle;
+        // ribs, contours and their anchors use the same phase within a surface.
+        page.querySelectorAll("[data-line-study]").forEach(svg => {
+          const hero = svg.dataset.lineVariant === "hero";
+          const timeline = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: { trigger: hero ? svg.closest(".editorial-hero") : svg.closest(".experiment-line-study"), start: hero ? "top top" : "top 95%", end: hero ? "bottom top" : "bottom 20%", scrub: .85, invalidateOnRefresh: true }
+          });
+          Array.from(svg.querySelectorAll("[data-line-shape]")).filter(visibleDetail).forEach(path => {
+            const phase = Number(path.dataset.linePhase);
+            timeline.to(path, { attr: { d: path.dataset.lineOpen }, duration: .7 }, phase)
+              .to(path, { attr: { d: path.dataset.lineResolved }, duration: .75 }, .8 + phase);
+          });
+          svg.querySelectorAll("[data-line-node]").forEach(node => {
+            const phase = Number(node.dataset.linePhase);
+            timeline.to(node, { attr: { cx: node.dataset.lineOpenX, cy: node.dataset.lineOpenY }, duration: .7 }, phase)
+              .to(node, { attr: { cx: node.dataset.lineToX, cy: node.dataset.lineToY }, duration: .75 }, .8 + phase);
+          });
+          timeline.fromTo(svg.querySelectorAll(".line-tracer"), { strokeDashoffset: index => 1 + index * .4 }, { strokeDashoffset: index => -.8 + index * .4, duration: 1.7 }, 0)
+            .fromTo(svg.querySelectorAll(".line-node-ring"), { attr: { r: 5 }, opacity: 0 }, { attr: { r: 10 }, opacity: .8, duration: .28, stagger: .08 }, .4)
+            .to(svg.querySelectorAll(".line-node-ring"), { attr: { r: 16 }, opacity: 0, duration: .35, stagger: .06 }, .95);
+        });
+        if (!restoring) {
+          page.querySelectorAll("[data-editorial-reveal]").forEach(element => {
+            gsap.from(element, { y: 16, opacity: .65, duration: .7, ease: "power2.out", scrollTrigger: { trigger: element, start: "top 96%", once: true } });
+          });
+          if (!location.hash) {
+            // Normalized path lengths avoid geometry reads during drawing.
+            context.add("clearDrawing", targets => gsap.set(targets, { clearProps: "strokeDasharray,strokeDashoffset" }));
+            const draw = (selector, timing) => {
+              const targets = Array.from(page.querySelectorAll(selector)).filter(visibleDetail);
+              gsap.fromTo(targets, { strokeDasharray: 1, strokeDashoffset: 1 },
+                { strokeDashoffset: 0, ease: "power2.inOut", ...timing, onComplete: () => context.clearDrawing(targets) });
+            };
+            draw(".line-study-hero .line-contour,.line-study-hero .line-edge", { duration: 1.25, stagger: .006 });
+            draw(".line-study-hero .line-rib,.line-study-hero .line-plane,.line-study-hero .line-axis", { duration: .7, stagger: .006, delay: .5 });
+            draw(".line-study-hero .line-accent", { duration: 1.1, stagger: .15, delay: .25 });
+            gsap.from(".line-study-hero .line-structure", { opacity: 0, duration: .6, delay: .75, ease: "power2.out" });
+          }
+        }
+      });
+      ScrollTrigger.refresh();
+    }
+    const refresh = gsap.delayedCall(.15, () => { if (!disposed && !suspended) ScrollTrigger.refresh(); }).pause();
+    listen(control, "click", () => {
+      userPaused = !motionOff; keyboardMode = false;
+      try { localStorage.setItem("thread-motion", userPaused ? "off" : "on"); } catch {}
+      mount(true);
+    });
+    listen(reduced, "change", () => mount(true));
+    listen(document, "keydown", event => {
+      if (event.key === "Tab" && !motionOff) { keyboardMode = true; mount(true); }
+    });
+    document.fonts.ready.then(() => { if (!disposed && !suspended) refresh.restart(true); });
+    listen(window, "load", () => refresh.restart(true));
+    function suspend() { suspended = true; refresh.pause(); media?.revert(); }
+    function destroy() {
+      if (disposed) return;
+      suspend(); disposed = true; listeners.abort(); refresh.kill();
+      root.classList.remove("editorial-still"); delete window.__editorialMotion;
+    }
+    listen(window, "pagehide", event => event.persisted ? suspend() : destroy());
+    listen(window, "pageshow", event => {
+      if (!event.persisted || disposed) return;
+      suspended = false; mount(true);
+    });
+    mount();
+    window.__editorialMotion = { destroy, get motionOff() { return motionOff; } };
+  })();
+</script>

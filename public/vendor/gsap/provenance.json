@@ -1,0 +1,18 @@
+{
+  "name": "gsap",
+  "version": "3.15.0",
+  "upstream": "https://github.com/greensock/GSAP",
+  "commit": "13e2b790546426a1a2e0e9b409f3f8dc6d6611f2",
+  "license": "https://gsap.com/standard-license",
+  "files": [
+    {
+      "path": "gsap.min.js",
+      "upstreamBlob": "3c73d761a9a7dbd166549451ba7afd62dc7121d0"
+    },
+    {
+      "path": "ScrollTrigger.min.js",
+      "upstreamBlob": "35d4ab7dc31dd859f44e5460ac6a5e8a0f0660c2"
+    }
+  ],
+  "note": "Official distribution files. Source-mapping directives were removed because source maps are not shipped; trailing whitespace and extra final blank lines were normalized."
+}

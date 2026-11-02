@@ -61,7 +61,6 @@ const structuredData = {
     <header class="writing-detail-header">
       <div class="writing-detail-nav">
         <a class="writing-detail-back" href={withBase("/articles/")}><span class="action-link-label"><i class="ph ph-arrow-left" aria-hidden="true"></i> All writing</span></a>
-        <span class="writing-detail-mark" aria-hidden="true">A note from the work</span>
       </div>
       <p class="writing-detail-label">Writing <span aria-hidden="true">/</span> <time datetime={publishedTime}>{formattedDate}</time></p>
       <h1 class="view-transition-title" style={`--title-view-transition-name: article-title-${getEntrySlug(article)}`}>{article.data.title}</h1>

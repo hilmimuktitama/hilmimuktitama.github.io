@@ -4,13 +4,11 @@ test.describe("portfolio improvement regressions", () => {
   test("homepage discovery actions route to the matching collections", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
 
-    const heroActions = page.locator('.home-hero-copy nav[aria-label="Explore the site"]');
-    const writingLink = heroActions.locator('a[href="/articles/"]');
-    const experimentsLink = heroActions.locator('a[href="/work/"]');
+    const writingLink = page.getByRole("link", { name: "All writing", exact: true });
+    const experimentsLink = page.getByRole("link", { name: "All experiments", exact: true });
 
-    await expect(heroActions).toHaveCount(1);
-    await expect(writingLink).toHaveCount(1);
-    await expect(experimentsLink).toHaveCount(1);
+    await expect(writingLink).toHaveAttribute("href", "/articles/");
+    await expect(experimentsLink).toHaveAttribute("href", "/work/");
 
     await writingLink.click();
     await expect(page).toHaveURL(/\/articles\/$/);

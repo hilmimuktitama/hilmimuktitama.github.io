@@ -25,12 +25,12 @@ const formatDate = (date: Date) =>
   <section class="writing-index-page" aria-labelledby="articles-title">
     <header class="writing-index-header page-intro-body">
       <h1 id="articles-title">Writing</h1>
-      <p class="writing-index-lede">Notes on software work, AI, and the judgment that keeps projects moving.</p>
+      <p class="writing-index-lede">{articles.length} {articles.length === 1 ? "note" : "notes"}</p>
     </header>
 
     {featuredArticle ? (
       <>
-        <article id="writing-list" class="writing-index-entry writing-index-entry-featured article-index-item" data-scroll-reveal>
+        <article id="writing-list" class="writing-index-entry writing-index-entry-featured article-index-item">
           <p class="writing-index-feature-label">Latest note</p>
           <div class="writing-index-entry-copy">
             <h2 class="view-transition-title" style={`--title-view-transition-name: article-title-${getEntrySlug(featuredArticle)}`}><a href={withBase(`/articles/${getEntrySlug(featuredArticle)}/`)}>{featuredArticle.data.title}</a></h2>
@@ -53,14 +53,14 @@ const formatDate = (date: Date) =>
 
         {archiveArticles.length > 0 && (
           <section class="writing-index-archive" aria-labelledby="writing-archive-title">
-            <header class="writing-index-archive-heading" data-scroll-reveal>
+            <header class="writing-index-archive-heading">
               <h2 id="writing-archive-title">More notes</h2>
               <p>{archiveArticles.length} {archiveArticles.length === 1 ? "note" : "notes"}</p>
             </header>
 
             <ol class="writing-index-list article-index-list">
               {archiveArticles.map((article) => (
-                <li class="writing-index-entry" data-scroll-reveal>
+                <li class="writing-index-entry">
                   <article class="article-index-item">
                     <div class="writing-index-entry-copy">
                       <h2 class="view-transition-title" style={`--title-view-transition-name: article-title-${getEntrySlug(article)}`}><a href={withBase(`/articles/${getEntrySlug(article)}/`)}>{article.data.title}</a></h2>

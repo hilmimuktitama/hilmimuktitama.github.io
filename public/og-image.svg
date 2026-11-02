@@ -1,16 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Notes and experiments by Hilmi Muktitama">
-  <rect width="1200" height="630" fill="#e7eef0"/>
-  <rect width="8" height="630" fill="#ae3b20"/>
-  <rect x="1072" y="48" width="64" height="64" rx="10" fill="#163841"/>
-  <text x="1104" y="89" text-anchor="middle" font-family="Hanken Grotesk, Arial, sans-serif" font-size="27" font-weight="600" letter-spacing="-1" fill="#f09673">HM</text>
-  <text x="64" y="91" font-family="Hanken Grotesk, Arial, sans-serif" font-size="38" font-weight="600" fill="#ae3b20">Hilmi Muktitama</text>
-  <text id="category" x="64" y="162" font-family="Hanken Grotesk, Arial, sans-serif" font-size="18" font-weight="600" letter-spacing="2" fill="#536e75">WRITING &amp; EXPERIMENTS</text>
-  <g id="card-title" font-family="Hanken Grotesk, Arial, sans-serif" font-size="84" font-weight="600" fill="#163841">
-    <text x="64" y="280">A few things</text>
-    <text x="64" y="376">I’m figuring out.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Writing and experiments by Hilmi Muktitama">
+  <rect width="1200" height="630" fill="#f8f6f0"/>
+  <text x="64" y="85" font-family="Hanken Grotesk" font-size="28" font-weight="600" fill="#22221f">Hilmi Muktitama</text>
+  <path d="M64 114H1136" stroke="#d5d0c5"/>
+  <circle cx="70" cy="158" r="5" fill="#b94b2c"/>
+  <text id="category" x="88" y="164" font-family="Hanken Grotesk" font-size="17" font-weight="600" letter-spacing="2" fill="#69665f">NOTES &amp; EXPLORATIONS</text>
+  <g id="card-title" font-family="Newsreader" font-size="100" font-weight="400" fill="#22221f">
+    <text x="64" y="290">Writing &amp;</text>
+    <text x="64" y="400">experiments.</text>
   </g>
-  <image id="thread-art" href="/images/loose-ends-light.png" x="746" y="286" width="430" height="194"/>
-  <rect x="64" y="516" width="1072" height="1" fill="#bbcdd1"/>
-  <text id="card-footer" x="64" y="565" font-family="Hanken Grotesk, Arial, sans-serif" font-size="23" font-weight="600" fill="#35535b">Software delivery, AI tools, and technical judgment.</text>
-  <text x="64" y="600" font-family="Hanken Grotesk, Arial, sans-serif" font-size="17" font-weight="600" fill="#536e75">hilmimuktitama.github.io</text>
+  <g id="line-study" fill="none" stroke="#514f48" stroke-width="1.2">
+    <path d="M673 379C776 506 1064 503 1136 329C1196 183 921 190 833 294C774 363 913 420 1086 417"/>
+    <path d="M682 368C782 491 1058 489 1124 327C1180 191 924 198 841 296C786 361 916 412 1079 409" opacity=".85"/>
+    <path d="M691 357C788 476 1052 475 1112 325C1164 199 927 206 849 298C798 359 919 404 1072 401" opacity=".7"/>
+    <path d="M700 346C794 461 1046 461 1100 323C1148 207 930 214 857 300C810 357 922 396 1065 393" opacity=".55"/>
+    <path d="M709 335C800 446 1040 447 1088 321C1132 215 933 222 865 302C822 355 925 388 1058 385" opacity=".45"/>
+    <path d="M718 324C806 431 1034 433 1076 319C1116 223 936 230 873 304C834 353 928 380 1051 377" opacity=".4"/>
+    <path d="M727 313C812 416 1028 419 1064 317C1100 231 939 238 881 306C846 351 931 372 1044 369" opacity=".35"/>
+    <path d="M736 302C818 401 1022 405 1052 315C1084 239 942 246 889 308C858 349 934 364 1037 361" opacity=".3"/>
+    <path d="M745 291C824 386 1016 391 1040 313C1068 247 945 254 897 310C870 347 937 356 1030 353" opacity=".25"/>
+    <path d="M754 280C830 371 1010 377 1028 311C1052 255 948 262 905 312C882 345 940 348 1023 345" opacity=".2"/>
+    <path d="M673 379L754 280M795 462L845 354M978 454L985 370M1135 329L1028 311M1011 217L978 268M833 294L905 312M875 398L926 346" opacity=".35"/>
+    <path d="M709 335C800 446 1040 447 1088 321C1132 215 933 222 865 302C822 355 925 388 1058 385" stroke="#b94b2c" stroke-width="2"/>
+    <circle cx="1088" cy="321" r="4" fill="#b94b2c" stroke="none"/>
+  </g>
+  <path d="M64 526H1136" stroke="#d5d0c5"/>
+  <text id="card-footer" x="64" y="575" font-family="Hanken Grotesk" font-size="20" font-weight="600" fill="#69665f">hilmimuktitama.github.io</text>
 </svg>

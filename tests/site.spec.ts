@@ -255,8 +255,8 @@ test("unknown production route renders a useful 404", async ({ page }) => {
 for (const route of ["/work/", "/articles/"] as const) {
   test.describe(`${route} desktop geometry`, () => {
     for (const viewport of viewports.filter(({ width }) => width > 900)) {
-      test.use({ viewport: { width: viewport.width, height: viewport.height } });
       test(`${viewport.name}px list geometry is intentional`, async ({ page }) => {
+        await page.setViewportSize({ width: viewport.width, height: viewport.height });
         await preparePage(page);
         await page.goto(route, { waitUntil: "networkidle" });
         const geometry = await page.locator(route === "/work/" ? ".work-index-list" : ".article-index-list").evaluate((list, currentRoute) => {
@@ -302,7 +302,7 @@ for (const route of ["/work/", "/articles/"] as const) {
           fullPage: false,
           animations: "disabled",
           caret: "hide",
-          maxDiffPixelRatio: 0.04
+          maxDiffPixelRatio: 0.01
         });
       });
     });
@@ -321,7 +321,7 @@ for (const route of ["/work/", "/articles/"] as const) {
           fullPage: false,
           animations: "disabled",
           caret: "hide",
-          maxDiffPixelRatio: 0.04
+          maxDiffPixelRatio: 0.01
         });
       });
     });

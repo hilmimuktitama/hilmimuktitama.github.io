@@ -1,5 +1,7 @@
 # Portfolio improvements — implementation and design QA
 
+Historical record of the September 2026 design, before the editorial revamp. The [current design direction](docs/design-direction.md) and [release handoff](docs/release-readiness.md) supersede its implementation details, screenshots, and verification counts.
+
 5 September 2026. Applied to the portfolio repository using three GPT-5.6 LUNA subagents for implementation and review, with integration and visual checks by the primary agent.
 
 ## Result

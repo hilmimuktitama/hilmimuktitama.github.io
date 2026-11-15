@@ -10,6 +10,10 @@ The production font reuses the existing licensed Newsreader file. `public/ground
 
 A manual workflow run on the feature branch verifies the committed tree on Linux without deploying. Only `main` may deploy. Review the Linux screenshot captures before accepting baselines, then require a successful verification run before advancing production. The existing screenshot tolerance is unchanged.
 
+The clean staged-source export passed installation, audit, build, static verification and all 108 Chromium cases (107 in the full run, plus the corrected score-test helper on recheck). All 12 focused WebKit motion cases passed. The audited deployment artifact contains 67 files totaling 6,618,169 bytes, without source maps or development artifacts.
+
+[Linux verification run 43736214079](https://github.com/hilmimuktitama/hilmimuktitama.github.io/actions/runs/43736214079) passed all 94 functional cases. Its 14 expected archive differences were stable across three attempts and visually reviewed; the Linux baselines are updated without changing comparison tolerances. A new verification run must pass before publication.
+
 The GitHub Actions workflow records exact commit IDs and build/deployment outcomes. After deployment, verify the live routes, assets, headline, contact, metadata, missing-page behavior and absence of `/lab/` output.
 
 ---

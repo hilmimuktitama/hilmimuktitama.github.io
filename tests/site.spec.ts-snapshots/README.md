@@ -19,7 +19,4 @@ The screenshot helper now waits for the shipped Hanken/Newsreader fonts instead
 of overriding the approved typography. The 1% comparison threshold is unchanged.
 The identity panels intentionally retain their colors in both reading themes.
 
-The Linux images still document the preceding design. This local macOS session
-has no Linux runtime or container engine, and no push/CI execution was requested.
-They must be regenerated and inspected on Linux before a subsequent deployment;
-do not copy macOS images into that directory or disable the screenshot checks.
+All 14 Linux baselines were refreshed from [release verification run 43736214079](https://github.com/hilmimuktitama/hilmimuktitama.github.io/actions/runs/43736214079), built from `ef540f9` with Astro 7.4.12 and Playwright 1.62.1 on the workflow's Ubuntu/Node 22 environment. The run passed all 94 functional tests; only the 14 intentional visual changes failed against the preceding design. Every new image was byte-identical across three attempts and was visually inspected before adoption. The following branch verification compares these baselines normally, with updates disabled and the existing 1% tolerance.

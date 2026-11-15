@@ -1,4 +1,5 @@
 ---
+import GroundArrow from "../components/ground/GroundArrow.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { GITHUB_URL, LINKEDIN_URL } from "../lib/urls";
 import { CONTACT_EMAIL, getResumeEntries, groupExperienceByOrganization } from "../lib/resume";
@@ -33,19 +34,18 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
         <h1 id="resume-title">Hilmi Muktitama</h1>
         {currentRole && <p class="role-title">{currentRole}</p>}
         <p class="lede">
-          I work across program, product, and technical delivery, helping teams plan and ship complex platform and automation work.
+          I coordinate platform and automation projects across engineering teams.
         </p>
         <div class="resume-actions" aria-label="Resume actions">
-          <a class="resume-action resume-action-primary" href={`mailto:${CONTACT_EMAIL}`}>Contact me <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-          <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-          <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+          <a class="resume-action resume-action-primary" href={`mailto:${CONTACT_EMAIL}`}>Contact me <GroundArrow /></a>
+          <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn <GroundArrow /></a>
+          <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <GroundArrow /></a>
         </div>
       </div>
     </header>
 
     <section class="resume-section resume-experience" aria-labelledby="experience-title">
       <header class="resume-section-heading">
-        <p class="eyebrow">Experience</p>
         <h2 id="experience-title">Work history</h2>
       </header>
       <div class="resume-timeline">
@@ -80,12 +80,11 @@ const certifications = entries.filter((entry) => entry.data.section === "certifi
 
     <section class="resume-section resume-credentials" aria-labelledby="credentials-title">
       <header class="resume-section-heading">
-        <p class="eyebrow">Background</p>
-        <h2 id="credentials-title">Skills, education, and certifications</h2>
+        <h2 id="credentials-title">Background</h2>
       </header>
       <div class="resume-credential-groups">
         <section class="resume-credential-group resume-skill-block" aria-labelledby="skills-title">
-          <h3 id="skills-title">Areas I work in</h3>
+          <h3 id="skills-title">Skills</h3>
           {skills.map((entry) => (
             <div>
               <p>{entry.data.summary}</p>

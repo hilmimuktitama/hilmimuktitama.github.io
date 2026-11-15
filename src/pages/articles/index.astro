@@ -1,4 +1,5 @@
 ---
+import GroundArrow from "../../components/ground/GroundArrow.astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getEntrySlug } from "../../lib/content";
@@ -24,7 +25,7 @@ const formatDate = (date: Date) =>
 <BaseLayout title="Writing" description="Personal notes from Hilmi Muktitama on software work, AI tools, and what he is learning.">
   <section class="writing-index-page" aria-labelledby="articles-title">
     <header class="writing-index-header page-intro-body">
-      <h1 id="articles-title">Writing</h1>
+      <h1 id="articles-title"><em>Writing</em></h1>
       <p class="writing-index-lede">{articles.length} {articles.length === 1 ? "note" : "notes"}</p>
     </header>
 
@@ -48,14 +49,13 @@ const formatDate = (date: Date) =>
             class="writing-index-entry-action"
             href={withBase(`/articles/${getEntrySlug(featuredArticle)}/`)}
             aria-label={`Read ${featuredArticle.data.title}`}
-          ><span class="action-link-label">Read note <i class="ph ph-arrow-right" aria-hidden="true"></i></span></a>
+          ><span class="action-link-label">Read note <GroundArrow /></span></a>
         </article>
 
         {archiveArticles.length > 0 && (
           <section class="writing-index-archive" aria-labelledby="writing-archive-title">
             <header class="writing-index-archive-heading">
               <h2 id="writing-archive-title">More notes</h2>
-              <p>{archiveArticles.length} {archiveArticles.length === 1 ? "note" : "notes"}</p>
             </header>
 
             <ol class="writing-index-list article-index-list">
@@ -82,7 +82,7 @@ const formatDate = (date: Date) =>
         )}
       </>
     ) : (
-      <p class="writing-index-empty">Writing will appear here once there is something useful to share.</p>
+      <p class="writing-index-empty">No articles published yet.</p>
     )}
   </section>
 </BaseLayout>

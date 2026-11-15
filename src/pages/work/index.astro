@@ -1,4 +1,5 @@
 ---
+import GroundArrow from "../../components/ground/GroundArrow.astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getEntrySlug } from "../../lib/content";
@@ -8,20 +9,15 @@ const projects = (await getCollection("projects"))
   .filter((project) => project.data.status === "public")
   .sort((a, b) => a.data.order - b.data.order);
 
-const formatDate = (date?: Date) =>
-  date?.toLocaleDateString("en", { month: "short", year: "numeric" }) ?? "Ready for update";
-
-const formatProjectStatus = (source: "github" | "manual") =>
-  source === "github" ? "public repository" : "project note";
-
-
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en", { month: "short", year: "numeric" });
 ---
 
 <BaseLayout title="Experiments" description="Small public experiments by Hilmi Muktitama about planning, project notes, and software delivery.">
   <section class="section page-intro work-index" aria-labelledby="work-title">
     <div class="page-intro-main">
       <header class="page-intro-body work-index-header">
-        <h1 id="work-title">Experiments</h1>
+        <h1 id="work-title"><em>Experiments</em></h1>
         <p class="work-index-count">{projects.length} public {projects.length === 1 ? "experiment" : "experiments"}</p>
       </header>
       <section id="work-list" class="work-index-list" aria-labelledby="work-list-title">
@@ -29,18 +25,15 @@ const formatProjectStatus = (source: "github" | "manual") =>
         {projects.map((project) => (
           <article class={`project-index-item work-entry ${project.data.featured ? "is-featured" : ""}`}>
             <header class="project-index-title work-entry-header">
-              <p class="item-meta"><span>{project.data.kind === "component" ? "Companion experiment" : "Experiment"}</span><span>{project.data.updatedDate ? <time datetime={project.data.updatedDate.toISOString()}>{formatDate(project.data.updatedDate)}</time> : "Update not recorded"}</span></p>
+              {project.data.updatedDate && <p class="item-meta"><time datetime={project.data.updatedDate.toISOString()}>{formatDate(project.data.updatedDate)}</time></p>}
               <h2 class="view-transition-title" style={`--title-view-transition-name: experiment-title-${getEntrySlug(project)}`}><a href={withBase(`/work/${getEntrySlug(project)}/`)}>{project.data.title}</a></h2>
-              <div class="tag-row">
-                <span class="tag">{formatProjectStatus(project.data.source)}</span>
-                {project.data.language && <span class="tag">{project.data.language}</span>}
-              </div>
+              {project.data.language && <div class="tag-row"><span class="tag">{project.data.language}</span></div>}
             </header>
             <div class="work-entry-body">
               <p class="project-desc">{project.data.description}</p>
               <nav class="project-actions work-entry-actions" aria-label={`${project.data.title} links`}>
-                <a class="row-action" href={withBase(`/work/${getEntrySlug(project)}/`)} aria-label={`See ${project.data.title} experiment`}><span class="action-link-label">See experiment <i class="ph ph-arrow-right" aria-hidden="true"></i></span></a>
-                {project.data.repoUrl && <a class="external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Repository <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>}
+                <a class="row-action" href={withBase(`/work/${getEntrySlug(project)}/`)} aria-label={`Read about ${project.data.title}`}><span class="action-link-label">Read project <GroundArrow /></span></a>
+                {project.data.repoUrl && <a class="external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer">Repository <GroundArrow /></a>}
               </nav>
             </div>
           </article>

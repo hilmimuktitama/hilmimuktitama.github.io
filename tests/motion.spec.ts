@@ -85,7 +85,7 @@ test("native navigation keeps history and theme controls usable", async ({ page 
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/articles/");
-  await page.locator('.site-nav a[href$="/work/"]').click();
+  await page.locator('.ground-nav nav a[href$="/work/"]').click();
   await expect(page).toHaveURL(/\/work\/$/);
   await expect(page.locator("h1")).toHaveText("Experiments");
   await page.goBack();
@@ -93,10 +93,10 @@ test("native navigation keeps history and theme controls usable", async ({ page 
   await page.locator("[data-theme-toggle]").click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(page.locator("html")).not.toHaveAttribute("data-transition");
-  await page.locator('.site-nav a[href$="/contact/"]').focus();
+  await page.locator('.footer-bottom a[href$="/contact/"]').focus();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/contact\/$/);
-  await expect(page.locator("h1")).toHaveText("Get in touch.");
+  await expect(page.locator("h1")).toHaveText("Email me.");
   expect(errors).toEqual([]);
 });
 

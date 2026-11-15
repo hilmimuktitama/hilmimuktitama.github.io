@@ -48,7 +48,7 @@ export function createSocialImage(article?: { title: string; pubDate: Date }) {
       lines = wrapTitle(article.title, size);
     }
     const firstBaseline = 215 + size;
-    const title = `<g id="card-title" font-family="Newsreader" font-size="${size}" font-weight="400" fill="#22221f">${lines.map((line, index) => `<text x="64" y="${firstBaseline + index * size * 1.16}">${escapeXml(line)}</text>`).join("")}</g>`;
+    const title = `<g id="card-title" font-family="Newsreader" font-size="${size}" font-weight="400" fill="#293dc3">${lines.map((line, index) => `<text x="64" y="${firstBaseline + index * size * 1.16}">${escapeXml(line)}</text>`).join("")}</g>`;
     const date = article.pubDate.toLocaleDateString("en-GB", {
       day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Jakarta"
     });

@@ -1,0 +1,85 @@
+@import './ground-layout.css';
+
+/* Production composition and fixed-color panels. Shared palette and document
+   defaults live in global.css. Dark preference changes reading surfaces. */
+body.common-ground { background: var(--bg); color: var(--ink); }
+.common-ground h1, .common-ground h2, .common-ground h3, .common-ground h4 {
+  font-family: Hanken, Arial, sans-serif;
+  font-weight: 600;
+}
+.common-ground h1 { text-wrap: initial; }
+.common-ground em { font-family: Newsreader, Georgia, serif; font-weight: 400; }
+.common-ground .lede, .writing-detail-lede, .reading-header .lede {
+  font-family: Newsreader, Georgia, serif;
+  font-size: 24px;
+}
+.common-ground .prose { font-family: Newsreader, Georgia, serif; font-size: 21px; }
+.common-ground .prose p { line-height: 1.75; }
+.common-ground .prose h2, .common-ground .prose h3 { color: var(--accent); }
+.common-ground .ground-nav { background: #f5ecdc; color: #293dc3; --accent: #293dc3; }
+.ground-nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 7px; }
+.common-ground .ground-footer { color: #291e14; --accent: #291e14; --interactive-hover: #e5be4c; }
+.common-ground .ground-footer a { min-height: 44px; }
+.common-ground .ground-footer .theme-toggle { color: #291e14; border-color: #291e1470; }
+.ground-footer-compact { margin-top: 0; padding-top: 20px; }
+.ground-footer-compact .footer-bottom { border-top: 0; }
+.common-ground .ground-arrow { flex-shrink: 0; }
+.common-ground .ground-footer .footer-bottom { flex-wrap: wrap; }
+.common-ground .skip-link { background: #293dc3; color: #f5ecdc; }
+/* The homepage is the approved composition, independent of reading preference. */
+.common-ground.ground-home { background: #f5ecdc; color: #293dc3; --accent: #293dc3; }
+.ground-home .ground-writing { --accent: #f5ecdc; }
+.ground-home .ground-hero h1 { font-weight: 800; }
+.ground-home .hero-topline > .micro:only-child { display: block; max-width: none; text-align: left; }
+.ground-home .chapter-heading h2 { font-weight: 700; }
+.ground-home .notebook-card h3, .ground-home .work-entry h3 { font-weight: 500; }
+.ground-home .work-entry { display: block; padding: 0; }
+.ground-home .ground-work .chapter-link { margin-top: 25px; }
+.ground-home .ground-hero a:hover, .ground-home .ground-work a:hover { color: inherit; }
+.ground-home a:focus-visible, .ground-home button:focus-visible, .ground-home input:focus-visible { outline-color: currentColor; }
+/* Generous chapter typography with the existing readable document measures. */
+.writing-index-header h1, .work-index-header h1, .contact-header h1, .common-ground .not-found-header h1 { font-size: clamp(58px, 7.5vw, 112px); line-height: .96; letter-spacing: -.065em; }
+.writing-index-header .micro, .work-index-header .micro { margin-bottom: 25px; }
+.writing-index-header::before, .work-index-header::before { display: none; }
+.common-ground:has(.writing-index-page) main {
+  background: #293dc3; color: #f5ecdc;
+  --ink: #f5ecdc; --ink-soft: #f5ecdc; --muted: #e1dcdf;
+  --accent: #f5ecdc; --rule: #f5ecdc55; --focus: #e5be4c;
+  display: flow-root;
+}
+.common-ground:has(.work-index) main { background: #f0d9bc; color: #293dc3; --ink-soft: #303c78; --muted: #505b84; --accent: #293dc3; --rule: #293dc34a; display: flow-root; }
+.common-ground .work-index .work-entry { border-color: var(--rule); }
+.common-ground .work-index .work-entry h2 { font-size: clamp(32px, 3.5vw, 52px); letter-spacing: -.05em; }
+.common-ground .writing-index-entry-featured h2 { font-size: clamp(32px, 4vw, 58px); letter-spacing: -.045em; line-height: 1.06; }
+.common-ground .writing-index-list h2 { font-size: clamp(26px, 2.6vw, 38px); letter-spacing: -.04em; line-height: 1.1; }
+.common-ground .writing-index-entry-action, .common-ground .row-action { color: inherit; }
+.common-ground .resume-hero { padding: 45px; background: #e5be4c; color: #293dc3; --ink: #293dc3; --muted: #303c78; --ink-soft: #303c78; --accent: #293dc3; --bg: #e5be4c; --rule: #293dc34a; }
+.common-ground .resume-hero h1 { font-size: clamp(44px, 5.7vw, 82px); line-height: .98; }
+.common-ground .contact-page { margin-block: 0; padding-block: 70px 100px; }
+.common-ground:has(.contact-page) main { background: #d96440; color: #291e14; --ink-soft: #291e14; --muted: #39271d; --accent: #291e14; --rule: #291e1466; --bg-soft: #e5be4c; }
+.common-ground .contact-email { font-family: Hanken, Arial, sans-serif; font-size: clamp(22px, 3vw, 42px); }
+.common-ground .contact-email .ground-arrow { width: .7em; }
+.common-ground .copy-email[hidden] { display: none; }
+.common-ground .not-found-page { padding-block: 40px 65px; }
+@media (max-width: 700px) {
+  :root { --gutter: 5%; }
+  .common-ground .resume-hero { padding: 28px 20px; }
+  .common-ground .contact-page { padding-block: 45px 65px; }
+  .common-ground .prose { font-size: 20px; }
+  .common-ground .ground-brand { flex-shrink: 0; }
+  .ground-home .ground-work .chapter-heading h2 { font-size: clamp(44px, 11vw, 64px); }
+}
+@media print {
+  .ground-nav, .ground-footer { display: none; }
+  .common-ground, .common-ground .resume-hero { background: white; color: black; --ink: black; --ink-soft: black; --muted: #333; }
+}
+.common-ground em { font-synthesis: style; }
+.ground-home { line-height: normal; }
+.theme-toggle[hidden] { display: none; }
+.common-ground:not(.ground-home) #main-content { padding-bottom: 70px; }
+.common-ground:has(.contact-page) #main-content { padding-bottom: 0; }
+.common-ground .ground-footer a:hover { color: inherit; }
+.ground-home { font-size: 16px; }
+.ground-home .about-copy h2 { font-weight: 700; }
+.reading-theme-control { display: inline-flex; align-items: center; gap: 12px; }
+.reading-theme-control:has(.theme-toggle[hidden]) { display: none; }

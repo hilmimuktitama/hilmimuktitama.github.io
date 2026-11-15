@@ -1,4 +1,5 @@
 ---
+import GroundArrow from "../../components/ground/GroundArrow.astro";
 import { getCollection, render } from "astro:content";
 import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -29,8 +30,6 @@ const outlineHeadings = [
 const hasReadingOutline = outlineHeadings.length >= 3;
 const readingTime = getReadingTime(project.body ?? "");
 const isTruthTools = getEntrySlug(project) === "truth-tools";
-const formatProjectStatus = (source: "github" | "manual") =>
-  source === "github" ? "public repository" : "project note";
 const projectUrl = new URL(Astro.url.pathname, Astro.site ?? "https://hilmimuktitama.github.io").toString();
 const structuredData = {
   "@context": "https://schema.org",
@@ -49,9 +48,8 @@ const structuredData = {
   <article class="reading-page project-detail-page" aria-labelledby="project-title">
     <header class="reading-header">
       <div class="reading-header-top">
-        <a class="back-link" href={withBase("/work/")}><span class="action-link-label"><i class="ph ph-arrow-left" aria-hidden="true"></i> All experiments</span></a>
+        <a class="back-link" href={withBase("/work/")}><span class="action-link-label"><GroundArrow direction="left" /> All experiments</span></a>
       </div>
-      <p class="eyebrow">{formatProjectStatus(project.data.source)} <span class="eyebrow-divider">/</span> experiment</p>
       <h1 id="project-title" class="view-transition-title" style={`--title-view-transition-name: experiment-title-${getEntrySlug(project)}`}>{project.data.title}</h1>
       <p class="lede">{project.data.description}</p>
       <div class="reading-meta">
@@ -60,8 +58,8 @@ const structuredData = {
         <span>{readingTime.label}</span>
       </div>
       <nav class="link-row project-detail-links" aria-label={`${project.data.title} links`}>
-        {project.data.repoUrl && <a class="button-link primary external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer"><span class="action-link-label">View on GitHub <i class="ph ph-arrow-up-right" aria-hidden="true"></i></span></a>}
-        {project.data.liveUrl && <a class="button-link external-link" href={project.data.liveUrl} target="_blank" rel="noreferrer"><span class="action-link-label">View demo <i class="ph ph-arrow-up-right" aria-hidden="true"></i></span></a>}
+        {project.data.repoUrl && <a class="button-link primary external-link" href={project.data.repoUrl} target="_blank" rel="noreferrer"><span class="action-link-label">View on GitHub <GroundArrow /></span></a>}
+        {project.data.liveUrl && <a class="button-link external-link" href={project.data.liveUrl} target="_blank" rel="noreferrer"><span class="action-link-label">View demo <GroundArrow /></span></a>}
       </nav>
     </header>
     <div class:list={{ "reading-layout": true, "project-detail-layout": true, "has-reading-outline": hasReadingOutline }}>
@@ -82,7 +80,7 @@ const structuredData = {
             </a>
             <figcaption>
               Evidence repaired and quality checks passing while the project remains blocked.
-              <a class="project-evidence-demo-link" href={project.data.liveUrl} target="_blank" rel="noreferrer">Open demo <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+              <a class="project-evidence-demo-link" href={project.data.liveUrl} target="_blank" rel="noreferrer">Open demo <GroundArrow /></a>
             </figcaption>
           </figure>
         )}
@@ -90,11 +88,11 @@ const structuredData = {
           <section class="project-glance" aria-labelledby="project-glance-title">
             <h2 id="project-glance-title">At a glance</h2>
             <dl>
-              {project.data.glance.problem && <><dt>What I was trying to solve</dt><dd>{project.data.glance.problem}</dd></>}
-              {project.data.glance.myRole && <><dt>What I worked on</dt><dd>{project.data.glance.myRole}</dd></>}
+              {project.data.glance.problem && <><dt>Problem</dt><dd>{project.data.glance.problem}</dd></>}
+              {project.data.glance.myRole && <><dt>My role</dt><dd>{project.data.glance.myRole}</dd></>}
               {project.data.glance.whatChanged && <><dt>What changed</dt><dd>{project.data.glance.whatChanged}</dd></>}
-              {project.data.glance.evidenceAvailable && <><dt>What you can inspect</dt><dd>{project.data.glance.evidenceAvailable}</dd></>}
-              {project.data.glance.evaluationBoundary && <><dt>What this does not prove</dt><dd>{project.data.glance.evaluationBoundary}</dd></>}
+              {project.data.glance.evidenceAvailable && <><dt>Evidence</dt><dd>{project.data.glance.evidenceAvailable}</dd></>}
+              {project.data.glance.evaluationBoundary && <><dt>Limitations</dt><dd>{project.data.glance.evaluationBoundary}</dd></>}
             </dl>
           </section>
         )}

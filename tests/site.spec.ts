@@ -119,20 +119,6 @@ async function assertStaticPageQuality(page: Page, errors: { pageErrors: string[
 }
 
 async function applyScreenshotTypography(page: Page) {
-  await page.addStyleTag({
-    content: `
-      @font-face {
-        font-family: "E2E Hanken Grotesk";
-        src: url("/fonts/HankenGrotesk-VariableFont_wght.woff2") format("woff2");
-        font-style: normal;
-        font-weight: 100 900;
-        font-display: block;
-      }
-      h1, h2, h3 {
-        font-family: "E2E Hanken Grotesk", sans-serif;
-      }
-    `
-  });
   await page.evaluate(() => document.fonts.ready);
 }
 

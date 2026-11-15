@@ -1,4 +1,5 @@
 ---
+import GroundArrow from "../../components/ground/GroundArrow.astro";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ReadingOutline from "../../components/ReadingOutline.astro";
@@ -60,7 +61,7 @@ const structuredData = {
   <article class="writing-detail-page">
     <header class="writing-detail-header">
       <div class="writing-detail-nav">
-        <a class="writing-detail-back" href={withBase("/articles/")}><span class="action-link-label"><i class="ph ph-arrow-left" aria-hidden="true"></i> All writing</span></a>
+        <a class="writing-detail-back" href={withBase("/articles/")}><span class="action-link-label"><GroundArrow direction="left" /> All writing</span></a>
       </div>
       <p class="writing-detail-label">Writing <span aria-hidden="true">/</span> <time datetime={publishedTime}>{formattedDate}</time></p>
       <h1 class="view-transition-title" style={`--title-view-transition-name: article-title-${getEntrySlug(article)}`}>{article.data.title}</h1>
@@ -84,7 +85,7 @@ const structuredData = {
       <p class="writing-detail-footer-label">Continue reading</p>
       <a class="writing-detail-next" href={withBase(`/articles/${getEntrySlug(nextArticle)}/`)}>
         <span>{nextArticle.data.title}</span>
-        <i class="ph ph-arrow-right" aria-hidden="true"></i>
+        <GroundArrow />
       </a>
       <a class="writing-detail-all" href={withBase("/articles/")}><span class="action-link-label">View all writing</span></a>
     </footer>

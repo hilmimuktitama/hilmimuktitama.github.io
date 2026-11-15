@@ -10,3 +10,16 @@ The first Linux run passed all 93 functional tests. Comparing its captures to ma
 The November 2 article “Make the Effort to Understand Why” refreshes the seven `articles-*` images in each platform set. All 14 updated views were visually reviewed. The Linux captures come from [branch verification run 41472513555](https://github.com/hilmimuktitama/hilmimuktitama.github.io/actions/runs/41472513555) at `af91ef2`, using the same Ubuntu 24.04.5 / Node 22.23.4 / Playwright 1.62.1 environment. Each Linux image was byte-identical across three attempts; all 100 other tests passed. The macOS suite passed all 107 tests with its updated images. Work-archive images and comparison tolerances are unchanged.
 
 Run `npm run test:e2e:run` to compare the current platform's Chromium images. Use `npm run test:e2e:update -- --grep screenshot` only for intentional visual changes, then inspect every changed image. CI never updates baselines automatically. Keep both supported platform sets current when changing the archive layout; Firefox and WebKit runs continue to cover behavior without screenshot comparisons.
+
+## Common Ground implementation — 15 November 2026
+
+All 14 macOS Chromium baselines now show the approved Common Ground identity and
+were visually inspected together at desktop, tablet and mobile breakpoints.
+The screenshot helper now waits for the shipped Hanken/Newsreader fonts instead
+of overriding the approved typography. The 1% comparison threshold is unchanged.
+The identity panels intentionally retain their colors in both reading themes.
+
+The Linux images still document the preceding design. This local macOS session
+has no Linux runtime or container engine, and no push/CI execution was requested.
+They must be regenerated and inspected on Linux before a subsequent deployment;
+do not copy macOS images into that directory or disable the screenshot checks.

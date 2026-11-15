@@ -1,0 +1,14 @@
+---
+import { withBase } from '../../lib/urls';
+---
+<div class="ground-stage" data-ground-stage aria-label="Terracotta arch, cobalt slab, and yellow drum forming an abstract sculpture" role="img">
+  <div class="stage-ring" aria-hidden="true"></div>
+  <div class="stage-floor" aria-hidden="true"></div>
+  <div class="contact-shadow shadow-arch" aria-hidden="true"></div>
+  <div class="contact-shadow shadow-slab" aria-hidden="true"></div>
+  <div class="contact-shadow shadow-orb" aria-hidden="true"></div>
+  <img class="sculpture sculpture-arch" src={withBase('/ground/arch.webp')} width="1024" height="1024" alt="" fetchpriority="high"/>
+  <img class="sculpture sculpture-slab" src={withBase('/ground/slab.webp')} width="1024" height="1024" alt="" fetchpriority="high"/>
+  <img class="sculpture sculpture-orb" src={withBase('/ground/orb.webp')} width="1024" height="1024" alt="" fetchpriority="high"/>
+  <div class="stage-line" aria-hidden="true"></div>
+</div>

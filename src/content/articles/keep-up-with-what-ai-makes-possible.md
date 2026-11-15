@@ -88,7 +88,7 @@ Extend our hypothetical program. Platform marks tenant permissions complete. The
 <figcaption id="integration-gap-title"><strong>What separate tests can miss</strong><span>A hypothetical tenant-permission integration. Both suites could pass while the connection remains untested.</span></figcaption>
 <div class="ai-news-integration">
 <div class="ai-news-component"><span class="ai-news-owner">Consuming team</span><strong>Client omits tenant ID</strong><span class="ai-news-test">Client tests use a mocked service.</span></div>
-<div class="ai-news-request"><span aria-hidden="true">→</span><span>Request</span></div>
+<div class="ai-news-request"><span aria-hidden="true"><svg class="ground-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span><span>Request</span></div>
 <div class="ai-news-component"><span class="ai-news-owner">Platform team</span><strong>Service requires tenant ID</strong><span class="ai-news-test">Service tests provide the ID directly.</span></div>
 </div>
 <p class="ai-news-figure-note"><strong>The missing evidence:</strong> a compatibility test using the client and service versions planned for the release.</p>

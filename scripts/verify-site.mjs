@@ -337,6 +337,11 @@ const verificationPages = htmlPages.filter((page) =>
   /^google-site-verification:\s*google[\w-]+\.html\s*$/i.test(page.html.trim())
 );
 const sitePages = htmlPages.filter((page) => !verificationPages.includes(page));
+// Release builds must not contain local design studies or verification artifacts.
+for (const directory of ['lab', 'motion', 'docs', 'test-results', 'playwright-report', '.git']) {
+  check(!existsSync(join(distRoot, directory)), `production excludes ${directory}`);
+}
+check(!sitePages.some(page => page.route.startsWith('/lab/')), 'production excludes study routes');
 const pageByRoute = new Map(sitePages.map((page) => [page.route, page]));
 const generatedRouteMounts = [...pageByRoute.keys()];
 
@@ -477,7 +482,7 @@ const homepageContactLinks = [...distIndexHtml.matchAll(/<a\b[^>]*href\s*=\s*(?:
   .filter((href) => href === "/contact/" || href === `${basePath}/contact/`);
 const cssDir = join(distRoot, "_astro");
 const css = existsSync(cssDir) ? readdirSync(cssDir).filter((file) => file.endsWith(".css")).map((file) => readFileSync(join(cssDir, file), "utf8")).join("\n") : "";
-const baseLayoutSource = read("src/layouts/BaseLayout.astro");
+const baseLayoutSource = read("src/layouts/BaseLayout.astro") + read("src/components/ground/GroundFooter.astro");
 const globalCssSource = read("src/styles/global.css");
 const seniorTpm = read("src/content/resume/mekari-senior-technical-program-manager.md");
 const projectTruth = read("src/content/projects/program-truth.md");

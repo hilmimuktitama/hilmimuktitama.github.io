@@ -1,3 +1,21 @@
+# Common Ground release — November 15, 2026
+
+The user authorized production publication of the Common Ground implementation. The release keeps the approved headline, artwork and automatic assembly animation, carries the identity through all 22 public routes, and preserves authored content and URLs.
+
+Only production sources, required assets, maintained documentation and regression tests are included. Local study routes, prototype components, alternative artwork, frozen review HTML, generated captures, HyperFrames caches and local scripts are excluded. The editable design work remains in the existing local worktree. Unused prior homepage components and styles are retired.
+
+Astro is updated to 7.4.12, including the upstream [dynamic-tag escaping fix](https://github.com/advisories/GHSA-mh32-jxcr-mh9f) and [image endpoint path fix](https://github.com/advisories/GHSA-r3h5-4585-7x3w). The dependency audit reports zero vulnerabilities after the update.
+
+The production font reuses the existing licensed Newsreader file. `public/ground/score.js` remains byte-identical to the approved shared score. The public runtime contains no study playback controls. Static verification rejects development-artifact directories in `dist`.
+
+A manual workflow run on the feature branch verifies the committed tree on Linux without deploying. Only `main` may deploy. Review the Linux screenshot captures before accepting baselines, then require a successful verification run before advancing production. The existing screenshot tolerance is unchanged.
+
+The GitHub Actions workflow records exact commit IDs and build/deployment outcomes. After deployment, verify the live routes, assets, headline, contact, metadata, missing-page behavior and absence of `/lab/` output.
+
+---
+
+## Historical release record
+
 # Release record — November 2, 2026
 
 The editorial revamp and public-source cleanup are authorized for publication to `hilmimuktitama/hilmimuktitama.github.io`. This record describes the checked release and its history scope. The [GitHub Pages workflow](https://github.com/hilmimuktitama/hilmimuktitama.github.io/actions/workflows/deploy.yml) records deployment results.

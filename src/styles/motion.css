@@ -66,16 +66,16 @@
     transition: transform var(--motion-fast) var(--ease-out);
   }
 
-  :root:not([data-input="keyboard"]) .site-nav a {
+  :root:not([data-input="keyboard"]) .ground-nav nav a {
     position: relative;
     text-decoration: none;
   }
 
-  :root:not([data-input="keyboard"]) .site-nav a[aria-current="page"] {
+  :root:not([data-input="keyboard"]) .ground-nav nav a[aria-current="page"] {
     text-decoration: underline;
   }
 
-  :root:not([data-input="keyboard"]) .site-nav a::after {
+  :root:not([data-input="keyboard"]) .ground-nav nav a::after {
     position: absolute;
     right: 0;
     bottom: 0.25rem;
@@ -88,11 +88,11 @@
     transition: transform var(--motion-fast) var(--ease-out);
   }
 
-  :root:not([data-input="keyboard"]) .site-nav a:hover::after {
+  :root:not([data-input="keyboard"]) .ground-nav nav a:hover::after {
     transform: scaleX(1);
   }
 
-  :root:not([data-input="keyboard"]) .site-nav a[aria-current="page"]::after {
+  :root:not([data-input="keyboard"]) .ground-nav nav a[aria-current="page"]::after {
     display: none;
   }
 

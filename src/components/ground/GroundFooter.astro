@@ -1,0 +1,29 @@
+---
+import { withBase, GITHUB_URL, LINKEDIN_URL } from '../../lib/urls';
+import GroundArrow from './GroundArrow.astro';
+const { compact = false } = Astro.props;
+---
+<footer class:list={['ground-footer', { 'ground-footer-compact': compact }]}>
+  {!compact && <>
+    <a class="footer-invitation" href="mailto:hilmimukti@gmail.com">
+      Email <em>me.</em><span><GroundArrow/></span>
+    </a>
+  </>}
+  <div class="footer-bottom">
+    {!compact && <nav aria-label="Social navigation">
+      <a href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn</a>
+      <a href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub</a>
+      <a href={withBase('/contact/')}>Contact</a>
+    </nav>}
+    <span class="reading-theme-control">
+      <span>Reading theme</span>
+      <button class="theme-toggle" type="button" data-theme-toggle hidden aria-pressed="false" aria-label="Switch to dark mode">
+        <span class="theme-toggle-icons" aria-hidden="true">
+          <i class="ph ph-sun theme-icon-light"></i><i class="ph ph-moon theme-icon-dark"></i>
+        </span>
+        <span class="sr-only" data-theme-toggle-value>Light</span>
+      </button>
+    </span>
+    <span>Hilmi Muktitama</span>
+  </div>
+</footer>

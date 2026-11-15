@@ -16,7 +16,7 @@
 }
 
 @media screen and (prefers-reduced-motion: no-preference) {
-  .site-header { view-transition-name: site-header; }
+  .ground-nav { view-transition-name: site-header; }
 
   ::view-transition { pointer-events: none; }
   ::view-transition-group(*) {
@@ -59,7 +59,7 @@
     }
   }
 
-  :root[data-transition="theme"] .site-header { view-transition-name: none; }
+  :root[data-transition="theme"] .ground-nav { view-transition-name: none; }
   :root[data-transition="theme"]::view-transition-old(root) {
     animation: page-fade-out 180ms ease both;
   }

@@ -1,38 +1,28 @@
-# Design direction: editorial line studies
+# Common Ground
 
-The homepage leads with current content. Its title, description, date, and destination come from the latest published article. The next three articles appear in a vertical list. If no articles are available, the first public experiment supplies the lead; with no published content, the page shows the site name. Empty Writing and Experiments sections are omitted.
+The approved identity uses cream, cobalt, terracotta and mustard, Hanken Grotesk and Newsreader, and generated architectural plaster artwork. The homepage has an asymmetric headline, cobalt writing section, warm experiments section, mustard About section and terracotta contact area. This identity continues through every article, project, resume, contact and 404 page.
 
-Public experiments come from `src/content/projects/`, sorted by their existing `order` field. The homepage and archive both display each entry's own title and description. There are no title-specific description overrides, illustration assignments, or custom layouts to maintain for individual experiments.
+The headline is **Good work happens between.** Preserve that wording and its staggered reveal. Hilmi wants a personal site for writing, experiments, technology and work. Technical program management is part of his background, not the site's defining identity. Copy edits must preserve that broader positioning.
 
-The shared header retains the site name and navigation. Role labels, location labels, a fixed promotional headline, and the homepage biography have been removed. The résumé remains available through ordinary navigation.
+## Production sources
 
-## Visual structure
+- `src/components/ground/` owns the shared header, footer, sculpture and SVG arrows.
+- `src/styles/ground-layout.css` and `ground-stage.css` hold the composition; `ground.css` integrates it with the document styles in `global.css`.
+- `public/ground/` contains only the required generated artwork, shared motion score and production runtime.
+- Newsreader uses the existing licensed font in `src/assets/fonts/`; Hanken uses `public/fonts/`.
 
-The [initial generated reference](redesign-proposals/2026-11-01-editorial-lines/reference.png) established the paper-and-ink palette, serif hierarchy, open article rows, dark experiment section, and layered linework. Its illustrative text is not a content source. The subsequent content-led revision supersedes its fixed headline, profile labels, and per-project diagrams.
+The editable HyperFrames project and frozen design studies remain local design artifacts. The approved ten-second `public/ground/score.js` is unchanged from that shared score. Local prototypes and review exports are excluded from commits and deployment. Do not restore a runtime dependency on `/lab/`.
 
-A single start-aligned page grid, capped at 1280px, keeps Writing and Experiments in normal vertical flow. The lead sizes to its content and reserves a short drawing area below the copy. Its contours extend to the viewport edges without opaque text masks. The experiment heading and shared illustration sit together above compact project rows. On narrow screens, descriptions use the full available row width and header controls retain their desktop order. The [fuller linework reference](redesign-proposals/2026-11-01-editorial-lines/reference-fuller-lines-v2.png) develops the drawing into three curved surfaces: an upper canopy, a central saddle, and a returning lower fold. Cross-ribs, varied stroke weights, perspective planes, and two orange signal paths give the surfaces depth. The experiment study uses expanding and narrowing elliptical cross-sections. Mobile layouts omit alternate fine contours and ribs and fit the full upper curve inside the artwork area. There are two shared SVG studies: one in the lead section and one for the experiment section. Neither depends on project names, concepts, or the number of entries.
+## Content and interaction
 
-## Inner pages
+The homepage uses published articles and public projects from the existing collections. Content, URLs, metadata, publication filtering, structured data and sitemaps are preserved. Article rows begin with dates and topics, without sequence numbers. "A little more about me" and "Let's talk" are text-only; other arrows use the GroundArrow SVG component.
 
-Writing, Experiments, article and project details, Resume, Contact, and the 404 page share the homepage's ivory/charcoal palette, serif hierarchy, compact navigation, and thin rules. These changes live in the existing global stylesheet and page templates. Article prose uses Georgia at a bounded reading measure; metadata and navigation keep the existing sans serif. The archive openings show collection counts instead of fixed topic taglines. Project descriptions and actions stay together in compact rows.
+Headings and links use direct wording. Decorative slogans, repeated labels and generic principles are removed. Authored article prose, project details and resume facts remain intact.
 
-Contact presents the email address, copy action, and external profiles without role or location framing. The resume retains its career information and derives the current role from the first ordered experience entry. The existing reading outline, copy feedback, theme control, GSAP entrances, and content collections remain in place; this pass adds no dependencies or animation machinery.
+The sculpture plays once when it enters view: rigid pieces lift, align and seat in sequence, with height-sensitive shadows. The headline reveals with it. Playback pauses offscreen or while the document is hidden, resumes on return, and finishes assembled. No playback controls are exposed. Reduced motion and keyboard navigation settle the composition; history restoration does not replay it. Cleanup affects only owned animations and listeners.
 
-The homepage ends in one compact footer: name, email, external profiles, and back-to-top, with one divider. The redundant Contact heading and duplicate email call to action have been removed. Links retain 44px hit targets and wrap on narrow screens.
+All content and native project disclosures work without JavaScript. Writing filters initialize progressively. The persistent theme preference changes reading surfaces; identity panels retain their approved colors. Resume printing uses white and black.
 
-## Motion
+## Verification
 
-`src/components/LineStudy.astro` generates three compatible poses from shared surface frames and continuous cubic tangents. Each surface's contours, cross-ribs, signal paths, and nodes use the same timing phase, keeping their connections intact during interpolation. `TangledMotion.astro` uses one GSAP ScrollTrigger timeline per study: the layers open and then settle, short tracers advance along the two signal paths, and pulse rings expand around their moving anchors. The entrance draws contours, ribs, and accents in sequence using normalized path lengths, without querying every path's geometry. Hidden mobile detail is also omitted from the animation targets. Content receives a small vertical entrance. There is no horizontal card movement, pinning, drag interaction, custom cursor, hidden-link reveal, or continuous idle loop.
-
-Motion responds to the device preference and the saved site control, and stops for keyboard navigation. Scoped contexts clean up on page exit and restore without replaying the initial entrance. Without JavaScript, all content and native navigation remain available.
-
-## Files and maintenance
-
-- Homepage composition: `src/pages/index.astro`.
-- Shared motion and SVG: `src/components/TangledMotion.astro`, `src/components/LineStudy.astro`.
-- Page geometry and styling: `src/styles/editorial-layout.css`, `src/styles/tangled-world.css`.
-- Writing: `src/content/articles/`; experiments: `src/content/projects/`.
-- [Reference, prompt, and verification notes](redesign-proposals/2026-11-01-editorial-lines/README.md).
-- [Standalone preview](redesign-proposals/2026-11-01-editorial-lines/preview.html).
-
-Adding, removing, reordering, or editing an experiment requires changing its content entry, not the homepage illustration or animation code. Existing individual project detail content remains separate from this shared presentation.
+Run the build, static verification and Playwright suite listed in the README. Regression coverage includes all published routes, both reading themes, navigation, focus, clipboard, overflow, motion ownership and the shared score's rigid landings. Both macOS and Linux archive screenshot baselines must be reviewed when layouts change; keep the existing 1% tolerance.

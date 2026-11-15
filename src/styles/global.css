@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "Hanken Grotesk";
-  src: url("/fonts/HankenGrotesk-VariableFont_wght.woff2") format("woff2");
+  font-family: Hanken;
+  src: url("../../public/fonts/HankenGrotesk-VariableFont_wght.woff2") format("woff2");
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -8,47 +8,46 @@
 
 :root {
   color-scheme: light;
-  --bg: #f8f6f0;
-  --bg-elevated: #fffdf8;
-  --bg-soft: #ede9df;
-  --ink: #22221f;
-  --ink-soft: #514f48;
-  --muted: #69665f;
-  --accent: #b94b2c;
-  --rule: #d5d0c5;
+  --bg: #f5ecdc;
+  --bg-elevated: #faf3e7;
+  --bg-soft: #f0d9bc;
+  --ink: #293dc3;
+  --ink-soft: #303c78;
+  --muted: #505b84;
+  --accent: #293dc3;
+  --rule: #293dc34a;
   --header-bg: var(--bg);
   --tag-bg: transparent;
-  --interactive-hover: #ede9df;
-  --primary-button-ink: #fff8ed;
-  --code-block-bg: #211b18;
-  --code-ink: #f6eddf;
-  --selection: #f2b89f;
-  --focus: #ae3b20;
+  --interactive-hover: #e5be4c;
+  --primary-button-ink: #f5ecdc;
+  --code-block-bg: #202b73;
+  --code-ink: #f5ecdc;
+  --selection: #e5be4c;
+  --focus: #293dc3;
   --page-max: 1280px;
   --content-max: 1280px;
   --reading-max: 720px;
-  --gutter: clamp(24px, 4.8vw, 72px);
+  --gutter: 4.5%;
   --speed: 160ms;
-  font-family: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: Hanken, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
 }
 
-[data-theme="dark"] {
+:root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #242522;
-  --bg-elevated: #30312c;
-  --bg-soft: #363830;
-  --ink: #f1eee5;
-  --ink-soft: #d4d0c6;
-  --muted: #b9b5aa;
-  --accent: #ed9874;
-  --rule: #4b4c44;
-  --interactive-hover: #363830;
-  --primary-button-ink: #29221f;
-  --code-block-bg: #191513;
-  --code-ink: #f6eddf;
-  --selection: #80513f;
-  --focus: #f09673;
+  --bg: #202b73;
+  --bg-elevated: #293780;
+  --bg-soft: #303f8e;
+  --ink: #f5ecdc;
+  --ink-soft: #e5ddcc;
+  --muted: #ccc8d1;
+  --accent: #e5be4c;
+  --rule: #f5ecdc55;
+  --interactive-hover: #303f8e;
+  --primary-button-ink: #202b73;
+  --code-block-bg: #17215c;
+  --code-ink: #f5ecdc;
+  --focus: #e5be4c;
 }
 
 * { box-sizing: border-box; }
@@ -63,7 +62,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-::selection { background: var(--selection); color: var(--ink); }
+::selection { background: var(--selection); color: #293dc3; }
 a { color: inherit; text-decoration: none; text-underline-offset: 0.28em; text-decoration-thickness: 1px; }
 a, button { -webkit-tap-highlight-color: transparent; }
 button, input, textarea, select { font: inherit; }
@@ -71,7 +70,7 @@ button { color: inherit; }
 a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 5px; }
 p, h1, h2, h3, h4, ol, ul, dl, dd, blockquote, figure { margin: 0; }
 ol, ul { padding: 0; }
-h1, h2, h3, h4 { font-family: Georgia, serif; font-weight: 400; line-height: 1.12; letter-spacing: -0.035em; }
+h1, h2, h3, h4 { font-family: Hanken, Arial, sans-serif; font-weight: 600; line-height: 1.12; letter-spacing: -0.035em; }
 h1 { font-size: clamp(44px, 5.1vw, 72px); letter-spacing: -.055em; text-wrap: balance; }
 h2 { font-size: 2rem; }
 h3 { font-size: 1.5rem; }
@@ -113,7 +112,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 .brand { justify-self: start; display: flex; align-items: center; min-height: 44px; }
 .brand-copy { display: flex; flex-direction: column; gap: 0.2rem; }
-.brand-name { color: var(--ink); font: 400 24px/1.15 Georgia, serif; letter-spacing: -.045em; }
+.brand-name { color: var(--ink); font: 400 24px/1.15 Newsreader, Georgia, serif; letter-spacing: -.045em; }
 .site-nav { display: flex; align-items: center; gap: 28px; }
 .site-nav a { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0.5rem; font-size: 14px; line-height: 1.4; white-space: nowrap; }
 .site-nav a[aria-current="page"] { color: var(--accent); text-decoration: underline; }
@@ -152,7 +151,7 @@ img { display: block; max-width: 100%; height: auto; }
 .external-link { display: inline-flex; align-items: center; min-height: 44px; gap: 0.35rem; }
 .text-link .ph, .row-action .ph { font-size: 0.95em; }
 .eyebrow, .writing-index-label, .writing-index-feature-label, .writing-detail-label, .writing-detail-aside-label, .writing-detail-footer-label {
-  font-family: "Hanken Grotesk", sans-serif;
+  font-family: Hanken, sans-serif;
   color: var(--accent);
   font-size: 10px;
   line-height: 1.5;
@@ -162,7 +161,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 .eyebrow-divider { margin-inline: 0.6rem; color: var(--muted); }
 .muted, .meta { color: var(--muted); }
-.lede { max-width: 42rem; font: 400 clamp(19px, 1.6vw, 22px)/1.5 Georgia, serif; color: var(--ink-soft); }
+.lede { max-width: 42rem; font: 400 clamp(19px, 1.6vw, 22px)/1.5 Newsreader, Georgia, serif; color: var(--ink-soft); }
 
 /* A full-width illustration shares the hero with live, selectable text. */
 
@@ -226,14 +225,14 @@ img { display: block; max-width: 100%; height: auto; }
 .writing-detail-label, .reading-header > .eyebrow { margin-block: 0 20px; }
 .writing-detail-label > span { padding-inline: 0.6rem; }
 .writing-detail-header h1, .reading-header h1 { max-width: 56rem; font-size: clamp(40px, 4.8vw, 64px); line-height: 1.06; }
-.writing-detail-lede, .reading-header .lede { max-width: 44rem; margin-top: 24px; font: 400 21px/1.5 Georgia, serif; color: var(--ink-soft); }
+.writing-detail-lede, .reading-header .lede { max-width: 44rem; margin-top: 24px; font: 400 21px/1.5 Newsreader, Georgia, serif; color: var(--ink-soft); }
 .reading-meta { margin-top: 20px; font-size: 11px; }
 .project-detail-links { margin-top: 16px; font-size: 13px; }
 .writing-detail-layout, .reading-layout { display: grid; grid-template-columns: 180px minmax(0, var(--reading-max)); gap: 48px; margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--rule); }
 .writing-detail-layout:not(.has-reading-outline), .reading-layout:not(.has-reading-outline) { grid-template-columns: minmax(0, var(--reading-max)); }
 .writing-detail-aside, .reading-aside { color: var(--muted); font-size: 0.9rem; }
 .writing-detail-aside > p + p, .reading-aside > p + p { margin-top: 0.85rem; }
-.prose { min-width: 0; font: 400 19px/1.75 Georgia, serif; overflow-wrap: break-word; }
+.prose { min-width: 0; font: 400 19px/1.75 Newsreader, Georgia, serif; overflow-wrap: break-word; }
 .prose > :first-child { margin-top: 0; }
 .prose p + p { margin-top: 1.25rem; }
 .prose h2 { margin: 3.5rem 0 1.25rem; font-size: clamp(1.65rem, 2.5vw, 2rem); line-height: 1.25; letter-spacing: -0.025em; }
@@ -313,7 +312,7 @@ img { display: block; max-width: 100%; height: auto; }
 .contact-page { padding-bottom: 48px; }
 .contact-header > .eyebrow { margin-bottom: 1.25rem; }
 .contact-primary { font-style: normal; margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--rule); }
-.contact-email { display: inline-flex; align-items: center; gap: 16px; margin-block: 12px; font: 400 clamp(24px, 3vw, 42px)/1.3 Georgia, serif; letter-spacing: -.035em; text-decoration: none; overflow-wrap: anywhere; }
+.contact-email { display: inline-flex; align-items: center; gap: 16px; margin-block: 12px; font: 400 clamp(24px, 3vw, 42px)/1.3 Newsreader, Georgia, serif; letter-spacing: -.035em; text-decoration: none; overflow-wrap: anywhere; }
 .contact-email [data-contact-email] { text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 .contact-email .ph { font-size: .7em; color: var(--accent); }
 .contact-note { color: var(--muted); max-width: 37rem; }
@@ -431,9 +430,9 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 @media print {
-  :root, [data-theme="dark"] { --bg: #fff; --ink: #111; --ink-soft: #333; --muted: #555; --accent: #111; --rule: #ccc; }
+  :root, :root[data-theme="dark"] { --bg: #fff; --ink: #111; --ink-soft: #333; --muted: #555; --accent: #111; --rule: #ccc; }
   body { font-size: 10pt; }
-  .site-header, .site-footer, .skip-link, .resume-contact { display: none; }
+  .ground-nav, .ground-footer, .skip-link, .resume-contact { display: none; }
   .resume-page { width: 100%; margin: 0; }
   .resume-hero, .resume-section { display: block; }
   .resume-section { margin-top: 1.5rem; padding-top: 1rem; }

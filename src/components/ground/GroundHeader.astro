@@ -1,0 +1,16 @@
+---
+import { withBase } from '../../lib/urls';
+const current = (path: string) => Astro.url.pathname.startsWith(withBase(path)) ? 'page' : undefined;
+---
+<header class="ground-nav">
+  <a class="ground-brand" href={withBase('/')} aria-label="Hilmi Muktitama home">
+    <span class="ground-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span>Hilmi<br/>Muktitama</span>
+  </a>
+  <nav aria-label="Primary navigation">
+    <a href={withBase('/articles/')} aria-current={current('/articles/')}>Writing</a>
+    <a href={withBase('/work/')} aria-current={current('/work/')}>Experiments</a>
+    <a href={withBase('/resume/')} aria-current={current('/resume/')}>About</a>
+  </nav>
+  <a class="hello-link" href="mailto:hilmimukti@gmail.com">Let's talk</a>
+</header>

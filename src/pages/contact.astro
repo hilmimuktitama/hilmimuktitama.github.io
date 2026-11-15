@@ -1,4 +1,5 @@
 ---
+import GroundArrow from "../components/ground/GroundArrow.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { GITHUB_URL, LINKEDIN_URL } from "../lib/urls";
 import { CONTACT_EMAIL } from "../lib/resume";
@@ -15,14 +16,12 @@ import { CONTACT_EMAIL } from "../lib/resume";
     </div>
     <div class="contact-body">
       <header class="contact-header">
-        <h1 id="contact-title">Get in touch.</h1>
-        <p class="lede">Email is the easiest way to reach me.</p>
+        <h1 id="contact-title">Email <em>me.</em></h1>
       </header>
       <address class="contact-letter contact-primary">
-        <p class="eyebrow">Email</p>
         <div class="contact-email-row">
-          <a class="contact-email" href={`mailto:${CONTACT_EMAIL}`}><span data-contact-email>{CONTACT_EMAIL}</span> <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-          <button class="copy-email" type="button" data-copy-email={CONTACT_EMAIL}>
+          <a class="contact-email" href={`mailto:${CONTACT_EMAIL}`}><span data-contact-email>{CONTACT_EMAIL}</span> <GroundArrow /></a>
+          <button class="copy-email" type="button" data-copy-email={CONTACT_EMAIL} hidden>
             <span class="copy-email-content">
               <i class="ph ph-copy" data-copy-icon aria-hidden="true"></i>
               <span data-copy-label>Copy email</span>
@@ -32,9 +31,8 @@ import { CONTACT_EMAIL } from "../lib/resume";
         <p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
       </address>
       <nav class="contact-elsewhere contact-secondary" aria-label="Other ways to connect">
-        <p class="eyebrow">Elsewhere</p>
-        <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-        <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+        <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn <GroundArrow /></a>
+        <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <GroundArrow /></a>
       </nav>
     </div>
   </section>
@@ -121,6 +119,7 @@ import { CONTACT_EMAIL } from "../lib/resume";
 
 <script>
   const copyButton = document.querySelector<HTMLButtonElement>("[data-copy-email]");
+  if (copyButton) copyButton.hidden = false;
   const copyStatus = document.querySelector<HTMLElement>("[data-copy-status]");
   const copyIcon = copyButton?.querySelector<HTMLElement>("[data-copy-icon]");
   const copyLabel = copyButton?.querySelector<HTMLElement>("[data-copy-label]");

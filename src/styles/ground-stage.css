@@ -1,0 +1,11 @@
+.ground-stage{position:relative;isolation:isolate;aspect-ratio:1.7;width:100%;color:#293dc3;container-type:inline-size}
+.sculpture{position:absolute;object-fit:contain;will-change:transform;pointer-events:none;height:auto}
+.sculpture-arch{width:66%;left:8%;bottom:0;z-index:2}
+.sculpture-slab{width:53%;right:0;bottom:4%;z-index:3}
+.sculpture-orb{width:34%;left:0;bottom:0;z-index:4}
+.stage-ring{position:absolute;width:48%;aspect-ratio:1;right:9%;top:0;border:1px solid #c7a97e;border-radius:50%;z-index:0}
+.stage-floor{position:absolute;left:8%;right:3%;bottom:1%;height:16%;border-radius:50%;background:#d8b994;opacity:.3;z-index:0}
+.stage-line{position:absolute;left:0;right:0;bottom:0;height:1px;background:#c7a97e;transform-origin:left}
+
+.contact-shadow{position:absolute;height:6%;background:radial-gradient(ellipse,rgba(92,57,28,.24),rgba(92,57,28,0) 70%);z-index:1;pointer-events:none;transform-origin:center;will-change:transform,opacity}
+.shadow-arch{left:13%;bottom:1%;width:52%}.shadow-slab{left:57%;bottom:5%;width:28%}.shadow-orb{left:2.5%;bottom:1%;width:25%}

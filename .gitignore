@@ -17,3 +17,23 @@ npm-debug.log*
 # Playwright verification artifacts
 test-results/
 playwright-report/
+
+# Local design studies and review exports; production uses public/ground.
+/public/lab/
+/src/pages/lab/
+/src/components/lab/
+/src/lib/concepts.ts
+/src/styles/concepts.css
+/src/styles/ground-studio.css
+/motion/
+/docs/redesign-proposals/2026-11-15-common-ground-studio/
+/docs/redesign-proposals/2026-11-15-hybrid/
+/docs/visual-qa/common-ground/
+/scripts/build-ground*-review.mjs
+/scripts/build-hybrid-comparison.mjs
+/scripts/export-ground-*.mjs
+/scripts/export-hybrid-concepts.mjs
+/scripts/sync-ground-motion.mjs
+/scripts/sync-hybrid-motion.mjs
+/scripts/verify-ground-*.mjs
+/scripts/verify-hybrid-*.mjs

@@ -1,11 +1,14 @@
 ---
 import "../styles/global.css";
+import "../styles/ground.css";
+import GroundHeader from '../components/ground/GroundHeader.astro';
+import GroundFooter from '../components/ground/GroundFooter.astro';
 import "../styles/motion.css";
 import "../styles/page-transitions.css";
 import "@phosphor-icons/web/regular";
 import SiteMotion from "../components/SiteMotion.astro";
 import ArchiveMotion from "../components/ArchiveMotion.astro";
-import { GITHUB_URL, LINKEDIN_URL, withBase } from "../lib/urls";
+import { withBase } from "../lib/urls";
 
 interface Props {
   title?: string;
@@ -57,8 +60,7 @@ const structuredDataJson = structuredData
       return "\\u0026";
     })
   : undefined;
-const pathname = Astro.url.pathname;
-const isCurrent = (path: string) => pathname.startsWith(withBase(path));
+
 ---
 
 <!doctype html>
@@ -105,52 +107,17 @@ const isCurrent = (path: string) => pathname.startsWith(withBase(path));
     </script>
     <title>{pageTitle}</title>
     <SiteMotion />
+    <meta name="theme-color" content="#f5ecdc" />
     {structuredDataJson && <script is:inline type="application/ld+json" set:html={structuredDataJson} />}
   </head>
-  <body class:list={{ "tangled-home": immersive }}>
+  <body class:list={["common-ground", { "ground-home": immersive }]}>
     <div class="site-shell">
       <a class="skip-link" href="#main-content">Skip to main content</a>
-      <header class="site-header">
-        <div class="site-header-inner">
-          <a class="brand" href={withBase("/")} aria-label="Hilmi Muktitama home">
-            <span class="brand-copy">
-              <span class="brand-name">Hilmi Muktitama</span>
-            </span>
-          </a>
-          <nav class="site-nav" aria-label="Primary navigation">
-            <a href={withBase("/articles/")} aria-current={isCurrent("/articles/") ? "page" : undefined}>Writing</a>
-            <a href={withBase("/work/")} aria-current={isCurrent("/work/") ? "page" : undefined}>Experiments</a>
-            <a href={withBase("/resume/")} aria-current={isCurrent("/resume/") ? "page" : undefined}>Resume</a>
-            <a href={withBase("/contact/")} aria-current={isCurrent("/contact/") ? "page" : undefined}>Contact</a>
-          </nav>
-          {immersive && <button class="world-motion" type="button" data-world-motion aria-pressed="false">Motion: on</button>}
-          <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to dark mode">
-            <span class="theme-toggle-icons" aria-hidden="true">
-              <i class="ph ph-sun theme-icon-light"></i>
-              <i class="ph ph-moon theme-icon-dark"></i>
-            </span>
-            <span class="sr-only" data-theme-toggle-value>Light</span>
-          </button>
-        </div>
-      </header>
+      <GroundHeader />
       <main id="main-content" tabindex="-1">
         <slot />
       </main>
-      {showContactFooter && (
-        <footer class="site-footer" id="contact">
-          <div class="footer-intro">
-            <p class="footer-kicker">© {new Date().getFullYear()} Hilmi Muktitama</p>
-          </div>
-          <div class="footer-cta">
-            <a class="text-link" href={withBase("/contact/")}><span class="action-link-label">Get in touch <i class="ph ph-arrow-right" aria-hidden="true"></i></span></a>
-          </div>
-          <div class="footer-links" aria-label="Contact links">
-            <a href="mailto:hilmimukti@gmail.com">hilmimukti@gmail.com</a>
-            <a class="external-link" href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-            <a class="external-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
-          </div>
-        </footer>
-      )}
+      <GroundFooter compact={!showContactFooter} />
       {!immersive && <ArchiveMotion />}
     </div>
     <script is:inline>
@@ -163,6 +130,8 @@ const isCurrent = (path: string) => pathname.startsWith(withBase(path));
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
         if (!(toggle instanceof HTMLButtonElement) || !toggleValue) return;
+
+        toggle.hidden = false;
 
         const getStoredTheme = () => {
           try {

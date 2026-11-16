@@ -10,7 +10,15 @@ const current = (path: string) => Astro.url.pathname.startsWith(withBase(path)) 
   <nav aria-label="Primary navigation">
     <a href={withBase('/articles/')} aria-current={current('/articles/')}>Writing</a>
     <a href={withBase('/work/')} aria-current={current('/work/')}>Experiments</a>
-    <a href={withBase('/resume/')} aria-current={current('/resume/')}>About</a>
+    <span class="ground-about-theme">
+      <a href={withBase('/resume/')} aria-current={current('/resume/')}>About</a>
+      <button class="theme-toggle" type="button" data-theme-toggle hidden aria-pressed="false" aria-label="Switch to dark mode">
+        <span class="theme-toggle-icons" aria-hidden="true">
+          <i class="ph ph-sun theme-icon-light"></i><i class="ph ph-moon theme-icon-dark"></i>
+        </span>
+        <span class="sr-only" data-theme-toggle-value>Light</span>
+      </button>
+    </span>
   </nav>
   <a class="hello-link" href="mailto:hilmimukti@gmail.com">Let's talk</a>
 </header>

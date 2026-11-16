@@ -20,7 +20,7 @@ body.common-ground { background: var(--bg); color: var(--ink); }
 .ground-nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 7px; }
 .common-ground .ground-footer { color: #291e14; --accent: #291e14; --interactive-hover: #e5be4c; }
 .common-ground .ground-footer a { min-height: 44px; }
-.common-ground .ground-footer .theme-toggle { color: #291e14; border-color: #291e1470; }
+
 .ground-footer-compact { margin-top: 0; padding-top: 20px; }
 .ground-footer-compact .footer-bottom { border-top: 0; }
 .common-ground .ground-arrow { flex-shrink: 0; }
@@ -81,5 +81,17 @@ body.common-ground { background: var(--bg); color: var(--ink); }
 .common-ground .ground-footer a:hover { color: inherit; }
 .ground-home { font-size: 16px; }
 .ground-home .about-copy h2 { font-weight: 700; }
-.reading-theme-control { display: inline-flex; align-items: center; gap: 12px; }
-.reading-theme-control:has(.theme-toggle[hidden]) { display: none; }
+/* Keep About and its reading control together in the single-row header. */
+.ground-about-theme { display: flex; align-items: center; gap: 6px; }
+.ground-nav nav { align-items: center; white-space: nowrap; }
+.common-ground .ground-nav .theme-toggle { width: 28px; min-width: 28px; height: 44px; font-size: 17px; color: #293dc3; }
+.common-ground .ground-nav .theme-toggle:hover { background: #e5be4c; color: #293dc3; }
+.common-ground .ground-nav .theme-toggle:focus-visible { outline-color: #293dc3; outline-offset: 2px; }
+@media (max-width: 350px) {
+  .common-ground .ground-nav { padding-inline: 10px; gap: 4px; }
+  .ground-nav nav { gap: 6px; }
+  .ground-about-theme { gap: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ground-nav .theme-toggle:active { transform: none; }
+}

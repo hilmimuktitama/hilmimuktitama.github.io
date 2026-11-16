@@ -84,6 +84,8 @@ async function assertPageQuality(page: Page, errors: { pageErrors: string[]; con
   await assertNoOverflow(page);
 
   const toggle = page.locator("[data-theme-toggle]");
+  await expect(toggle).toBeInViewport();
+  await expect(page.locator("header [data-theme-toggle]")).toHaveCount(1);
   const initialPressed = await toggle.getAttribute("aria-pressed");
   const initialLabel = await toggle.getAttribute("aria-label");
   await toggle.click();
@@ -175,6 +177,8 @@ test("theme toggle persists a deterministic dark preference", async ({ page }) =
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
   await expect(toggle).toHaveAttribute("aria-label", "Switch to light mode");
   await expect.poll(() => page.evaluate(() => localStorage.getItem("theme"))).toBe("dark");
+  await page.getByRole("link", { name: "Writing", exact: true }).first().click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await page.reload({ waitUntil: "networkidle" });
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
@@ -313,3 +317,24 @@ for (const route of ["/work/", "/articles/"] as const) {
     });
   }
 }
+
+test('reading control stays beside About at 320px and works by keyboard', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await preparePage(page);
+  await page.goto('/articles/ai-is-non-deterministic/');
+  const toggle = page.locator('[data-theme-toggle]');
+  await expect(toggle).toBeInViewport();
+  await assertNoOverflow(page);
+  const about = page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: 'About' });
+  const a = (await about.boundingBox())!;
+  const b = (await toggle.boundingBox())!;
+  expect(b.x - a.x - a.width).toBeCloseTo(4, 0);
+  expect(b.y).toBeCloseTo(a.y, 0);
+  expect(b.width).toBe(28);
+  expect(b.height).toBe(44);
+  await about.focus();
+  await page.keyboard.press('Tab');
+  await expect(toggle).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+});

@@ -482,7 +482,7 @@ const homepageContactLinks = [...distIndexHtml.matchAll(/<a\b[^>]*href\s*=\s*(?:
   .filter((href) => href === "/contact/" || href === `${basePath}/contact/`);
 const cssDir = join(distRoot, "_astro");
 const css = existsSync(cssDir) ? readdirSync(cssDir).filter((file) => file.endsWith(".css")).map((file) => readFileSync(join(cssDir, file), "utf8")).join("\n") : "";
-const baseLayoutSource = read("src/layouts/BaseLayout.astro") + read("src/components/ground/GroundFooter.astro");
+const baseLayoutSource = read("src/layouts/BaseLayout.astro") + read("src/components/ground/GroundHeader.astro");
 const globalCssSource = read("src/styles/global.css");
 const seniorTpm = read("src/content/resume/mekari-senior-technical-program-manager.md");
 const projectTruth = read("src/content/projects/program-truth.md");

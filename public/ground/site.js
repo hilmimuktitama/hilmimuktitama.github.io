@@ -1,18 +1,36 @@
 (function () {
+  const TOPICS = ['ai', 'teams'];
+  const noteLabel = count => `${count} ${count === 1 ? 'note' : 'notes'}`;
+  const topicFromUrl = () => {
+    const topic = new URLSearchParams(location.search).get('topic');
+    return TOPICS.includes(topic) ? topic : 'all';
+  };
+
   function mount(scope, options = {}) {
     const abort = new AbortController();
     const listen = (el, event, fn) => el?.addEventListener(event, fn, {signal: abort.signal});
     const filters = scope.querySelector('[data-writing-filters]');
     const notes = [...scope.querySelectorAll('[data-note]')];
     const buttons = [...scope.querySelectorAll('[data-filter]')];
+    const count = scope.querySelector('[data-writing-count]');
+    const empty = scope.querySelector('[data-writing-empty]');
     if (filters) filters.hidden = false;
-    buttons.forEach(button => listen(button, 'click', () => {
-      const topic = button.dataset.filter;
-      notes.forEach(note => { note.hidden = topic !== 'all' && !note.dataset.topic.split(' ').includes(topic); });
-      buttons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
-      scope.querySelector('[data-writing-count]').textContent = notes.filter(n => !n.hidden).length + ' notes';
+    const applyFilter = (topic, {push = false} = {}) => {
+      const value = TOPICS.includes(topic) ? topic : 'all';
+      notes.forEach(note => { note.hidden = value !== 'all' && !(note.dataset.topic || '').split(' ').includes(value); });
+      buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.filter === value)));
+      if (count) count.textContent = noteLabel(notes.filter(n => !n.hidden).length);
+      if (empty) empty.hidden = notes.some(n => !n.hidden);
+      if (push) {
+        const url = new URL(location.href);
+        if (value === 'all') url.searchParams.delete('topic');
+        else url.searchParams.set('topic', value);
+        history.replaceState(history.state, '', url.toString());
+      }
       window.ScrollTrigger?.refresh();
-    }));
+    };
+    buttons.forEach(button => listen(button, 'click', () => applyFilter(button.dataset.filter, {push: true})));
+    applyFilter(topicFromUrl());
     const stage = scope.querySelector('[data-ground-stage]');
     if (!stage || !window.gsap || !window.createGroundScore) return {cleanup: () => abort.abort()};
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
@@ -54,10 +72,8 @@
       autoplay = false;
       finishIntro(); observer.disconnect(); media.revert(); context.revert(); abort.abort();
       if (filters) filters.hidden = true;
-      notes.forEach(note => { note.hidden = false; });
-      buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.filter === 'all')));
-      const count = scope.querySelector('[data-writing-count]');
-      if (count) count.textContent = notes.length + ' notes';
+      // Keep the DOM aligned with the URL so bfcache restore already shows the right filter.
+      applyFilter(topicFromUrl());
     };
     listen(window, 'pagehide', cleanup);
     return {cleanup, score};

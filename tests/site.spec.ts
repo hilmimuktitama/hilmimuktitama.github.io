@@ -83,14 +83,13 @@ async function assertPageQuality(page: Page, errors: { pageErrors: string[]; con
   expect(errors.consoleErrors, "unexpected console errors").toEqual([]);
   await assertNoOverflow(page);
 
-  const toggle = page.locator("[data-theme-toggle]");
+  const toggle = page.getByRole("button", { name: "Dark mode", exact: true });
   await expect(toggle).toBeInViewport();
   await expect(page.locator("header [data-theme-toggle]")).toHaveCount(1);
   const initialPressed = await toggle.getAttribute("aria-pressed");
-  const initialLabel = await toggle.getAttribute("aria-label");
   await toggle.click();
   await expect(toggle).not.toHaveAttribute("aria-pressed", initialPressed ?? "");
-  await expect(toggle).not.toHaveAttribute("aria-label", initialLabel ?? "");
+  await expect(toggle).toHaveAttribute("aria-label", "Dark mode");
   await expect(page.locator("main")).toBeVisible();
 }
 
@@ -167,24 +166,82 @@ test("primary navigation is keyboard activatable", async ({ page }) => {
 
 test("theme toggle persists a deterministic dark preference", async ({ page }) => {
   const errors = await preparePage(page, "light");
+  await page.emulateMedia({ colorScheme: "dark" });
   await page.goto("/", { waitUntil: "networkidle" });
-  const toggle = page.locator("[data-theme-toggle]");
+  const toggle = page.getByRole("button", { name: "Dark mode", exact: true });
+  const themeColor = page.locator('meta[name="theme-color"]');
+  const home = page.locator("body.ground-home");
+  const header = page.locator(".ground-nav");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
-  await expect(toggle).toHaveAttribute("aria-label", "Switch to dark mode");
+  await expect(themeColor).toHaveAttribute("content", "#f5ecdc");
+  await expect(home).toHaveCSS("background-color", "rgb(245, 236, 220)");
+  await expect(header).toHaveCSS("background-color", "rgb(245, 236, 220)");
   await toggle.click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
-  await expect(toggle).toHaveAttribute("aria-label", "Switch to light mode");
+  await expect(themeColor).toHaveAttribute("content", "#202b73");
+  await expect(home).toHaveCSS("background-color", "rgb(32, 43, 115)");
+  await expect(header).toHaveCSS("background-color", "rgb(32, 43, 115)");
+  const skipLink = page.getByRole("link", { name: "Skip to main content" });
+  await page.keyboard.press("Tab");
+  await skipLink.focus();
+  await skipLink.hover();
+  await expect(skipLink).toHaveCSS("color", "rgb(32, 43, 115)");
+  await expect(skipLink).toHaveCSS("background-color", "rgb(245, 236, 220)");
   await expect.poll(() => page.evaluate(() => localStorage.getItem("theme"))).toBe("dark");
+  await page.emulateMedia({ colorScheme: "light" });
   await page.getByRole("link", { name: "Writing", exact: true }).first().click();
+  await expect(page).toHaveURL(/\/articles\/$/);
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await page.reload({ waitUntil: "networkidle" });
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
-  await expect(toggle).toHaveAttribute("aria-label", "Switch to light mode");
+  await expect(themeColor).toHaveAttribute("content", "#202b73");
   expect(errors.pageErrors, "page errors after theme interaction and reload").toEqual([]);
   expect(errors.consoleErrors, "console errors after theme interaction and reload").toEqual([]);
+});
+
+test("theme toggle syncs across tabs and follows the system again when the preference is removed", async ({ page, context }) => {
+  const otherTab = await context.newPage();
+  await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
+  await otherTab.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
+  await page.goto("/");
+  await otherTab.goto("/articles/");
+
+  const toggle = page.getByRole("button", { name: "Dark mode", exact: true });
+  const otherToggle = otherTab.getByRole("button", { name: "Dark mode", exact: true });
+  const otherThemeColor = otherTab.locator('meta[name="theme-color"]');
+  await expect(otherToggle).toHaveAttribute("aria-pressed", "false");
+  await toggle.click();
+  await expect(otherTab.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(otherToggle).toHaveAttribute("aria-pressed", "true");
+  await expect(otherThemeColor).toHaveAttribute("content", "#202b73");
+  await otherTab.evaluate(() => localStorage.removeItem("theme"));
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute("content", "#f5ecdc");
+});
+
+test("system dark theme and its toggle are ready while homepage scripts are still loading", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark", reducedMotion: "reduce" });
+  let releaseScript!: () => void;
+  const pendingScript = new Promise<void>((resolve) => { releaseScript = resolve; });
+  await page.route("**/vendor/gsap/gsap.min.js", async (route) => {
+    await pendingScript;
+    await route.continue();
+  });
+  try {
+    await page.goto("/", { waitUntil: "commit" });
+    await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute("content", "#202b73");
+    const toggle = page.getByRole("button", { name: "Dark mode", exact: true });
+    await expect(toggle).toBeVisible();
+    await expect(toggle).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  } finally {
+    releaseScript();
+  }
+  await page.waitForLoadState("load");
 });
 
 test("every sitemap location is reachable", async ({ page, request, baseURL }) => {

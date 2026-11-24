@@ -39,6 +39,7 @@ const {
 } = Astro.props;
 
 const pageTitle = title === "Hilmi Muktitama" ? title : `${title} | Hilmi Muktitama`;
+const lightThemeColor = "#f5ecdc";
 const site = Astro.site ?? new URL("https://hilmimuktitama.github.io");
 const canonicalUrl = new URL(Astro.url.pathname, site).toString();
 const resolveSiteUrl = (value: string) => {
@@ -89,6 +90,7 @@ const structuredDataJson = structuredData
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={shareImageUrl} />
     <meta name="twitter:image:alt" content={ogImageAlt ?? pageTitle} />
+    <meta name="theme-color" content={lightThemeColor} data-light={lightThemeColor} data-dark="#202b73" />
     <script is:inline>
       (() => {
         const themeKey = "theme";
@@ -103,112 +105,121 @@ const structuredDataJson = structuredData
         } catch {
           root.dataset.theme = systemTheme();
         }
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        themeColor.content = themeColor.dataset[root.dataset.theme];
       })();
     </script>
     <title>{pageTitle}</title>
     <SiteMotion />
-    <meta name="theme-color" content="#f5ecdc" />
     {structuredDataJson && <script is:inline type="application/ld+json" set:html={structuredDataJson} />}
   </head>
   <body class:list={["common-ground", { "ground-home": immersive }]}>
     <div class="site-shell">
       <a class="skip-link" href="#main-content">Skip to main content</a>
       <GroundHeader />
+      <script is:inline>
+        (() => {
+          const themeKey = "theme";
+          const root = document.documentElement;
+          const toggle = document.querySelector("[data-theme-toggle]");
+          const themeColor = document.querySelector('meta[name="theme-color"]');
+          const media = window.matchMedia("(prefers-color-scheme: dark)");
+          const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+          if (!(toggle instanceof HTMLButtonElement)) return;
+
+          const getStoredTheme = () => {
+            try {
+              const storedTheme = localStorage.getItem(themeKey);
+              return storedTheme === "dark" || storedTheme === "light" ? storedTheme : null;
+            } catch {
+              return null;
+            }
+          };
+
+          const getSystemTheme = () => (media.matches ? "dark" : "light");
+
+          const applyTheme = (theme) => {
+            root.dataset.theme = theme;
+            themeColor.content = themeColor.dataset[theme];
+            toggle.setAttribute("aria-pressed", String(theme === "dark"));
+          };
+
+          let explicitTheme = getStoredTheme();
+          let requestedTheme = explicitTheme ?? getSystemTheme();
+          let activeTransition;
+          applyTheme(requestedTheme);
+          toggle.hidden = false;
+
+          toggle.addEventListener("click", (event) => {
+            requestedTheme = requestedTheme === "dark" ? "light" : "dark";
+            explicitTheme = requestedTheme;
+            try {
+              localStorage.setItem(themeKey, requestedTheme);
+            } catch { /* The selected theme still works when storage is unavailable. */ }
+
+            // A second activation takes effect immediately, even before capture finishes.
+            if (activeTransition) {
+              activeTransition.skipTransition();
+              applyTheme(requestedTheme);
+              return;
+            }
+
+            if (event.detail === 0 || reducedMotion.matches || !document.startViewTransition) {
+              applyTheme(requestedTheme);
+              return;
+            }
+
+            root.dataset.transition = "theme";
+            try {
+              const transition = document.startViewTransition(() => applyTheme(requestedTheme));
+              activeTransition = transition;
+              transition.ready.catch(() => {});
+              transition.finished.catch(() => {}).finally(() => {
+                if (activeTransition === transition) {
+                  activeTransition = undefined;
+                  delete root.dataset.transition;
+                }
+              });
+            } catch {
+              delete root.dataset.transition;
+              applyTheme(requestedTheme);
+            }
+          });
+
+          const syncTheme = () => {
+            const theme = explicitTheme ?? getSystemTheme();
+            if (theme === requestedTheme) return;
+            requestedTheme = theme;
+            activeTransition?.skipTransition();
+            applyTheme(requestedTheme);
+          };
+
+          window.addEventListener("storage", (event) => {
+            try {
+              if (event.key !== themeKey || event.storageArea !== localStorage) return;
+            } catch {
+              return;
+            }
+            explicitTheme = getStoredTheme();
+            syncTheme();
+          });
+
+          media.addEventListener("change", syncTheme);
+
+          reducedMotion.addEventListener("change", () => {
+            if (reducedMotion.matches) {
+              activeTransition?.skipTransition();
+              applyTheme(requestedTheme);
+            }
+          });
+        })();
+      </script>
       <main id="main-content" tabindex="-1">
         <slot />
       </main>
       <GroundFooter compact={!showContactFooter} />
       {!immersive && <ArchiveMotion />}
     </div>
-    <script is:inline>
-      (() => {
-        const themeKey = "theme";
-        const root = document.documentElement;
-        const toggle = document.querySelector("[data-theme-toggle]");
-        const toggleValue = document.querySelector("[data-theme-toggle-value]");
-        const media = window.matchMedia("(prefers-color-scheme: dark)");
-        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-        if (!(toggle instanceof HTMLButtonElement) || !toggleValue) return;
-
-        toggle.hidden = false;
-
-        const getStoredTheme = () => {
-          try {
-            const storedTheme = localStorage.getItem(themeKey);
-            return storedTheme === "dark" || storedTheme === "light" ? storedTheme : null;
-          } catch {
-            return null;
-          }
-        };
-
-        const getSystemTheme = () => (media.matches ? "dark" : "light");
-        const getActiveTheme = () => getStoredTheme() ?? getSystemTheme();
-
-        const applyTheme = (theme) => {
-          root.dataset.theme = theme;
-          toggle.setAttribute("aria-pressed", String(theme === "dark"));
-          toggle.setAttribute(
-            "aria-label",
-            `Switch to ${theme === "dark" ? "light" : "dark"} mode`
-          );
-          toggleValue.textContent = theme === "dark" ? "Dark" : "Light";
-        };
-
-        let requestedTheme = getActiveTheme();
-        let activeTransition;
-        applyTheme(requestedTheme);
-
-        toggle.addEventListener("click", (event) => {
-          requestedTheme = requestedTheme === "dark" ? "light" : "dark";
-          try {
-            localStorage.setItem(themeKey, requestedTheme);
-          } catch { /* The selected theme still works when storage is unavailable. */ }
-
-          // A second activation takes effect immediately, even before capture finishes.
-          if (activeTransition) {
-            activeTransition.skipTransition();
-            applyTheme(requestedTheme);
-            return;
-          }
-
-          if (event.detail === 0 || reducedMotion.matches || !document.startViewTransition) {
-            applyTheme(requestedTheme);
-            return;
-          }
-
-          root.dataset.transition = "theme";
-          try {
-            const transition = document.startViewTransition(() => applyTheme(requestedTheme));
-            activeTransition = transition;
-            transition.ready.catch(() => {});
-            transition.finished.catch(() => {}).finally(() => {
-              if (activeTransition === transition) {
-                activeTransition = undefined;
-                delete root.dataset.transition;
-              }
-            });
-          } catch {
-            delete root.dataset.transition;
-            applyTheme(requestedTheme);
-          }
-        });
-
-        media.addEventListener("change", () => {
-          if (!getStoredTheme()) {
-            requestedTheme = getSystemTheme();
-            activeTransition?.skipTransition();
-            applyTheme(requestedTheme);
-          }
-        });
-
-        reducedMotion.addEventListener("change", () => {
-          if (reducedMotion.matches) {
-            activeTransition?.skipTransition();
-            applyTheme(requestedTheme);
-          }
-        });
-      })();
-    </script>
   </body>
 </html>

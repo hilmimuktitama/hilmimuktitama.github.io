@@ -1,7 +1,6 @@
 @import './ground-layout.css';
 
-/* Production composition and fixed-color panels. Shared palette and document
-   defaults live in global.css. Dark preference changes reading surfaces. */
+/* Common Ground composition. Shared theme and document tokens live in global.css. */
 body.common-ground { background: var(--bg); color: var(--ink); }
 .common-ground h1, .common-ground h2, .common-ground h3, .common-ground h4 {
   font-family: Hanken, Arial, sans-serif;
@@ -16,47 +15,50 @@ body.common-ground { background: var(--bg); color: var(--ink); }
 .common-ground .prose { font-family: Newsreader, Georgia, serif; font-size: 21px; }
 .common-ground .prose p { line-height: 1.75; }
 .common-ground .prose h2, .common-ground .prose h3 { color: var(--accent); }
-.common-ground .ground-nav { background: #f5ecdc; color: #293dc3; --accent: #293dc3; }
+.common-ground .ground-nav { background: var(--header-bg); color: var(--ink); }
 .ground-nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 7px; }
-.common-ground .ground-footer { color: #291e14; --accent: #291e14; --interactive-hover: #e5be4c; }
+:where(:root:not([data-theme="dark"])) .common-ground .ground-footer { color: #291e14; --accent: #291e14; }
 .common-ground .ground-footer a { min-height: 44px; }
 
 .ground-footer-compact { margin-top: 0; padding-top: 20px; }
 .ground-footer-compact .footer-bottom { border-top: 0; }
 .common-ground .ground-arrow { flex-shrink: 0; }
 .common-ground .ground-footer .footer-bottom { flex-wrap: wrap; }
-.common-ground .skip-link { background: #293dc3; color: #f5ecdc; }
-/* The homepage is the approved composition, independent of reading preference. */
-.common-ground.ground-home { background: #f5ecdc; color: #293dc3; --accent: #293dc3; }
-.ground-home .ground-writing { --accent: #f5ecdc; }
+.skip-link:hover { color: var(--bg); }
+.ground-home .round-link:hover .round-arrow { background: var(--accent); color: var(--primary-button-ink); }
+:where(:root:not([data-theme="dark"])) .ground-home .ground-writing {
+  --accent: #f5ecdc;
+  --primary-button-ink: #293dc3;
+  --focus: #e5be4c;
+}
 .ground-home .ground-hero h1 { font-weight: 800; }
 .ground-home .hero-topline > .micro:only-child { display: block; max-width: none; text-align: left; }
 .ground-home .chapter-heading h2 { font-weight: 700; }
 .ground-home .notebook-card h3, .ground-home .work-entry h3 { font-weight: 500; }
 .ground-home .work-entry { display: block; padding: 0; }
 .ground-home .ground-work .chapter-link { margin-top: 25px; }
-.ground-home .ground-hero a:hover, .ground-home .ground-work a:hover { color: inherit; }
 .ground-home a:focus-visible, .ground-home button:focus-visible, .ground-home input:focus-visible { outline-color: currentColor; }
 /* Generous chapter typography with the existing readable document measures. */
 .writing-index-header h1, .work-index-header h1, .contact-header h1, .common-ground .not-found-header h1 { font-size: clamp(58px, 7.5vw, 112px); line-height: .96; letter-spacing: -.065em; }
 .writing-index-header .micro, .work-index-header .micro { margin-bottom: 25px; }
 .writing-index-header::before, .work-index-header::before { display: none; }
-.common-ground:has(.writing-index-page) main {
+.common-ground:has(.writing-index-page, .work-index) main { display: flow-root; }
+:where(:root:not([data-theme="dark"])) .common-ground:has(.writing-index-page) main {
   background: #293dc3; color: #f5ecdc;
   --ink: #f5ecdc; --ink-soft: #f5ecdc; --muted: #e1dcdf;
   --accent: #f5ecdc; --rule: #f5ecdc55; --focus: #e5be4c;
-  display: flow-root;
 }
-.common-ground:has(.work-index) main { background: #f0d9bc; color: #293dc3; --ink-soft: #303c78; --muted: #505b84; --accent: #293dc3; --rule: #293dc34a; display: flow-root; }
+:where(:root:not([data-theme="dark"])) .common-ground:has(.work-index) main { background: var(--bg-soft); }
 .common-ground .work-index .work-entry { border-color: var(--rule); }
 .common-ground .work-index .work-entry h2 { font-size: clamp(32px, 3.5vw, 52px); letter-spacing: -.05em; }
 .common-ground .writing-index-entry-featured h2 { font-size: clamp(32px, 4vw, 58px); letter-spacing: -.045em; line-height: 1.06; }
 .common-ground .writing-index-list h2 { font-size: clamp(26px, 2.6vw, 38px); letter-spacing: -.04em; line-height: 1.1; }
 .common-ground .writing-index-entry-action, .common-ground .row-action { color: inherit; }
-.common-ground .resume-hero { padding: 45px; background: #e5be4c; color: #293dc3; --ink: #293dc3; --muted: #303c78; --ink-soft: #303c78; --accent: #293dc3; --bg: #e5be4c; --rule: #293dc34a; }
+.common-ground .resume-hero { padding: 45px; }
+:where(:root:not([data-theme="dark"])) .common-ground .resume-hero { background: #e5be4c; --muted: var(--ink-soft); }
 .common-ground .resume-hero h1 { font-size: clamp(44px, 5.7vw, 82px); line-height: .98; }
 .common-ground .contact-page { margin-block: 0; padding-block: 70px 100px; }
-.common-ground:has(.contact-page) main { background: #d96440; color: #291e14; --ink-soft: #291e14; --muted: #39271d; --accent: #291e14; --rule: #291e1466; --bg-soft: #e5be4c; }
+:where(:root:not([data-theme="dark"])) .common-ground:has(.contact-page) main { background: #d96440; color: #291e14; --ink-soft: #291e14; --muted: #39271d; --accent: #291e14; --focus: #291e14; --rule: #291e1466; --bg-soft: #e5be4c; }
 .common-ground .contact-email { font-family: Hanken, Arial, sans-serif; font-size: clamp(22px, 3vw, 42px); }
 .common-ground .contact-email .ground-arrow { width: .7em; }
 .common-ground .copy-email[hidden] { display: none; }
@@ -78,15 +80,62 @@ body.common-ground { background: var(--bg); color: var(--ink); }
 .theme-toggle[hidden] { display: none; }
 .common-ground:not(.ground-home) #main-content { padding-bottom: 70px; }
 .common-ground:has(.contact-page) #main-content { padding-bottom: 0; }
-.common-ground .ground-footer a:hover { color: inherit; }
 .ground-home { font-size: 16px; }
 .ground-home .about-copy h2 { font-weight: 700; }
 /* Keep About and its reading control together in the single-row header. */
 .ground-about-theme { display: flex; align-items: center; gap: 6px; }
 .ground-nav nav { align-items: center; white-space: nowrap; }
-.common-ground .ground-nav .theme-toggle { width: 28px; min-width: 28px; height: 44px; font-size: 17px; color: #293dc3; }
-.common-ground .ground-nav .theme-toggle:hover { background: #e5be4c; color: #293dc3; }
-.common-ground .ground-nav .theme-toggle:focus-visible { outline-color: #293dc3; outline-offset: 2px; }
+.common-ground .ground-nav .theme-toggle { width: 28px; min-width: 28px; height: 44px; font-size: 17px; }
+.common-ground .ground-nav .theme-toggle:hover { background: var(--interactive-hover); }
+.common-ground .ground-nav .theme-toggle:focus-visible { outline-offset: 2px; }
+
+@media screen {
+  :root[data-theme="dark"] .common-ground .ground-nav { border-color: var(--rule); }
+  :root[data-theme="dark"] .common-ground .ground-nav .theme-toggle:hover { color: var(--accent); }
+
+  :root[data-theme="dark"] .ground-home .ground-stage { color: var(--ink); }
+  :root[data-theme="dark"] .ground-home .stage-ring { border-color: var(--rule); }
+  :root[data-theme="dark"] .ground-home .stage-line { background: var(--rule); }
+  :root[data-theme="dark"] .ground-home .stage-floor { background: var(--bg-soft); }
+  :root[data-theme="dark"] .ground-home .contact-shadow {
+    background: radial-gradient(ellipse, var(--code-block-bg), transparent 70%);
+  }
+  :root[data-theme="dark"] .ground-home .word-ribbon { color: var(--primary-button-ink); }
+
+  :root[data-theme="dark"] .ground-home .ground-writing,
+  :root[data-theme="dark"] .common-ground:has(.writing-index-page) main,
+  :root[data-theme="dark"] .common-ground .resume-hero {
+    background: var(--bg-elevated);
+    color: var(--ink);
+  }
+  :root[data-theme="dark"] .ground-home .ground-work,
+  :root[data-theme="dark"] .common-ground:has(.work-index, .contact-page) main {
+    background: var(--bg-soft);
+  }
+  :root[data-theme="dark"] .ground-home .ground-about,
+  :root[data-theme="dark"] .ground-home .note-art,
+  :root[data-theme="dark"] .common-ground .ground-footer {
+    background: var(--code-block-bg);
+  }
+
+  :root[data-theme="dark"] .ground-home .note-art-block { background: var(--bg-soft); }
+  :root[data-theme="dark"] .ground-home :is(.writing-toolbar, .notebook-card, .work-entry) { border-color: var(--rule); }
+  :root[data-theme="dark"] .ground-home .work-entry summary:hover { color: var(--accent); }
+  :root[data-theme="dark"] .ground-home .work-detail :is(.project-question, a) { border-color: currentColor; }
+  :root[data-theme="dark"] .ground-home .about-symbol > span:first-child { color: var(--accent); }
+  :root[data-theme="dark"] .common-ground .footer-bottom { border-color: var(--rule); }
+  :root[data-theme="dark"] .common-ground :is(a, button, input, summary):focus-visible { outline-color: var(--focus); }
+  :root[data-theme="dark"] .ground-home .writing-toolbar button { border-color: color-mix(in srgb, currentColor 55%, transparent); }
+  :root[data-theme="dark"] .ground-home .writing-toolbar button[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--primary-button-ink);
+  }
+  :root[data-theme="dark"] .ground-home .writing-toolbar button:hover { text-decoration: underline; }
+  :root[data-theme="dark"] .ground-home .writing-toolbar button[aria-pressed="false"]:hover { border-color: currentColor; }
+  :root[data-theme="dark"] .common-ground .footer-invitation > span { color: var(--accent); }
+  :root[data-theme="dark"] .common-ground .copy-email { border-color: currentColor; }
+}
 @media (max-width: 350px) {
   .common-ground .ground-nav { padding-inline: 10px; gap: 4px; }
   .ground-nav nav { gap: 6px; }

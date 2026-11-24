@@ -17,6 +17,9 @@ All 14 macOS Chromium baselines now show the approved Common Ground identity and
 were visually inspected together at desktop, tablet and mobile breakpoints.
 The screenshot helper now waits for the shipped Hanken/Newsreader fonts instead
 of overriding the approved typography. The 1% comparison threshold is unchanged.
-The identity panels intentionally retain their colors in both reading themes.
+Light screenshots keep the identity panel colors. Dark screenshots show the
+site-wide dark theme: navy surfaces, ivory text, and a dark header.
 
 All 14 Linux baselines were refreshed from [release verification run 43736214079](https://github.com/hilmimuktitama/hilmimuktitama.github.io/actions/runs/43736214079), built from `ef540f9` with Astro 7.4.12 and Playwright 1.62.1 on the workflow's Ubuntu/Node 22 environment. The run passed all 94 functional tests; only the 14 intentional visual changes failed against the preceding design. Every new image was byte-identical across three attempts and was visually inspected before adoption. The following branch verification compares these baselines normally, with updates disabled and the existing 1% tolerance.
+
+The four dark archive baselines (`work-dark-1440`, `work-dark-390`, `articles-dark-1440`, `articles-dark-390`) were refreshed for the site-wide dark theme. The macOS set came from a local `--update-snapshots --grep "dark screenshot"` run. The Linux set came from [verification run 45385171473](https://github.com/hilmimuktitama/hilmimuktitama.github.io/actions/runs/45385171473), built from `08580c6`. That run passed all 113 other tests; only these 4 intentional visual changes failed. Every new image was byte-identical across three attempts and was visually inspected before adoption. All light baselines are unchanged.

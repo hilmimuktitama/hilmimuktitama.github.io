@@ -16,18 +16,19 @@ test("rapid theme changes settle on the latest choice and keep the matching icon
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/articles/");
-  const toggle = page.locator("[data-theme-toggle]");
+  const toggle = page.getByRole("button", { name: "Dark mode", exact: true });
   await toggle.click();
   await toggle.click();
   await toggle.click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  await expect(toggle).toHaveAttribute("aria-label", "Switch to light mode");
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("html")).not.toHaveAttribute("data-transition");
   await expect(page.locator(".theme-icon-dark")).toHaveCSS("opacity", "1");
   await expect(page.locator(".theme-icon-light")).toHaveCSS("opacity", "0");
 
   await toggle.press("Enter");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
   expect(await page.evaluate(() => document.getAnimations().filter((animation) => animation.playState === "running").length)).toBe(0);
   expect(errors).toEqual([]);
 });

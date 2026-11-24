@@ -145,6 +145,7 @@ test.describe("native fallback", () => {
   test("index titles remain usable and route to detail pages without JavaScript", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
     await expect(page.locator(".ground-hero h1")).toBeVisible();
+    await expect(page.locator("[data-theme-toggle]")).toBeHidden();
 
     await page.goto("/articles/", { waitUntil: "networkidle" });
     const title = page.locator(".view-transition-title").first();
